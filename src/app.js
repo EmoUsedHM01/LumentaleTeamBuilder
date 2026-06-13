@@ -109,6 +109,8 @@ const DAMAGE_TOGGLE_FIELDS = new Set([
 ]);
 const STARTER_DEX_RANGE = { min: 1, max: 20, label: "#1-20" };
 const LEGENDARY_DEX_RANGE = { min: 124, max: 136, label: "#124-136" };
+const COMMUNITY_BANNED_ANIMON = new Set(["Kentaress", "Primalong", "Weaphoon", "Zenicore"].map(normalize));
+const COMMUNITY_BANNED_ITEMS = new Set(["Silhouchain"].map(normalize));
 const ACTIVE_PARTY_SLOT_COUNT = 4;
 const TYPE_ICONS = {
   NONE: "-",
@@ -942,7 +944,7 @@ function attackerTraitState(attacker) {
   const attribute = attacker?.form?.types?.attribute || "NONE";
   const attributeActive = Boolean(state.damage.attackerAttributeActive);
   const synchronized = Boolean(state.damage.attackerSynchronized);
-  const active = ATTRIBUTE_TRAIT_TYPES.has(attribute) && (attributeActive || synchronized);
+  const active = ATTRIBUTE_TRAIT_TYPES.has(attribute) && attributeActive;
   const cromacartaBuff = attributeActive && attacker?.heldItem?.battleEffectClass === "CromacartaEffect"
     ? Number(CROMACARTA_TRAIT_FLAT_BUFFS[attribute] || 0)
     : 0;
@@ -956,7 +958,7 @@ function attackerTraitState(attacker) {
 }
 
 function describeTraitState(trait) {
-  if (!trait.active) return "off";
+  if (!trait.active) return trait.synchronized ? "sync selected; trait not activated" : "off";
   const sources = [];
   if (trait.attributeActive) sources.push("activation");
   if (trait.synchronized) sources.push("sync");
@@ -2195,14 +2197,30 @@ function duplicateEntryGroups(entries, keyFn) {
   return [...groups.values()].filter((group) => group.length > 1);
 }
 
+function isCommunityBannedAnimon(form) {
+  return COMMUNITY_BANNED_ANIMON.has(normalize(form?.animonName || form?.name || form?.display));
+}
+
+function isCommunityBannedItem(item) {
+  return item && (
+    COMMUNITY_BANNED_ITEMS.has(normalize(item.displayName))
+    || COMMUNITY_BANNED_ITEMS.has(normalize(item.internalName))
+  );
+}
+
 function buildRuleViolations(members) {
   const entries = teamEntries(members);
   const violations = [];
   const starters = entries.filter(({ form }) => inDexRange(form, STARTER_DEX_RANGE));
+  const bannedAnimon = entries.filter(({ form }) => isCommunityBannedAnimon(form));
   const legendaries = entries.filter(({ form }) => inDexRange(form, LEGENDARY_DEX_RANGE));
 
   if (starters.length > 1) {
     violations.push(`Starter limit: ${starters.length} selected (${STARTER_DEX_RANGE.label}): ${entryListLabel(starters)}`);
+  }
+
+  if (bannedAnimon.length > 0) {
+    violations.push(`Banned Animon: ${entryListLabel(bannedAnimon)}`);
   }
 
   if (legendaries.length > 1) {
@@ -2216,6 +2234,16 @@ function buildRuleViolations(members) {
   for (const group of duplicateEntryGroups(entries, ({ member }) => member.heldItemId)) {
     const item = indexes.heldItemsById.get(group[0].member.heldItemId);
     if (item) violations.push(`Duplicate held item: ${item.displayName} x${group.length}`);
+  }
+
+  const bannedItems = entries
+    .map(({ member, form }) => ({
+      form,
+      item: member.heldItemId ? indexes.heldItemsById.get(member.heldItemId) : null
+    }))
+    .filter(({ item }) => isCommunityBannedItem(item));
+  if (bannedItems.length > 0) {
+    violations.push(`Banned held item: ${bannedItems.map(({ form, item }) => `${item.displayName} on ${form.display}`).join(", ")}`);
   }
 
   return violations;
