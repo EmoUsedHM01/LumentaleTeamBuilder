@@ -988,6 +988,18 @@ button {
   grid-template-columns: 22px 38px minmax(0, 1fr);
 }
 
+.party-slot.empty .slot-select {
+  padding-right: 88px;
+}
+
+.party-slot-import {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  min-width: 64px;
+}
+
 .slot-index {
   flex: 0 0 auto;
   width: 22px;
@@ -1125,12 +1137,19 @@ button {
 
 .editor-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: auto minmax(220px, 1fr);
   align-items: end;
   gap: 8px;
-  width: min(280px, 28vw);
+  width: min(500px, 44vw);
   min-width: 0;
   max-width: 100%;
+}
+
+.editor-member-actions {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  min-width: 0;
 }
 
 .form-switch {

@@ -2,6 +2,7 @@ const DATA_URL = "./public/data/team-builder-data.json";
 const STORAGE_KEY = "lumentale-team-builder:v1";
 const THEME_STORAGE_KEY = "lumentale-team-builder:theme";
 const TEAM_CODE_PREFIX = "LUMENTALE-TEAM:";
+const ANIMON_CODE_PREFIX = "LUMENTALE-ANIMON:";
 const DAMAGING_CATEGORIES = new Set(["PHYSICAL", "SPECIAL"]);
 const RELATION_MULTIPLIERS = {
   WEAKNESS: 1.5,
@@ -2070,6 +2071,7 @@ function renderPartySlot(member, index) {
           <span class="slot-index">${index + 1}</span>
           <span>Drop Animon</span>
         </button>
+        <button class="command small party-slot-import" type="button" data-action="import-animon-slot" data-slot="${index}">Import</button>
       </div>
     `;
   }
@@ -2129,6 +2131,10 @@ function renderEditorHeader(member, form) {
         </div>
       </div>
       <div class="editor-controls">
+        <div class="editor-member-actions" aria-label="Selected Animon import and export">
+          <button class="command small" type="button" data-action="export-animon">Export</button>
+          <button class="command small" type="button" data-action="import-animon">Import</button>
+        </div>
         <label class="form-switch">
           <span>Form</span>
           <select data-action="change-form">
@@ -2597,6 +2603,12 @@ function onClick(event) {
     exportTeam();
   } else if (action === "import-team") {
     importTeam();
+  } else if (action === "export-animon") {
+    exportSelectedAnimon();
+  } else if (action === "import-animon") {
+    importSelectedAnimon();
+  } else if (action === "import-animon-slot") {
+    importAnimonIntoSlot(actionTarget.dataset.slot);
   } else if (action === "select-damage-attacker") {
     state.damage.attackerSlot = clamp(Math.trunc(finiteNumber(actionTarget.dataset.slot, 0)), 0, 5);
     const member = state.team[state.damage.attackerSlot];
@@ -2922,12 +2934,32 @@ function teamPayload(members = state.team) {
   };
 }
 
-function encodeTeamCode(payload) {
+function animonPayload(member) {
+  return {
+    format: "lumentale-team-builder-animon",
+    version: 1,
+    allocationLevel: data.rules.allocationLevel,
+    battleLevel: data.rules.battleLevel,
+    exportedAtUtc: new Date().toISOString(),
+    member
+  };
+}
+
+function memberFromImportPayload(parsed) {
+  if (!parsed) return null;
+  if (parsed.member) return parsed.member;
+  if (Array.isArray(parsed.team)) return parsed.team.find(Boolean) || null;
+  if (Array.isArray(parsed)) return parsed.find(Boolean) || null;
+  if (parsed.formId) return parsed;
+  return null;
+}
+
+function encodeTeamCode(payload, prefix = TEAM_CODE_PREFIX) {
   const json = JSON.stringify(payload);
   const bytes = new TextEncoder().encode(json);
   let binary = "";
   for (const byte of bytes) binary += String.fromCharCode(byte);
-  return `${TEAM_CODE_PREFIX}${btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")}`;
+  return `${prefix}${btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")}`;
 }
 
 function decodeTeamCode(code) {
@@ -2935,7 +2967,8 @@ function decodeTeamCode(code) {
   if (!trimmed) throw new Error("No team code found.");
   if (trimmed.startsWith("{") || trimmed.startsWith("[")) return JSON.parse(trimmed);
 
-  const encoded = (trimmed.startsWith(TEAM_CODE_PREFIX) ? trimmed.slice(TEAM_CODE_PREFIX.length) : trimmed).replace(/\s+/g, "");
+  const codePrefix = [TEAM_CODE_PREFIX, ANIMON_CODE_PREFIX].find((prefix) => trimmed.startsWith(prefix));
+  const encoded = (codePrefix ? trimmed.slice(codePrefix.length) : trimmed).replace(/\s+/g, "");
   const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/");
   const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
   const binary = atob(padded);
@@ -2943,15 +2976,15 @@ function decodeTeamCode(code) {
   return JSON.parse(new TextDecoder().decode(bytes));
 }
 
-async function readClipboardText() {
+async function readClipboardText(label = "team code") {
   try {
     if (navigator.clipboard?.readText) return await navigator.clipboard.readText();
   } catch {
   }
-  return prompt("Paste team code:");
+  return prompt(`Paste ${label}:`);
 }
 
-async function writeClipboardText(text) {
+async function writeClipboardText(text, label = "team code") {
   try {
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(text);
@@ -2959,7 +2992,7 @@ async function writeClipboardText(text) {
     }
   } catch {
   }
-  prompt("Copy this team code:", text);
+  prompt(`Copy this ${label}:`, text);
   return false;
 }
 
@@ -2986,6 +3019,42 @@ async function importTeam() {
     saveState();
     render();
     alert("Team code imported.");
+  } catch (error) {
+    alert(`Import failed: ${error.message}`);
+  }
+}
+
+async function exportSelectedAnimon() {
+  try {
+    const member = selectedMember();
+    if (!member) throw new Error("No selected Animon found.");
+    const code = encodeTeamCode(animonPayload(member), ANIMON_CODE_PREFIX);
+    const copied = await writeClipboardText(code, "Animon code");
+    if (copied) alert("Animon code copied to clipboard.");
+  } catch (error) {
+    alert(`Export failed: ${error.message}`);
+  }
+}
+
+async function importSelectedAnimon() {
+  await importAnimonIntoSlot(state.selectedSlot);
+}
+
+async function importAnimonIntoSlot(slot = state.selectedSlot) {
+  try {
+    const targetSlot = clamp(Math.trunc(finiteNumber(slot, state.selectedSlot)), 0, 5);
+    const text = await readClipboardText("Animon code");
+    const parsed = decodeTeamCode(text);
+    const importedMember = sanitizeMember(memberFromImportPayload(parsed));
+    if (!importedMember) throw new Error("No Animon found in code.");
+    importedMember.id = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
+    state.team[targetSlot] = importedMember;
+    state.selectedSlot = targetSlot;
+    state.damage.attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
+    state.damage.moveSlot = effectiveMoveSlot(state.team[state.damage.attackerSlot], state.damage.moveSlot);
+    saveState();
+    render();
+    alert("Animon code imported.");
   } catch (error) {
     alert(`Import failed: ${error.message}`);
   }
