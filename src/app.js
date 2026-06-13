@@ -140,6 +140,7 @@ const app = document.querySelector("#app");
 
 let data = null;
 let indexes = null;
+let formSearchCache = new Map();
 let state = {
   activeTab: "builder",
   search: "",
@@ -227,6 +228,7 @@ async function init() {
     if (!response.ok) throw new Error(`Missing data file: ${DATA_URL}`);
     data = await response.json();
     indexes = buildIndexes(data);
+    formSearchCache = new Map();
     state = { ...state, ...(loadState() || {}), theme: state.theme };
     sanitizeState();
     bindEvents();
@@ -696,7 +698,31 @@ function selectedForm() {
 function filteredForms() {
   const query = normalize(state.search);
   if (!query) return data.forms;
-  return data.forms.filter((form) => form.search.includes(query));
+  return data.forms.filter((form) => formSearchText(form).includes(query));
+}
+
+function formSearchText(form) {
+  if (formSearchCache.has(form.id)) return formSearchCache.get(form.id);
+
+  const parts = [form.search];
+  for (const quirk of form.possibleQuirks || []) {
+    const detail = indexes.abilitiesById.get(quirk.id);
+    parts.push(
+      quirk.id,
+      quirk.internalName,
+      quirk.displayName,
+      quirk.isHidden ? "hidden quirk hidden ability" : "",
+      detail?.id,
+      detail?.internalName,
+      detail?.displayName,
+      detail?.description,
+      detail?.effectDetails
+    );
+  }
+
+  const searchText = normalize(parts.filter(Boolean).join(" "));
+  formSearchCache.set(form.id, searchText);
+  return searchText;
 }
 
 function resolveStats(form, member, teamContext = state.team) {
@@ -1980,7 +2006,7 @@ function renderDex() {
         <h2>Animon Dex</h2>
         <span>${forms.length}/${data.forms.length}</span>
       </div>
-      <input id="dex-search" class="search-input" type="search" value="${escapeHtml(state.search)}" placeholder="Search Animon, type, or move" autocomplete="off">
+      <input id="dex-search" class="search-input" type="search" value="${escapeHtml(state.search)}" placeholder="Search Animon, type, move, or quirk" autocomplete="off">
       <div class="dex-list">
         ${forms.map((form) => renderDexEntry(form)).join("")}
       </div>
