@@ -3,8 +3,113 @@ const STORAGE_KEY = "lumentale-team-builder:v1";
 const THEME_STORAGE_KEY = "lumentale-team-builder:theme";
 const TEAM_CODE_PREFIX = "LUMENTALE-TEAM:";
 const DAMAGING_CATEGORIES = new Set(["PHYSICAL", "SPECIAL"]);
+const RELATION_MULTIPLIERS = {
+  WEAKNESS: 1.5,
+  RESISTANCE: 0.3333333432674408,
+  NOEFF: 0,
+  NORMAL: 1,
+  REFLECT: 1
+};
+const TYPE_DEFENSE_GROUPS = [
+  { label: "Weak", relations: new Set(["WEAKNESS"]) },
+  { label: "Resist", relations: new Set(["RESISTANCE"]) },
+  { label: "Immune", relations: new Set(["NOEFF"]) },
+  { label: "Reflect", relations: new Set(["REFLECT"]) }
+];
+const ALL_DAMAGE_TYPES = ["NONE", "CHAKRA", "ELECTRIC", "AURA", "ANOMALOUS", "GEO", "VIRUS", "ICE", "ANCIENT", "FIRE", "DEMON", "WATER", "DATA", "GRASS"];
+const DAMAGE_WEATHER_EFFECTS = [
+  { id: "Clear", label: "Clear", buffs: {}, debuffs: {} },
+  { id: "HarshSun", label: "Harsh Sun", buffs: Object.fromEntries(ALL_DAMAGE_TYPES.filter((type) => type !== "DATA").map((type) => [type, 1.2000000476837158])), debuffs: { DATA: 0.800000011920929 } },
+  { id: "Rain", label: "Rain", buffs: { WATER: 1.5 }, debuffs: {} },
+  { id: "HeavyRain", label: "Heavy Rain", buffs: { WATER: 1.75 }, debuffs: {} },
+  { id: "SandStorm", label: "Sand Storm", buffs: { GEO: 1.5 }, debuffs: {}, pendingDetail: "Aura proc not modeled" },
+  { id: "Hail", label: "Hail", buffs: { ICE: 1.5 }, debuffs: {}, pendingDetail: "extra hail damage not modeled" },
+  { id: "Rainbow", label: "Rainbow", buffs: {}, debuffs: {}, pendingDetail: "accuracy, critical, and healing effects not modeled" },
+  { id: "Fog", label: "Fog", buffs: { ICE: 1.2999999523162842, DATA: 1.2999999523162842, VIRUS: 1.2999999523162842 }, debuffs: { AURA: 0.75 }, pendingDetail: "accuracy effect not modeled" },
+  { id: "Snow", label: "Snow", buffs: { ICE: 1.2000000476837158, DATA: 1.2000000476837158 }, debuffs: { FIRE: 0.800000011920929 }, pendingDetail: "accuracy effect not modeled" },
+  { id: "AshesRain", label: "Ashes Rain", buffs: { FIRE: 1.5 }, debuffs: {}, pendingDetail: "fire proc not modeled" }
+];
+const DAMAGE_TERRAIN_EFFECTS = [
+  { id: "none", label: "None" },
+  { id: "felicis-happiness-overload", label: "Felicis - Happiness Overload" },
+  { id: "felicis-delightful-bliss", label: "Felicis - Delightful Bliss" },
+  { id: "furor-berserking-rampage", label: "Furor - Berserking Rampage" },
+  { id: "furor-roaring-burst", label: "Furor - Roaring Burst" },
+  { id: "horrens-paralyzing-horror", label: "Horrens - Paralyzing Horror" },
+  { id: "horrens-malevolent-shriek", label: "Horrens - Malevolent Shriek" },
+  { id: "mestus-grievances-desolation", label: "Mestus - Grievances Desolation" },
+  { id: "mestus-unfathomable-anxiety", label: "Mestus - Unfathomable Anxiety" },
+  { id: "sereum-sovereigns-calm", label: "Sereum - Sovereign's Calm" },
+  { id: "sereum-ultimate-authority", label: "Sereum - Ultimate Authority" }
+];
+const DAMAGE_WEATHER_EFFECTS_BY_ID = new Map(DAMAGE_WEATHER_EFFECTS.map((effect) => [effect.id, effect]));
+const DAMAGE_TERRAIN_EFFECTS_BY_ID = new Map(DAMAGE_TERRAIN_EFFECTS.map((effect) => [effect.id, effect]));
+const DAMAGE_CONSTANTS = {
+  statGuardFlat: 1,
+  damageBaseDivisor: 100,
+  percentScale: 100,
+  levelLinearMultiplier: 5,
+  levelLinearFlat: 10,
+  levelLinearScale: 0.30000001192092896,
+  levelRatioOffset: 25,
+  finalBaseScale: 0.44999998807907104,
+  baseDamageFlat: 7,
+  stageScalar: 1.100000023841858,
+  agilityStageScalar: 0.800000011920929,
+  accuracyStageDiffScalar: 0.13333333333333333,
+  stageFormulaPivot: 2,
+  critChanceDenominator: 23,
+  sereumCritChanceFlat: 33.33333,
+  furorTraitMultiplier: 1.314159,
+  furorSynchronizedTraitMultiplier: 1.6,
+  superEffectiveThreshold: 1.5,
+  criticalBaseMultiplier: 1.7999999523162842
+};
+const ATTRIBUTE_TRAIT_TYPES = new Set(["SEREUM", "FELICIS", "HORRENS", "FUROR", "MESTUS"]);
+const CROMACARTA_TRAIT_FLAT_BUFFS = {
+  SEREUM: 16.66667,
+  FELICIS: 0.15,
+  FUROR: 0.15,
+  HORRENS: 0.08,
+  MESTUS: 0.05
+};
+const DAMAGE_STATE_DEFAULTS = Object.freeze({
+  attackerSlot: 0,
+  targetSlot: 0,
+  moveSlot: 0,
+  critical: false,
+  attackerSynchronized: false,
+  attackerAttributeActive: false,
+  attackerAttackStage: 0,
+  attackerSpecialAttackStage: 0,
+  attackerAgilityStage: 0,
+  targetDefenseStage: 0,
+  targetSpecialDefenseStage: 0,
+  targetAgilityStage: 0,
+  weatherEffect: "Clear",
+  terrainEffect: "none",
+  opponentAddFormId: null
+});
+const DAMAGE_NUMERIC_FIELDS = new Set([
+  "attackerAttackStage",
+  "attackerSpecialAttackStage",
+  "attackerAgilityStage",
+  "targetDefenseStage",
+  "targetSpecialDefenseStage",
+  "targetAgilityStage"
+]);
+const DAMAGE_SELECT_FIELDS = new Set([
+  "weatherEffect",
+  "terrainEffect"
+]);
+const DAMAGE_TOGGLE_FIELDS = new Set([
+  "critical",
+  "attackerSynchronized",
+  "attackerAttributeActive"
+]);
 const STARTER_DEX_RANGE = { min: 1, max: 20, label: "#1-20" };
 const LEGENDARY_DEX_RANGE = { min: 124, max: 136, label: "#124-136" };
+const ACTIVE_PARTY_SLOT_COUNT = 4;
 const TYPE_ICONS = {
   NONE: "-",
   AURA: "Au",
@@ -31,13 +136,26 @@ const app = document.querySelector("#app");
 let data = null;
 let indexes = null;
 let state = {
+  activeTab: "builder",
   search: "",
   selectedSlot: 0,
   theme: "light",
-  team: Array(6).fill(null)
+  team: Array(6).fill(null),
+  opponentTeam: Array(6).fill(null),
+  damage: defaultDamageState()
 };
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+const f32 = (value) => Math.fround(Number(value));
+
+function defaultDamageState() {
+  return { ...DAMAGE_STATE_DEFAULTS };
+}
+
+function finiteNumber(value, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
 
 function normalize(value) {
   return String(value || "")
@@ -156,8 +274,11 @@ function loadState() {
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    activeTab: state.activeTab,
     selectedSlot: state.selectedSlot,
-    team: state.team
+    team: state.team,
+    opponentTeam: state.opponentTeam,
+    damage: state.damage
   }));
 }
 
@@ -182,8 +303,38 @@ function applyTheme(theme) {
 }
 
 function sanitizeState() {
+  state.activeTab = state.activeTab === "damage" ? "damage" : "builder";
   state.selectedSlot = clamp(Number(state.selectedSlot || 0), 0, 5);
-  state.team = Array.from({ length: 6 }, (_, index) => sanitizeMember(state.team?.[index]));
+  state.team = sanitizeTeamArray(state.team);
+  state.opponentTeam = sanitizeTeamArray(state.opponentTeam);
+  state.damage = sanitizeDamageState(state.damage);
+}
+
+function sanitizeTeamArray(team) {
+  return Array.from({ length: 6 }, (_, index) => sanitizeMember(team?.[index]));
+}
+
+function sanitizeDamageState(damage) {
+  const next = { ...DAMAGE_STATE_DEFAULTS, ...(damage || {}) };
+  return {
+    attackerSlot: clamp(Math.trunc(finiteNumber(next.attackerSlot, 0)), 0, 5),
+    targetSlot: clamp(Math.trunc(finiteNumber(next.targetSlot, 0)), 0, 5),
+    moveSlot: clamp(Math.trunc(finiteNumber(next.moveSlot, 0)), 0, 4),
+    critical: Boolean(next.critical),
+    attackerSynchronized: Boolean(next.attackerSynchronized),
+    attackerAttributeActive: Boolean(next.attackerAttributeActive),
+    attackerAttackStage: clamp(Math.trunc(finiteNumber(next.attackerAttackStage, 0)), -6, 6),
+    attackerSpecialAttackStage: clamp(Math.trunc(finiteNumber(next.attackerSpecialAttackStage, 0)), -6, 6),
+    attackerAgilityStage: clamp(Math.trunc(finiteNumber(next.attackerAgilityStage, 0)), -6, 6),
+    targetDefenseStage: clamp(Math.trunc(finiteNumber(next.targetDefenseStage, 0)), -6, 6),
+    targetSpecialDefenseStage: clamp(Math.trunc(finiteNumber(next.targetSpecialDefenseStage, 0)), -6, 6),
+    targetAgilityStage: clamp(Math.trunc(finiteNumber(next.targetAgilityStage, 0)), -6, 6),
+    weatherEffect: DAMAGE_WEATHER_EFFECTS_BY_ID.has(next.weatherEffect) ? next.weatherEffect : "Clear",
+    terrainEffect: DAMAGE_TERRAIN_EFFECTS_BY_ID.has(next.terrainEffect) ? next.terrainEffect : "none",
+    opponentAddFormId: indexes?.formsById.has(next.opponentAddFormId)
+      ? next.opponentAddFormId
+      : data?.forms?.[0]?.id || null
+  };
 }
 
 function sanitizeMember(member) {
@@ -240,6 +391,30 @@ function remainingBoosts(member) {
   return data.rules.statBoostBudget - totalBoosts(member);
 }
 
+function normalizePartySide(side) {
+  return side === "opponent" ? "opponent" : "current";
+}
+
+function isActiveTeamSlot(index) {
+  return Number(index) >= 0 && Number(index) < ACTIVE_PARTY_SLOT_COUNT;
+}
+
+function activeSlotClass(index) {
+  return isActiveTeamSlot(index) ? "team-active-slot" : "";
+}
+
+function activeTeamMembers(team) {
+  return (team || []).slice(0, ACTIVE_PARTY_SLOT_COUNT).filter(Boolean);
+}
+
+function activeBattleEntries(team, side) {
+  return (team || [])
+    .map((member, slot) => ({ member, slot }))
+    .filter((entry) => entry.member && isActiveTeamSlot(entry.slot))
+    .map((entry) => battleEntry(team, entry.slot, side))
+    .filter(Boolean);
+}
+
 function setSelectedSlot(slot) {
   state.selectedSlot = clamp(Number(slot), 0, 5);
   saveState();
@@ -260,19 +435,135 @@ function addFormFromDex(formId) {
 }
 
 function swapSlots(from, to) {
-  if (from === to) return;
-  const next = [...state.team];
-  const temp = next[to];
-  next[to] = next[from];
-  next[from] = temp;
-  state.team = next;
-  state.selectedSlot = to;
-  saveState();
-  render();
+  movePartyMember("current", from, "current", to);
 }
 
 function clearSlot(slot) {
   state.team[slot] = null;
+  saveState();
+  render();
+}
+
+function teamForDamageSide(side) {
+  return teamForPartySide(side);
+}
+
+function teamForPartySide(side) {
+  return normalizePartySide(side) === "opponent" ? state.opponentTeam : state.team;
+}
+
+function setTeamForPartySide(side, team) {
+  if (normalizePartySide(side) === "opponent") {
+    state.opponentTeam = team;
+  } else {
+    state.team = team;
+  }
+}
+
+function selectedDamageSlot(side) {
+  return side === "opponent" ? state.damage.targetSlot : state.damage.attackerSlot;
+}
+
+function selectedDamageMember(side) {
+  return teamForDamageSide(side)[selectedDamageSlot(side)] || null;
+}
+
+function updateDamageMember(side, mutator) {
+  const member = selectedDamageMember(side);
+  if (!member) return;
+  mutator(member);
+  trimBoostBudget(member);
+  state.damage = sanitizeDamageState(state.damage);
+  saveState();
+  render();
+}
+
+function addOpponentForm(formId) {
+  if (!indexes.formsById.has(formId)) return;
+  const emptySlot = state.opponentTeam.findIndex((member) => !member);
+  const slot = emptySlot === -1 ? state.damage.targetSlot : emptySlot;
+  state.opponentTeam[slot] = createMember(formId);
+  state.damage.targetSlot = slot;
+  saveState();
+  render();
+}
+
+function addFormToTeamSlot(formId, side, slot) {
+  const targetSide = normalizePartySide(side);
+  if (targetSide === "opponent") {
+    if (!indexes.formsById.has(formId)) return;
+    const targetSlot = clamp(Math.trunc(finiteNumber(slot, 0)), 0, 5);
+    state.opponentTeam[targetSlot] = createMember(formId);
+    state.damage.targetSlot = targetSlot;
+    saveState();
+    render({ preserveDexScroll: true });
+    return;
+  }
+
+  addFormToSlot(formId, slot);
+}
+
+function movePartyMember(sourceSide, sourceSlot, targetSide, targetSlot) {
+  const fromSide = normalizePartySide(sourceSide);
+  const toSide = normalizePartySide(targetSide);
+  const fromSlot = clamp(Math.trunc(finiteNumber(sourceSlot, 0)), 0, 5);
+  const toSlot = clamp(Math.trunc(finiteNumber(targetSlot, 0)), 0, 5);
+  if (fromSide === toSide && fromSlot === toSlot) return;
+
+  const sourceTeam = [...teamForPartySide(fromSide)];
+  const draggedMember = sourceTeam[fromSlot];
+  if (!draggedMember) return;
+
+  if (fromSide === toSide) {
+    const nextTeam = [...sourceTeam];
+    nextTeam[fromSlot] = nextTeam[toSlot];
+    nextTeam[toSlot] = draggedMember;
+    setTeamForPartySide(fromSide, nextTeam);
+  } else {
+    const targetTeam = [...teamForPartySide(toSide)];
+    const targetMember = targetTeam[toSlot] || null;
+    sourceTeam[fromSlot] = targetMember;
+    targetTeam[toSlot] = draggedMember;
+    setTeamForPartySide(fromSide, sourceTeam);
+    setTeamForPartySide(toSide, targetTeam);
+  }
+
+  if (toSide === "current") {
+    state.selectedSlot = toSlot;
+    state.damage.attackerSlot = toSlot;
+  } else if (fromSide === "current" && state.damage.attackerSlot === fromSlot) {
+    state.selectedSlot = effectiveFilledSlot(state.team, fromSlot);
+    state.damage.attackerSlot = state.selectedSlot;
+  } else if (fromSide === "current") {
+    state.selectedSlot = effectiveFilledSlot(state.team, state.selectedSlot);
+    state.damage.attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
+  }
+
+  if (toSide === "opponent") {
+    state.damage.targetSlot = toSlot;
+  } else if (fromSide === "opponent" && state.damage.targetSlot === fromSlot) {
+    state.damage.targetSlot = effectiveFilledSlot(state.opponentTeam, fromSlot);
+  } else if (fromSide === "opponent") {
+    state.damage.targetSlot = effectiveFilledSlot(state.opponentTeam, state.damage.targetSlot);
+  }
+
+  state.damage = sanitizeDamageState(state.damage);
+  state.damage.moveSlot = effectiveMoveSlot(state.team[state.damage.attackerSlot], state.damage.moveSlot);
+  saveState();
+  render();
+}
+
+function swapCurrentAndOpponentTeams() {
+  const nextTeam = state.opponentTeam;
+  const nextOpponent = state.team;
+  const nextAttackerSlot = effectiveFilledSlot(nextTeam, state.damage.targetSlot);
+  const nextTargetSlot = effectiveFilledSlot(nextOpponent, state.damage.attackerSlot);
+  state.team = nextTeam;
+  state.opponentTeam = nextOpponent;
+  state.selectedSlot = nextAttackerSlot;
+  state.damage.attackerSlot = nextAttackerSlot;
+  state.damage.targetSlot = nextTargetSlot;
+  state.damage.moveSlot = effectiveMoveSlot(state.team[state.damage.attackerSlot], state.damage.moveSlot);
   saveState();
   render();
 }
@@ -292,7 +583,7 @@ function filteredForms() {
   return data.forms.filter((form) => form.search.includes(query));
 }
 
-function resolveStats(form, member) {
+function resolveStats(form, member, teamContext = state.team) {
   const constants = data.rules.constants;
   const level = member.battleLevel || data.rules.battleLevel;
   const bst = form.baseStatTotal || data.rules.statKeys.reduce((sum, key) => sum + form.baseStats[key], 0);
@@ -307,7 +598,7 @@ function resolveStats(form, member) {
       ? Math.trunc(level * constants.levelHalfMultiplier + constants.nonHpFlat + boostTerm + baseComponent + level * constants.hpExtraLevelMultiplier + constants.hpExtraFlat)
       : Math.trunc(level * constants.levelHalfMultiplier * variance + constants.nonHpFlat + boostTerm + baseComponent);
     const statBeforeModifiers = Math.trunc(beforeLuck * luckMultiplier);
-    const statMultiplier = statModifierMultiplier(form, member, key);
+    const statMultiplier = statModifierMultiplier(form, member, key, teamContext);
 
     return [key, Math.trunc(statBeforeModifiers * statMultiplier)];
   }));
@@ -339,15 +630,16 @@ function heldItemStatTitle(form, member, key) {
   return `${heldItem.displayName}: ${percent >= 0 ? "+" : ""}${percent}% ${formatStatKey(key)}`;
 }
 
-function activeAbilityStatModifiers(form, member, key) {
+function activeAbilityStatModifiers(form, member, key, teamContext = state.team) {
   const ability = abilityForMember(member);
   if (!ability) return [];
+  const activeMembers = activeTeamMembers(teamContext);
 
   return (ability.statModifiers || []).map((modifier) => {
     if (!modifier.stats?.includes(key)) return null;
 
     if (modifier.condition === "allyAbility") {
-      const hasAlly = state.team.some((teammate) => (
+      const hasAlly = activeMembers.some((teammate) => (
         teammate
         && teammate.id !== member.id
         && teammate.abilityId === modifier.abilityId
@@ -356,7 +648,7 @@ function activeAbilityStatModifiers(form, member, key) {
     }
 
     if (modifier.condition === "teamAbilityCount") {
-      const count = state.team.filter((teammate) => teammate?.abilityId === modifier.abilityId).length;
+      const count = activeMembers.filter((teammate) => teammate?.abilityId === modifier.abilityId).length;
       const thresholds = modifier.multipliersByCount || {};
       const selected = Object.keys(thresholds)
         .map(Number)
@@ -369,24 +661,24 @@ function activeAbilityStatModifiers(form, member, key) {
   }).filter(Boolean);
 }
 
-function abilityStatMultiplier(form, member, key) {
-  return activeAbilityStatModifiers(form, member, key)
+function abilityStatMultiplier(form, member, key, teamContext = state.team) {
+  return activeAbilityStatModifiers(form, member, key, teamContext)
     .reduce((multiplier, modifier) => multiplier * Number(modifier.multiplier || 1), 1);
 }
 
-function statModifierMultiplier(form, member, key) {
-  return heldItemStatMultiplier(form, member, key) * abilityStatMultiplier(form, member, key);
+function statModifierMultiplier(form, member, key, teamContext = state.team) {
+  return heldItemStatMultiplier(form, member, key) * abilityStatMultiplier(form, member, key, teamContext);
 }
 
-function statModifierTitle(form, member, key) {
+function statModifierTitle(form, member, key, teamContext = state.team) {
   const notes = [];
   const heldItemTitle = heldItemStatTitle(form, member, key);
   if (heldItemTitle) notes.push(heldItemTitle);
 
   const ability = abilityForMember(member);
-  const abilityModifiers = activeAbilityStatModifiers(form, member, key);
+  const abilityModifiers = activeAbilityStatModifiers(form, member, key, teamContext);
   if (ability && abilityModifiers.length) {
-    const multiplier = abilityStatMultiplier(form, member, key);
+    const multiplier = abilityStatMultiplier(form, member, key, teamContext);
     const percent = Math.round((multiplier - 1) * 100);
     notes.push(`${ability.displayName}: ${percent >= 0 ? "+" : ""}${percent}% ${formatStatKey(key)}`);
   }
@@ -413,6 +705,613 @@ function moveTargetLabel(move) {
   if (aoeType === "targetaoe" || aoeType === "everyoneaoe") return "AoE";
   if (targetType === "self") return "Self";
   return "Single Target";
+}
+
+function isDamageMove(move) {
+  return Number(move?.power || 0) > 0;
+}
+
+function heldItemForMember(member) {
+  return member?.heldItemId ? indexes.heldItemsById.get(member.heldItemId) : null;
+}
+
+function abilityIdForMember(member) {
+  const ability = abilityForMember(member);
+  return ability?.id || ability?.internalName || null;
+}
+
+function teamAbilityCount(team, abilityId) {
+  return activeTeamMembers(team).filter((member) => abilityIdForMember(member) === abilityId).length;
+}
+
+function stackedTeamModifierLabel(label, count) {
+  return count > 1 ? `${label} (${count} active)` : label;
+}
+
+function memberElementalTypes(form, member) {
+  return [form?.types?.main, member?.hiddenType]
+    .filter((type) => type && type !== "NONE");
+}
+
+function memberHasMoveType(form, member, moveType) {
+  return moveType && moveType !== "NONE" && memberElementalTypes(form, member).includes(moveType);
+}
+
+function effectiveFilledSlot(team, preferredSlot) {
+  const preferred = clamp(Math.trunc(finiteNumber(preferredSlot, 0)), 0, 5);
+  if (team[preferred]) return preferred;
+  const first = team.findIndex(Boolean);
+  return first === -1 ? preferred : first;
+}
+
+function effectiveMoveSlot(member, preferredSlot) {
+  const preferred = clamp(Math.trunc(finiteNumber(preferredSlot, 0)), 0, 4);
+  if (member?.moves?.[preferred]) return preferred;
+  const first = member?.moves?.findIndex(Boolean) ?? -1;
+  return first === -1 ? preferred : first;
+}
+
+function battleEntry(team, slot, side) {
+  const member = team[slot] || null;
+  const form = member ? indexes.formsById.get(member.formId) : null;
+  if (!member || !form) return null;
+  return {
+    side,
+    slot,
+    member,
+    form,
+    stats: resolveStats(form, member, team),
+    ability: abilityForMember(member),
+    heldItem: heldItemForMember(member)
+  };
+}
+
+function damageSelection() {
+  const attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
+  const targetSlot = effectiveFilledSlot(state.opponentTeam, state.damage.targetSlot);
+  const attacker = battleEntry(state.team, attackerSlot, "current");
+  const target = battleEntry(state.opponentTeam, targetSlot, "opponent");
+  const moveSlot = effectiveMoveSlot(attacker?.member, state.damage.moveSlot);
+  const moveId = attacker?.member?.moves?.[moveSlot] || null;
+  const move = moveId ? indexes.movesById.get(moveId) : null;
+  return { attackerSlot, targetSlot, attacker, target, moveSlot, move };
+}
+
+function effectiveMoveTypeForDamage(entry, move) {
+  const baseType = move?.type || "NONE";
+  if (abilityIdForMember(entry?.member) === "Bolsterer") {
+    return {
+      type: "NONE",
+      notes: ["Indifference: move type becomes NONE"]
+    };
+  }
+  return { type: baseType, notes: [] };
+}
+
+function relationForDamage(moveType, targetForm) {
+  if (!moveType || moveType === "NONE") return "NORMAL";
+  return targetForm?.defenseRelations?.[moveType] || "NORMAL";
+}
+
+function stabMultiplier(form, member, moveType) {
+  return memberHasMoveType(form, member, moveType) ? 1.5 : 1;
+}
+
+function damageStatKeys(move) {
+  if (move?.category === "PHYSICAL") {
+    return { attackKey: "atk", defenseKey: "def", source: "Physical" };
+  }
+  return { attackKey: "spAtk", defenseKey: "spDef", source: move?.category === "STATUS" ? "Status damage uses special stats" : "Special" };
+}
+
+function stageMultiplier(stage, key) {
+  if (key === "hp") return 1;
+  const scale = key === "agility" ? DAMAGE_CONSTANTS.agilityStageScalar : DAMAGE_CONSTANTS.stageScalar;
+  const term = f32(f32(stage) * scale);
+  let multiplier = 1;
+  if (term > 0) {
+    multiplier = f32(f32(term + DAMAGE_CONSTANTS.stageFormulaPivot) / DAMAGE_CONSTANTS.stageFormulaPivot);
+  } else if (term < 0) {
+    multiplier = f32(DAMAGE_CONSTANTS.stageFormulaPivot / f32(DAMAGE_CONSTANTS.stageFormulaPivot - term));
+  }
+  return key === "agility" ? f32(Math.sqrt(multiplier)) : multiplier;
+}
+
+function liveStatValue(baseValue, stage, key) {
+  return Math.trunc(f32(f32(baseValue) * stageMultiplier(stage, key)));
+}
+
+function truncTowardZero(value) {
+  return value < 0 ? Math.ceil(value) : Math.trunc(value);
+}
+
+function damageFormula({ skillPower, attackerLevel, attack, defense, targetLevel }) {
+  const attackPlus = f32(f32(attack) + DAMAGE_CONSTANTS.statGuardFlat);
+  const defensePlus = f32(f32(defense) + DAMAGE_CONSTANTS.statGuardFlat);
+  const attackDefenseRatio = f32(attackPlus / defensePlus);
+  const levelLinear = f32(
+    f32(f32(f32(attackerLevel) * DAMAGE_CONSTANTS.levelLinearMultiplier) + DAMAGE_CONSTANTS.levelLinearFlat)
+      * DAMAGE_CONSTANTS.levelLinearScale
+  );
+  const afterBaseDivisor = f32(f32(attackDefenseRatio * levelLinear) / DAMAGE_CONSTANTS.damageBaseDivisor);
+  const afterSkillPower = f32(afterBaseDivisor * f32(skillPower));
+  const levelRatio = f32(
+    f32(f32(attackerLevel) + DAMAGE_CONSTANTS.levelRatioOffset)
+      / f32(f32(targetLevel) + DAMAGE_CONSTANTS.levelRatioOffset)
+  );
+  const afterLevelRatio = f32(afterSkillPower * levelRatio);
+  const afterFinalScale = f32(afterLevelRatio * DAMAGE_CONSTANTS.finalBaseScale);
+  const baseDamageFloat = f32(afterFinalScale + DAMAGE_CONSTANTS.baseDamageFlat);
+  return {
+    attackDefenseRatio,
+    levelLinear,
+    levelRatio,
+    baseDamageFloat,
+    nativeFloat: baseDamageFloat
+  };
+}
+
+function pushDamageModifier(target, label, multiplier, phase = "stack") {
+  const numeric = Number(multiplier);
+  if (!Number.isFinite(numeric) || numeric === 1) return;
+  target.notes.push({ label, multiplier: numeric, phase });
+  if (phase === "critical") {
+    target.criticalMultiplier *= numeric;
+  } else {
+    target.stackMultiplier *= numeric;
+  }
+}
+
+function knownDamageModifiers({ attacker, target, attackerTeam, targetTeam, moveType, critical }) {
+  const result = {
+    stackMultiplier: 1,
+    criticalMultiplier: 1,
+    notes: [],
+    warnings: []
+  };
+  const attackerAbilityId = abilityIdForMember(attacker.member);
+  const targetAbilityId = abilityIdForMember(target.member);
+  const attackerAbilityName = attacker.ability?.displayName || attackerAbilityId;
+  const targetAbilityName = target.ability?.displayName || targetAbilityId;
+  const handymanCount = teamAbilityCount(attackerTeam, "Handyman");
+  const protectiveInstinctCount = teamAbilityCount(targetTeam, "ShieldSpirit");
+
+  if (handymanCount > 0) {
+    pushDamageModifier(result, stackedTeamModifierLabel("Handyman team damage", handymanCount), 1.15 ** handymanCount);
+  }
+  if (protectiveInstinctCount > 0) {
+    pushDamageModifier(result, stackedTeamModifierLabel("Protective Instinct team damage reduction", protectiveInstinctCount), 0.9 ** protectiveInstinctCount);
+  }
+
+  if (attackerAbilityId === "Clumsy") pushDamageModifier(result, attackerAbilityName, 1.2);
+  if (attackerAbilityId === "Echoblow") pushDamageModifier(result, attackerAbilityName, 0.7);
+  if (attackerAbilityId === "Headlong") pushDamageModifier(result, attackerAbilityName, 1.5);
+  if (attackerAbilityId === "Bolsterer") pushDamageModifier(result, attackerAbilityName, 1.7);
+  if (attackerAbilityId === "MartialSoul" && (moveType === "CHAKRA" || moveType === "NONE")) {
+    pushDamageModifier(result, attackerAbilityName, 1.5);
+  }
+  if (attackerAbilityId === "Typical" && memberHasMoveType(attacker.form, attacker.member, moveType)) {
+    pushDamageModifier(result, attackerAbilityName, 1.5);
+  }
+  if (attackerAbilityId === "HeavyHitter" && critical) {
+    pushDamageModifier(result, `${attackerAbilityName} critical`, 1.5, "critical");
+  }
+  if (targetAbilityId === "HardBoiled" && state.damage.critical) {
+    result.warnings.push(`${targetAbilityName} blocks critical hits.`);
+  }
+
+  const attackerItem = attacker.heldItem;
+  const targetItem = target.heldItem;
+  const attackerItemClass = attackerItem?.battleEffectClass;
+  const targetItemClass = targetItem?.battleEffectClass;
+  const cardTypes = {
+    CartardenteEffect: "FIRE",
+    CartenergicaEffect: "ELECTRIC",
+    CartagelataEffect: "ICE",
+    CartinfaustaEffect: "ANOMALOUS"
+  };
+
+  if (attackerItemClass === "PiomboguantoEffect") pushDamageModifier(result, attackerItem.displayName, 1.35);
+  if (attackerItemClass === "ManualedusoEffect" && moveType === "NONE") pushDamageModifier(result, attackerItem.displayName, 1.25);
+  if (cardTypes[attackerItemClass] && cardTypes[attackerItemClass] === moveType) {
+    pushDamageModifier(result, attackerItem.displayName, 1.15);
+  }
+  if (targetItemClass === "GrangiubbottoEffect") pushDamageModifier(result, targetItem.displayName, 0.7);
+  if (targetItemClass === "AttivascudoEffect") {
+    result.warnings.push("Instashield shield amount is not auto-applied.");
+  }
+
+  return result;
+}
+
+function formatChance(value) {
+  const rounded = roundForDisplay(value, Number.isInteger(Number(value)) ? 0 : 1);
+  return `${rounded}%`;
+}
+
+function criticalChanceFromStage(stage) {
+  let critUnits = 2;
+  const positiveStage = Math.max(0, Math.trunc(finiteNumber(stage, 0)));
+  for (let index = 0; index < positiveStage; index += 1) {
+    critUnits += 1 + index;
+  }
+  return f32(f32(critUnits / DAMAGE_CONSTANTS.critChanceDenominator) * DAMAGE_CONSTANTS.percentScale);
+}
+
+function attackerTraitState(attacker) {
+  const attribute = attacker?.form?.types?.attribute || "NONE";
+  const attributeActive = Boolean(state.damage.attackerAttributeActive);
+  const synchronized = Boolean(state.damage.attackerSynchronized);
+  const active = ATTRIBUTE_TRAIT_TYPES.has(attribute) && (attributeActive || synchronized);
+  const cromacartaBuff = attributeActive && attacker?.heldItem?.battleEffectClass === "CromacartaEffect"
+    ? Number(CROMACARTA_TRAIT_FLAT_BUFFS[attribute] || 0)
+    : 0;
+  return {
+    attribute,
+    active,
+    attributeActive,
+    synchronized,
+    flatBuff: active ? cromacartaBuff : 0
+  };
+}
+
+function describeTraitState(trait) {
+  if (!trait.active) return "off";
+  const sources = [];
+  if (trait.attributeActive) sources.push("activation");
+  if (trait.synchronized) sources.push("sync");
+  if (trait.flatBuff) sources.push(`Cromacarta +${roundForDisplay(trait.flatBuff, 2)}`);
+  return sources.join("; ");
+}
+
+function attributeDamageEffects(attacker, damageFloat) {
+  const trait = attackerTraitState(attacker);
+  const result = {
+    trait,
+    damageFloat,
+    damageMultiplier: 1,
+    label: trait.active ? typePill(trait.attribute) : "off",
+    detail: describeTraitState(trait),
+    warnings: []
+  };
+
+  if (!trait.active) return result;
+
+  if (trait.attribute === "FUROR") {
+    const baseMultiplier = trait.synchronized
+      ? DAMAGE_CONSTANTS.furorSynchronizedTraitMultiplier
+      : DAMAGE_CONSTANTS.furorTraitMultiplier;
+    const damageMultiplier = f32(baseMultiplier + trait.flatBuff);
+    result.damageMultiplier = damageMultiplier;
+    result.damageFloat = f32(damageFloat * damageMultiplier);
+    result.detail = `${formatMultiplier(damageMultiplier)} damage (${describeTraitState(trait)})`;
+  } else if (trait.attribute === "SEREUM") {
+    result.detail = `crit chance only (${describeTraitState(trait)})`;
+  } else if (trait.attribute === "FELICIS") {
+    result.detail = `no direct damage change (${describeTraitState(trait)})`;
+  } else {
+    result.detail = `pending direct damage branch (${describeTraitState(trait)})`;
+    result.warnings.push(`${trait.attribute} Attribute activation is selected, but that direct damage branch is not fully decoded yet.`);
+  }
+
+  return result;
+}
+
+function calculateHitChance({ attacker, target, move }) {
+  const baseAccuracy = Number(move?.accuracy || 0);
+  if (baseAccuracy <= 0) {
+    return {
+      chance: null,
+      display: "-",
+      detail: "No accuracy value",
+      modifiers: []
+    };
+  }
+
+  const modifiers = [];
+  const attackerAbilityId = abilityIdForMember(attacker.member);
+  const targetAbilityId = abilityIdForMember(target.member);
+  const attackerAbilityName = attacker.ability?.displayName || attackerAbilityId;
+  const targetAbilityName = target.ability?.displayName || targetAbilityId;
+
+  if (attackerAbilityId === "ClearTarget") {
+    return {
+      chance: 100,
+      display: "100%",
+      detail: `${attackerAbilityName}: always hits`,
+      modifiers: [{ label: attackerAbilityName, multiplier: "guaranteed" }]
+    };
+  }
+
+  if (targetAbilityId === "ClearTarget") {
+    return {
+      chance: 100,
+      display: "100%",
+      detail: `${targetAbilityName}: attacks never miss`,
+      modifiers: [{ label: targetAbilityName, multiplier: "guaranteed" }]
+    };
+  }
+
+  let chance = baseAccuracy;
+  if (attackerAbilityId === "SniperSense") {
+    chance *= 1.2;
+    modifiers.push({ label: attackerAbilityName, multiplier: 1.2 });
+  }
+  if (attackerAbilityId === "Headlong") {
+    chance *= 0.75;
+    modifiers.push({ label: attackerAbilityName, multiplier: 0.75 });
+  }
+
+  const stageDifference = Number(state.damage.attackerAgilityStage || 0) - Number(state.damage.targetAgilityStage || 0);
+  const stageMultiplier = 1 + stageDifference * DAMAGE_CONSTANTS.accuracyStageDiffScalar;
+  if (stageDifference !== 0) {
+    chance *= stageMultiplier;
+    modifiers.push({
+      label: `Agi stage diff ${stageDifference >= 0 ? "+" : ""}${stageDifference}`,
+      multiplier: stageMultiplier
+    });
+  }
+
+  chance = clamp(chance, 0, 100);
+  return {
+    chance,
+    display: `${roundForDisplay(chance, chance % 1 === 0 ? 0 : 1)}%`,
+    detail: modifiers.length
+      ? modifiers.map((modifier) => `${modifier.label} ${formatMultiplier(modifier.multiplier)}`).join("; ")
+      : `Base ${baseAccuracy}%`,
+    modifiers
+  };
+}
+
+function calculateCritChance({ attacker, target, move }) {
+  const targetAbilityId = abilityIdForMember(target.member);
+  const targetAbilityName = target.ability?.displayName || targetAbilityId;
+
+  if (move?.category === "STATUS") {
+    return {
+      chance: 0,
+      display: "0%",
+      detail: "Status move",
+      modifiers: [],
+      warnings: []
+    };
+  }
+
+  if (targetAbilityId === "HardBoiled") {
+    return {
+      chance: 0,
+      display: "0%",
+      detail: `${targetAbilityName} blocks crits`,
+      modifiers: [],
+      warnings: []
+    };
+  }
+
+  if (state.damage.critical) {
+    return {
+      chance: 100,
+      display: "100%",
+      detail: "Forced",
+      modifiers: [{ label: "Manual critical", flat: 100 }],
+      warnings: []
+    };
+  }
+
+  const agilityStage = Math.max(0, Math.trunc(finiteNumber(state.damage.attackerAgilityStage, 0)));
+  const baseChance = criticalChanceFromStage(agilityStage);
+  let chance = baseChance;
+  const modifiers = [];
+  const trait = attackerTraitState(attacker);
+
+  if (trait.active && trait.attribute === "SEREUM") {
+    const flatBonus = f32(DAMAGE_CONSTANTS.sereumCritChanceFlat + trait.flatBuff);
+    chance = f32(chance + flatBonus);
+    modifiers.push({ label: "SEREUM Attribute", flat: flatBonus });
+  }
+
+  chance = clamp(chance, 0, 100);
+  return {
+    chance,
+    display: formatChance(chance),
+    detail: modifiers.length
+      ? `Base ${formatChance(baseChance)}; ${modifiers.map((modifier) => `${modifier.label} +${formatChance(modifier.flat)}`).join("; ")}`
+      : `Base ${formatChance(baseChance)}`,
+    modifiers,
+    warnings: []
+  };
+}
+
+function selectedWeatherEffect() {
+  return DAMAGE_WEATHER_EFFECTS_BY_ID.get(state.damage.weatherEffect) || DAMAGE_WEATHER_EFFECTS[0];
+}
+
+function selectedTerrainEffect() {
+  return DAMAGE_TERRAIN_EFFECTS_BY_ID.get(state.damage.terrainEffect) || DAMAGE_TERRAIN_EFFECTS[0];
+}
+
+function fieldDamageEffects(moveType) {
+  const weather = selectedWeatherEffect();
+  const terrain = selectedTerrainEffect();
+  let weatherMultiplier = 1;
+  const weatherNotes = [];
+
+  const weatherBuff = weather.buffs?.[moveType];
+  if (Number.isFinite(weatherBuff)) {
+    weatherMultiplier = f32(weatherMultiplier * f32(weatherBuff));
+    weatherNotes.push(`${weather.label}: ${moveType} ${formatMultiplier(weatherBuff)}`);
+  }
+
+  const weatherDebuff = weather.debuffs?.[moveType];
+  if (Number.isFinite(weatherDebuff)) {
+    weatherMultiplier = f32(weatherMultiplier * f32(weatherDebuff));
+    weatherNotes.push(`${weather.label}: ${moveType} ${formatMultiplier(weatherDebuff)}`);
+  }
+
+  if (weather.pendingDetail) weatherNotes.push(weather.pendingDetail);
+
+  return {
+    weather,
+    terrain,
+    weatherMultiplier,
+    terrainMultiplier: 1,
+    multiplier: weatherMultiplier,
+    weatherDetail: weatherNotes.length ? weatherNotes.join("; ") : `${weather.label}: no damage change`,
+    terrainDetail: terrain.id === "none" ? "None" : `${terrain.label}: effect math pending`,
+    warnings: terrain.id === "none"
+      ? []
+      : [`${terrain.label} terrain is selected, but terrain/domain damage math is not decoded yet.`]
+  };
+}
+
+function calculateDamagePreview() {
+  const selection = damageSelection();
+  const warnings = [];
+  const { attacker, target, move } = selection;
+  if (!attacker || !target || !move) {
+    return { ready: false, selection, warnings: ["Select an attacker, target, and move."] };
+  }
+  if (!isDamageMove(move)) {
+    return { ready: false, selection, warnings: ["Selected move has no direct damage power."] };
+  }
+
+  const effectiveType = effectiveMoveTypeForDamage(attacker, move);
+  warnings.push(...effectiveType.notes);
+  const relation = relationForDamage(effectiveType.type, target.form);
+  const effectivenessMultiplier = RELATION_MULTIPLIERS[relation] ?? 1;
+  const reflected = relation === "REFLECT";
+  const { attackKey, defenseKey, source } = damageStatKeys(move);
+  const attackStage = attackKey === "atk" ? state.damage.attackerAttackStage : state.damage.attackerSpecialAttackStage;
+  const defenseStage = defenseKey === "def" ? state.damage.targetDefenseStage : state.damage.targetSpecialDefenseStage;
+  const attack = liveStatValue(attacker.stats[attackKey], attackStage, attackKey);
+  const defense = liveStatValue(target.stats[defenseKey], defenseStage, defenseKey);
+  const targetAbilityId = abilityIdForMember(target.member);
+  const critical = Boolean(state.damage.critical && move.category !== "STATUS" && targetAbilityId !== "HardBoiled");
+  const known = knownDamageModifiers({
+    attacker,
+    target,
+    attackerTeam: state.team,
+    targetTeam: state.opponentTeam,
+    moveType: effectiveType.type,
+    critical
+  });
+  warnings.push(...known.warnings);
+  const hitChance = calculateHitChance({ attacker, target, move });
+  const critChance = calculateCritChance({ attacker, target, move });
+  warnings.push(...critChance.warnings);
+  const fieldEffects = fieldDamageEffects(effectiveType.type);
+  warnings.push(...fieldEffects.warnings);
+
+  const base = damageFormula({
+    skillPower: Number(move.power),
+    attackerLevel: Number(attacker.member.battleLevel || data.rules.battleLevel),
+    attack,
+    defense,
+    targetLevel: Number(target.member.battleLevel || data.rules.battleLevel)
+  });
+  const isSuperEffective = effectivenessMultiplier >= DAMAGE_CONSTANTS.superEffectiveThreshold;
+  const effectivenessAfterSuper = f32(effectivenessMultiplier);
+  const stab = stabMultiplier(attacker.form, attacker.member, effectiveType.type);
+  const effectivenessTimesStab = f32(effectivenessAfterSuper * f32(stab));
+  const criticalStageMultiplier = critical ? DAMAGE_CONSTANTS.criticalBaseMultiplier : 1;
+  const criticalCombined = f32(criticalStageMultiplier * f32(critical ? known.criticalMultiplier : 1));
+  const stackMultiplier = f32(f32(known.stackMultiplier) * f32(fieldEffects.multiplier));
+  const afterCrit = f32(effectivenessTimesStab * criticalCombined);
+  const afterStack = f32(afterCrit * stackMultiplier);
+  const afterBaseDamage = f32(afterStack * base.nativeFloat);
+  const attributeEffects = attributeDamageEffects(attacker, afterBaseDamage);
+  warnings.push(...attributeEffects.warnings);
+  const truncatedBeforeFlat = truncTowardZero(attributeEffects.damageFloat);
+  const finalDamage = truncatedBeforeFlat;
+  const targetHp = Number(target.stats.hp || 0);
+  const damageRecipient = reflected ? attacker : target;
+  const damageRecipientHp = Number(damageRecipient.stats.hp || 0);
+  const damageRecipientRole = reflected ? "Attacker" : "Target";
+
+  return {
+    ready: true,
+    selection,
+    moveType: effectiveType.type,
+    relation,
+    reflected,
+    effectivenessMultiplier,
+    isSuperEffective,
+    stab,
+    attackKey,
+    defenseKey,
+    attack,
+    defense,
+    attackStage,
+    defenseStage,
+    categorySource: source,
+    critical,
+    criticalStageMultiplier,
+    known,
+    hitChance,
+    critChance,
+    fieldEffects,
+    attributeEffects,
+    stackMultiplier,
+    base,
+    afterBaseDamage,
+    truncatedBeforeFlat,
+    finalDamage,
+    targetHp,
+    targetPercent: targetHp > 0 ? finalDamage / targetHp * 100 : 0,
+    damageRecipientRole,
+    damageRecipientName: damageRecipient.form.display,
+    damageRecipientHp,
+    damageRecipientPercent: damageRecipientHp > 0 ? finalDamage / damageRecipientHp * 100 : 0,
+    warnings
+  };
+}
+
+function predictedTurnOrder() {
+  const entries = [
+    ...activeBattleEntries(state.team, "current"),
+    ...activeBattleEntries(state.opponentTeam, "opponent")
+  ].map((entry) => ({
+    ...entry,
+    agility: turnOrderAgility(entry),
+    lateAction: abilityIdForMember(entry.member) === "JustAsPlanned"
+  }));
+
+  entries.sort((a, b) => (
+    Number(a.lateAction) - Number(b.lateAction)
+    || b.agility - a.agility
+    || (a.side === "current" ? 0 : 1) - (b.side === "current" ? 0 : 1)
+    || a.slot - b.slot
+  ));
+
+  const tieCounts = new Map();
+  for (const entry of entries) {
+    const key = `${entry.lateAction}:${entry.agility}`;
+    tieCounts.set(key, (tieCounts.get(key) || 0) + 1);
+  }
+
+  return entries.map((entry, index) => ({
+    ...entry,
+    order: index + 1,
+    tied: tieCounts.get(`${entry.lateAction}:${entry.agility}`) > 1
+  }));
+}
+
+function turnOrderAgility(entry) {
+  let stage = 0;
+  if (entry.side === "current" && entry.slot === state.damage.attackerSlot) {
+    stage = state.damage.attackerAgilityStage;
+  } else if (entry.side === "opponent" && entry.slot === state.damage.targetSlot) {
+    stage = state.damage.targetAgilityStage;
+  }
+  return liveStatValue(entry.stats.agility, stage, "agility");
+}
+
+function roundForDisplay(value, places = 2) {
+  const multiplier = 10 ** places;
+  return Math.round(Number(value) * multiplier) / multiplier;
+}
+
+function formatMultiplier(value) {
+  return `x${roundForDisplay(value, 2)}`;
 }
 
 function typePill(type) {
@@ -447,17 +1346,10 @@ function spriteHtml(form, size = "small") {
 
 function render(options = {}) {
   const dexScrollTop = options.preserveDexScroll ? document.querySelector(".dex-list")?.scrollTop : null;
-  const member = selectedMember();
-  const form = selectedForm();
   app.innerHTML = `
     <div class="app-shell">
       ${renderHeader()}
-      <main class="workspace">
-        ${renderDex()}
-        ${renderParty()}
-        ${renderEditor(member, form)}
-        ${renderCoverage()}
-      </main>
+      ${state.activeTab === "damage" ? renderDamageCalculator() : renderTeamBuilder()}
     </div>
   `;
   if (dexScrollTop !== null && dexScrollTop !== undefined) {
@@ -468,15 +1360,467 @@ function render(options = {}) {
   }
 }
 
+function renderTeamBuilder() {
+  const member = selectedMember();
+  const form = selectedForm();
+  return `
+    <main class="workspace" aria-label="Team builder">
+      ${renderDex()}
+      ${renderParty()}
+      ${renderEditor(member, form)}
+      ${renderCoverage()}
+    </main>
+  `;
+}
+
+function renderDamageCalculator() {
+  const preview = calculateDamagePreview();
+  return `
+    <main class="damage-workspace" aria-label="Damage calculator">
+      ${renderDamagePartyPanel({
+        title: "Current Party",
+        side: "current",
+        team: state.team,
+        selectedSlot: preview.selection.attackerSlot,
+        action: "select-damage-attacker"
+      })}
+      ${renderDamagePartyPanel({
+        title: "Opposing Party",
+        side: "opponent",
+        team: state.opponentTeam,
+        selectedSlot: preview.selection.targetSlot,
+        action: "select-damage-target"
+      })}
+      ${renderDamageCalcPanel(preview)}
+      ${renderTurnOrderPanel()}
+    </main>
+  `;
+}
+
+function renderDamagePartyPanel({ title, side, team, selectedSlot, action }) {
+  const filled = team.filter(Boolean).length;
+  return `
+    <section class="panel damage-party-panel damage-${escapeHtml(side)}-panel" aria-label="${escapeHtml(title)}">
+      <div class="panel-title">
+        <h2>${escapeHtml(title)}</h2>
+        <span>${filled}/6</span>
+      </div>
+      ${side === "opponent" ? `
+        <div class="damage-panel-actions">
+          <button class="command small" type="button" data-action="add-opponent-member">Add</button>
+          <button class="command small" type="button" data-action="import-opponent-team">Import</button>
+          <button class="command small" type="button" data-action="export-opponent-team">Export</button>
+          <button class="command small" type="button" data-action="swap-damage-parties">Swap</button>
+          <button class="command small subtle" type="button" data-action="clear-opponent-team">Clear</button>
+          <label class="damage-add-picker">
+            <span class="visually-hidden">Add opposing Animon</span>
+            <select data-action="change-opponent-add-form" aria-label="Add opposing Animon">
+              ${data.forms.map((form) => `
+                <option value="${escapeHtml(form.id)}" ${form.id === state.damage.opponentAddFormId ? "selected" : ""}>${escapeHtml(form.display)}</option>
+              `).join("")}
+            </select>
+          </label>
+        </div>
+      ` : ""}
+      <div class="damage-member-list">
+        ${team.map((member, index) => renderDamageMemberCard(member, index, team, side, selectedSlot, action)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderDamageMemberCard(member, index, team, side, selectedSlot, action) {
+  const selected = member && index === selectedSlot ? "selected" : "";
+  const active = activeSlotClass(index);
+  const activeTitle = isActiveTeamSlot(index) ? "Active team slot" : "";
+  if (!member) {
+    return `
+      <div class="damage-member-card empty ${active}" data-party-side="${escapeHtml(side)}" data-slot="${index}" title="${escapeHtml(activeTitle)}">
+        <span class="slot-index">${index + 1}</span>
+        <span class="muted">Empty</span>
+      </div>
+    `;
+  }
+
+  const form = indexes.formsById.get(member.formId);
+  const stats = resolveStats(form, member, team);
+  const moveCount = member.moves.filter(Boolean).length;
+  return `
+    <button class="damage-member-card ${selected} ${active}" type="button" draggable="true" data-action="${escapeHtml(action)}" data-party-side="${escapeHtml(side)}" data-slot="${index}" title="${escapeHtml(activeTitle)}">
+      <span class="slot-index">${index + 1}</span>
+      ${spriteHtml(form, "tiny")}
+      <span class="damage-member-text">
+        <strong>${escapeHtml(form.display)}</strong>
+        <small>${side === "current" ? `${moveCount}/5 moves` : "target"} - Agi ${stats.agility}</small>
+      </span>
+    </button>
+  `;
+}
+
+function renderDamageCalcPanel(preview) {
+  const attackerName = preview.selection.attacker?.form.display || "No attacker";
+  const targetName = preview.selection.target?.form.display || "No target";
+  return `
+    <section class="panel damage-calc-panel" aria-label="Damage result">
+      <div class="panel-title">
+        <h2>Damage Calculator</h2>
+        <span>${escapeHtml(attackerName)} -> ${escapeHtml(targetName)}</span>
+      </div>
+      <div class="damage-calc-scroll">
+        ${renderDamageMovePicker(preview.selection)}
+        ${renderDamageSetupRow(preview.selection)}
+        ${renderDamageResult(preview)}
+      </div>
+    </section>
+  `;
+}
+
+function renderDamageSetupRow(selection) {
+  return `
+    <section class="damage-setup-row" aria-label="Damage setup">
+      <div class="damage-stat-panels" aria-label="Stat distributions">
+        ${renderDamageStatEditor("current", selection.attacker, "Attacker Stats")}
+        ${renderDamageStatEditor("opponent", selection.target, "Defender Stats")}
+      </div>
+      ${renderDamageBattleControls()}
+    </section>
+  `;
+}
+
+function renderDamageStatEditor(side, entry, title) {
+  if (!entry) {
+    return `
+      <section class="subpanel damage-section">
+        <div class="subpanel-title"><h3>${escapeHtml(title)}</h3><span>Empty</span></div>
+        <div class="damage-section-body muted">Select a ${side === "opponent" ? "target" : "party member"}.</div>
+      </section>
+    `;
+  }
+
+  const used = totalBoosts(entry.member);
+  const remaining = remainingBoosts(entry.member);
+  return `
+    <section class="subpanel damage-section damage-stat-editor">
+      <div class="subpanel-title">
+        <h3>${escapeHtml(title)}</h3>
+        <span>${used}/${data.rules.statBoostBudget} BP</span>
+      </div>
+      <div class="damage-stat-actions">
+        <button class="command small" type="button" data-action="damage-balanced-bp" data-side="${escapeHtml(side)}">Balanced</button>
+        <button class="command small subtle" type="button" data-action="damage-clear-bp" data-side="${escapeHtml(side)}">Clear BP</button>
+      </div>
+      <div class="damage-stat-summary">${escapeHtml(entry.form.display)} - ${remaining} BP left</div>
+      <div class="damage-stat-table" role="table">
+        <div class="damage-stat-row damage-stat-head" role="row">
+          <span>Stat</span>
+          <span>BP</span>
+          <span>Lv50</span>
+        </div>
+        ${data.rules.statKeys.map((key) => renderDamageStatRow(side, entry, key)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderDamageStatRow(side, entry, key) {
+  const boost = entry.member.statBoosts[key];
+  return `
+    <div class="damage-stat-row" role="row">
+      <strong>${formatStatKey(key)}</strong>
+      <div class="range-cell damage-bp-cell">
+        <input type="range" min="${data.rules.statBoostMin}" max="${data.rules.statBoostPerStatCap}" value="${escapeHtml(boost)}" data-damage-side="${escapeHtml(side)}" data-damage-stat-boost="${escapeHtml(key)}" aria-label="${escapeHtml(`${side} ${formatStatKey(key)} BP slider`)}">
+        <input type="number" min="${data.rules.statBoostMin}" max="${data.rules.statBoostPerStatCap}" value="${escapeHtml(boost)}" data-damage-side="${escapeHtml(side)}" data-damage-stat-boost="${escapeHtml(key)}" aria-label="${escapeHtml(`${side} ${formatStatKey(key)} BP`)}">
+      </div>
+      <strong>${entry.stats[key]}</strong>
+    </div>
+  `;
+}
+
+function renderDamageMovePicker(selection) {
+  const member = selection.attacker?.member;
+  if (!member) {
+    return `
+      <section class="subpanel damage-section">
+        <div class="subpanel-title"><h3>Move</h3><span>No attacker</span></div>
+        <div class="damage-section-body muted">Current party is empty.</div>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="subpanel damage-section">
+      <div class="subpanel-title">
+        <h3>Move</h3>
+        <span>Slot ${selection.moveSlot + 1}</span>
+      </div>
+      <div class="damage-section-body">
+        <label class="form-switch">
+          <span>Selected Move</span>
+          <select data-action="change-damage-move">
+            ${member.moves.map((moveId, index) => {
+              const move = moveId ? indexes.movesById.get(moveId) : null;
+              const label = move ? moveLabel(move) : `Move ${index + 1} - Empty`;
+              return `<option value="${index}" ${index === selection.moveSlot ? "selected" : ""}>${escapeHtml(label)}</option>`;
+            }).join("")}
+          </select>
+        </label>
+        ${selection.move ? `<div class="move-detail">${renderMoveDetail(selection.move)}</div>` : `<div class="move-detail muted">No move selected</div>`}
+        ${renderDamageTargetDefences(selection.target)}
+      </div>
+    </section>
+  `;
+}
+
+function renderDamageTargetDefences(target) {
+  if (!target?.form) {
+    return `<div class="damage-defence-row muted">Select a defender to view type defences.</div>`;
+  }
+
+  const groups = typeDefenseGroups(target.form, true);
+  return `
+    <div class="damage-defence-row" aria-label="${escapeHtml(target.form.display)} type defences">
+      <div class="damage-defence-heading">
+        <span>Defender Type Defences</span>
+        <strong>${typePill(target.form.types.attribute)} ${typePill(target.form.types.main)}</strong>
+      </div>
+      <div class="damage-defence-grid">
+        ${groups.map((group) => `
+          <div class="damage-defence-cell">
+            <span>${escapeHtml(group.label)}</span>
+            <div class="matchup-chip-list">
+              ${group.types.length ? group.types.map((type) => typePill(type)).join("") : `<small>None</small>`}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderDamageBattleControls() {
+  return `
+    <section class="subpanel damage-section">
+      <div class="subpanel-title">
+        <h3>Battle Modifiers</h3>
+        <span>Stages + Field</span>
+      </div>
+      <div class="modifier-groups">
+        <div class="modifier-group">
+          <h4>Attacker State</h4>
+          <div class="calc-control-grid attacker-state-grid">
+            <label class="calc-check">
+              <input type="checkbox" data-damage-toggle="attackerSynchronized" ${state.damage.attackerSynchronized ? "checked" : ""}>
+              <span>Synchronisation</span>
+            </label>
+            <label class="calc-check">
+              <input type="checkbox" data-damage-toggle="attackerAttributeActive" ${state.damage.attackerAttributeActive ? "checked" : ""}>
+              <span>Attribute activation</span>
+            </label>
+          </div>
+        </div>
+        <div class="modifier-group">
+          <h4>Attacker Changes</h4>
+          <div class="calc-control-grid stage-grid">
+            ${renderDamageNumberField("attackerAttackStage", "Atk", -6, 6, 1)}
+            ${renderDamageNumberField("attackerSpecialAttackStage", "SpA", -6, 6, 1)}
+            ${renderDamageNumberField("attackerAgilityStage", "Agi", -6, 6, 1)}
+          </div>
+        </div>
+        <div class="modifier-group">
+          <h4>Defender Changes</h4>
+          <div class="calc-control-grid stage-grid">
+            ${renderDamageNumberField("targetDefenseStage", "Def", -6, 6, 1)}
+            ${renderDamageNumberField("targetSpecialDefenseStage", "SpD", -6, 6, 1)}
+            ${renderDamageNumberField("targetAgilityStage", "Agi", -6, 6, 1)}
+          </div>
+        </div>
+        <div class="modifier-group">
+          <h4>Damage</h4>
+          <div class="calc-control-grid field-effect-grid">
+            <label class="calc-check">
+              <input type="checkbox" data-damage-toggle="critical" ${state.damage.critical ? "checked" : ""}>
+              <span>Critical</span>
+            </label>
+            ${renderDamageSelectField("weatherEffect", "Weather", DAMAGE_WEATHER_EFFECTS)}
+            ${renderDamageSelectField("terrainEffect", "Terrain", DAMAGE_TERRAIN_EFFECTS)}
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderDamageNumberField(field, label, min, max, step) {
+  return `
+    <label class="calc-field">
+      <span>${escapeHtml(label)}</span>
+      <input type="number" min="${min}" max="${max}" step="${step}" value="${escapeHtml(state.damage[field])}" data-damage-field="${escapeHtml(field)}">
+    </label>
+  `;
+}
+
+function renderDamageSelectField(field, label, options) {
+  return `
+    <label class="calc-field">
+      <span>${escapeHtml(label)}</span>
+      <select data-damage-field="${escapeHtml(field)}">
+        ${options.map((option) => `
+          <option value="${escapeHtml(option.id)}" ${state.damage[field] === option.id ? "selected" : ""}>${escapeHtml(option.label)}</option>
+        `).join("")}
+      </select>
+    </label>
+  `;
+}
+
+function renderDamageResult(preview) {
+  if (!preview.ready) {
+    return `
+      <section class="subpanel damage-section damage-result-panel">
+        <div class="subpanel-title">
+          <h3>Result</h3>
+          <span>Waiting</span>
+        </div>
+        <div class="empty-state compact">
+          <h2>No calculation</h2>
+          <p>${escapeHtml(preview.warnings[0] || "Missing setup.")}</p>
+        </div>
+      </section>
+    `;
+  }
+
+  const recipientPercent = roundForDisplay(preview.damageRecipientPercent, 1);
+  const koText = preview.finalDamage <= 0
+    ? "0 damage"
+    : preview.finalDamage >= preview.damageRecipientHp
+      ? "KO"
+      : `${Math.ceil((preview.damageRecipientHp - preview.finalDamage) / preview.finalDamage) + 1} hits`;
+  const hpLabel = preview.reflected ? "Attacker HP" : "Target HP";
+  return `
+    <section class="subpanel damage-section damage-result-panel">
+      <div class="subpanel-title">
+        <h3>Result</h3>
+        <span>${escapeHtml(preview.selection.move.displayName)}</span>
+      </div>
+      <div class="damage-summary-grid">
+        <div class="damage-total">
+          <span>Damage</span>
+          <strong>${escapeHtml(preview.finalDamage)}</strong>
+          <small>${escapeHtml(recipientPercent)}% HP</small>
+        </div>
+        <div class="damage-metric">
+          <span>${escapeHtml(hpLabel)}</span>
+          <strong>${escapeHtml(preview.damageRecipientHp)}</strong>
+          <small>${escapeHtml(koText)}</small>
+        </div>
+        <div class="damage-metric">
+          <span>Type</span>
+          <strong>${typePill(preview.moveType)}</strong>
+          <small>${escapeHtml(preview.relation)} ${formatMultiplier(preview.effectivenessMultiplier)}</small>
+        </div>
+        <div class="damage-metric">
+          <span>Hit Chance</span>
+          <strong>${escapeHtml(preview.hitChance.display)}</strong>
+          <small>${escapeHtml(preview.hitChance.detail)}</small>
+        </div>
+        <div class="damage-metric">
+          <span>Crit Chance</span>
+          <strong>${escapeHtml(preview.critChance.display)}</strong>
+          <small>${escapeHtml(preview.critChance.detail)}</small>
+        </div>
+      </div>
+      <div class="damage-trace">
+        ${renderTraceRow("Stats", `${formatStatKey(preview.attackKey)} ${preview.attack} vs ${formatStatKey(preview.defenseKey)} ${preview.defense}`, preview.categorySource)}
+        ${renderTraceRow("Recipient", preview.damageRecipientRole, preview.damageRecipientName)}
+        ${renderTraceRow("Base", roundForDisplay(preview.base.baseDamageFloat, 4), "before multipliers")}
+        ${renderTraceRow("STAB", formatMultiplier(preview.stab), memberHasMoveType(preview.selection.attacker.form, preview.selection.attacker.member, preview.moveType) ? "matched" : "none")}
+        ${renderTraceRow("Critical", preview.critical ? formatMultiplier(preview.criticalStageMultiplier * preview.known.criticalMultiplier) : "x1", preview.critical ? "forced" : "off")}
+        ${renderTraceRow("Crit Chance", preview.critChance.display, preview.critChance.detail)}
+        ${renderTraceRow("Known", formatMultiplier(preview.known.stackMultiplier), renderKnownModifierText(preview.known.notes))}
+        ${renderTraceRow("Weather", formatMultiplier(preview.fieldEffects.weatherMultiplier), preview.fieldEffects.weatherDetail)}
+        ${renderTraceRow("Terrain", formatMultiplier(preview.fieldEffects.terrainMultiplier), preview.fieldEffects.terrainDetail)}
+        ${renderTraceRow("Attribute", preview.attributeEffects.label, preview.attributeEffects.detail)}
+        ${renderTraceRow("Rounding", preview.truncatedBeforeFlat, "trunc after multipliers")}
+      </div>
+      ${renderDamageWarnings(preview)}
+    </section>
+  `;
+}
+
+function renderTraceRow(label, value, detail) {
+  return `
+    <div class="damage-trace-row">
+      <span>${escapeHtml(label)}</span>
+      <strong>${typeof value === "string" && value.includes("<") ? value : escapeHtml(value)}</strong>
+      <small>${typeof detail === "string" && detail.includes("<") ? detail : escapeHtml(detail || "")}</small>
+    </div>
+  `;
+}
+
+function renderKnownModifierText(notes) {
+  if (!notes.length) return "none";
+  return notes.map((note) => `${note.label} ${formatMultiplier(note.multiplier)}`).join("; ");
+}
+
+function renderDamageWarnings(preview) {
+  const warnings = [...preview.warnings];
+  if (preview.reflected) warnings.push("Reflected damage uses the defender's defensive stat, then applies the final damage to the attacker.");
+  if (!warnings.length) return "";
+  return `
+    <div class="warning-list damage-warning-list">
+      ${warnings.map((warning) => `<div>${escapeHtml(warning)}</div>`).join("")}
+    </div>
+  `;
+}
+
+function renderTurnOrderPanel() {
+  const order = predictedTurnOrder();
+  return `
+    <aside class="panel turn-order-panel" aria-label="Predicted turn order">
+      <div class="panel-title">
+        <h2>Turn Order</h2>
+        <span>${order.length} active</span>
+      </div>
+      <div class="turn-order-list">
+        ${order.length ? order.map(renderTurnOrderRow).join("") : `<div class="damage-section-body muted">Import or build parties.</div>`}
+      </div>
+    </aside>
+  `;
+}
+
+function renderTurnOrderRow(entry) {
+  const sideLabel = entry.side === "current" ? "Current" : "Enemy";
+  const notes = [
+    entry.tied ? "tie" : "",
+    entry.lateAction ? "late" : ""
+  ].filter(Boolean).join(", ");
+  return `
+    <div class="turn-order-row ${entry.side}">
+      <strong class="turn-rank">${entry.order}</strong>
+      ${spriteHtml(entry.form, "tiny")}
+      <span class="turn-order-name">
+        <strong>${escapeHtml(entry.form.display)}</strong>
+        <small>${sideLabel} ${entry.slot + 1}${notes ? ` - ${escapeHtml(notes)}` : ""}</small>
+      </span>
+      <span class="turn-agility">Agi ${entry.agility}</span>
+    </div>
+  `;
+}
+
 function renderHeader() {
   const filled = state.team.filter(Boolean).length;
   const isDark = state.theme === "dark";
   return `
     <header class="topbar">
-      <div>
-        <h1>Lumentale Team Builder</h1>
-        <p>${filled}/6 slots filled. BP allocation uses level ${data.rules.allocationLevel}; preview stats use level ${data.rules.battleLevel}.</p>
-      </div>
+      <nav class="app-tabs" aria-label="App sections">
+        <button class="app-tab app-tab-builder ${state.activeTab === "builder" ? "active" : ""}" type="button" data-action="switch-tab" data-tab="builder" aria-current="${state.activeTab === "builder" ? "page" : "false"}">
+          <span class="app-tab-title">Lumentale Team Builder</span>
+          <span class="app-tab-subtitle">${filled}/6 slots filled</span>
+        </button>
+        <button class="app-tab app-tab-calc ${state.activeTab === "damage" ? "active" : ""}" type="button" data-action="switch-tab" data-tab="damage" aria-current="${state.activeTab === "damage" ? "page" : "false"}">
+          <span class="app-tab-title">Damage Calculator</span>
+          <span class="app-tab-subtitle">Individual and Team support</span>
+        </button>
+      </nav>
       <div class="topbar-actions">
         <button class="theme-toggle ${isDark ? "theme-toggle-dark" : ""}" type="button" data-action="toggle-theme" aria-label="Toggle dark mode" aria-pressed="${isDark}">
           <span class="theme-icon theme-icon-sun" aria-hidden="true"></span>
@@ -538,9 +1882,11 @@ function renderParty() {
 
 function renderPartySlot(member, index) {
   const selected = index === state.selectedSlot ? "selected" : "";
+  const active = activeSlotClass(index);
+  const activeTitle = isActiveTeamSlot(index) ? "Active team slot" : "";
   if (!member) {
     return `
-      <div class="party-slot empty ${selected}" data-slot="${index}">
+      <div class="party-slot empty ${selected} ${active}" data-party-side="current" data-slot="${index}" title="${escapeHtml(activeTitle)}">
         <button class="slot-select" data-action="select-slot" data-slot="${index}">
           <span class="slot-index">${index + 1}</span>
           <span>Drop Animon</span>
@@ -553,7 +1899,7 @@ function renderPartySlot(member, index) {
   const moveCount = member.moves.filter(Boolean).length;
   const remaining = remainingBoosts(member);
   return `
-    <div class="party-slot filled ${selected}" draggable="true" data-slot="${index}">
+    <div class="party-slot filled ${selected} ${active}" draggable="true" data-party-side="current" data-slot="${index}" title="${escapeHtml(activeTitle)}">
       <button class="slot-select" data-action="select-slot" data-slot="${index}">
         <span class="slot-index">${index + 1}</span>
         ${spriteHtml(form, "tiny")}
@@ -789,15 +2135,15 @@ function renderStatRow(member, form, stats, key) {
 }
 
 function renderTypeMatchups(form) {
-  const groups = [
-    { label: "Weaknesses", relations: new Set(["WEAKNESS"]) },
-    { label: "Resists", relations: new Set(["RESISTANCE"]) },
-    { label: "Immunities", relations: new Set(["NOEFF"]) },
-    { label: "Reflects", relations: new Set(["REFLECT"]) }
-  ].map((group) => ({
+  const groups = typeDefenseGroups(form, false).map((group) => ({
     ...group,
-    types: (data.defenseTypes || []).filter((type) => group.relations.has(form.defenseRelations?.[type]))
-  })).filter((group) => group.types.length > 0);
+    label: {
+      Weak: "Weaknesses",
+      Resist: "Resists",
+      Immune: "Immunities",
+      Reflect: "Reflects"
+    }[group.label] || group.label
+  }));
 
   if (!groups.length) return "";
 
@@ -819,6 +2165,13 @@ function renderTypeMatchups(form) {
       </div>
     </section>
   `;
+}
+
+function typeDefenseGroups(form, includeEmpty) {
+  return TYPE_DEFENSE_GROUPS.map((group) => ({
+    ...group,
+    types: (data.defenseTypes || []).filter((type) => group.relations.has(form?.defenseRelations?.[type]))
+  })).filter((group) => includeEmpty || group.types.length > 0);
 }
 
 function teamEntries(members = state.team.filter(Boolean)) {
@@ -1031,10 +2384,48 @@ function onClick(event) {
     saveTheme(state.theme);
     applyTheme(state.theme);
     render();
+  } else if (action === "switch-tab") {
+    state.activeTab = actionTarget.dataset.tab === "damage" ? "damage" : "builder";
+    saveState();
+    render();
   } else if (action === "export-team") {
     exportTeam();
   } else if (action === "import-team") {
     importTeam();
+  } else if (action === "select-damage-attacker") {
+    state.damage.attackerSlot = clamp(Math.trunc(finiteNumber(actionTarget.dataset.slot, 0)), 0, 5);
+    const member = state.team[state.damage.attackerSlot];
+    state.damage.moveSlot = effectiveMoveSlot(member, state.damage.moveSlot);
+    saveState();
+    render();
+  } else if (action === "select-damage-target") {
+    state.damage.targetSlot = clamp(Math.trunc(finiteNumber(actionTarget.dataset.slot, 0)), 0, 5);
+    saveState();
+    render();
+  } else if (action === "add-opponent-member") {
+    addOpponentForm(state.damage.opponentAddFormId);
+  } else if (action === "import-opponent-team") {
+    importOpponentTeam();
+  } else if (action === "export-opponent-team") {
+    exportOpponentTeam();
+  } else if (action === "swap-damage-parties") {
+    swapCurrentAndOpponentTeams();
+  } else if (action === "damage-balanced-bp") {
+    updateDamageMember(actionTarget.dataset.side, (member) => {
+      const perStat = Math.floor(data.rules.statBoostBudget / data.rules.statKeys.length);
+      member.statBoosts = Object.fromEntries(data.rules.statKeys.map((key) => [key, perStat]));
+    });
+  } else if (action === "damage-clear-bp") {
+    updateDamageMember(actionTarget.dataset.side, (member) => {
+      member.statBoosts = defaultStats(0);
+    });
+  } else if (action === "clear-opponent-team") {
+    if (confirm("Clear the opposing party?")) {
+      state.opponentTeam = Array(6).fill(null);
+      state.damage.targetSlot = 0;
+      saveState();
+      render();
+    }
   } else if (action === "reset-team") {
     if (confirm("Reset the current team?")) {
       state.team = Array(6).fill(null);
@@ -1076,11 +2467,45 @@ function onChange(event) {
     return;
   }
 
+  if (target.dataset?.damageStatRoll) {
+    updateDamageStatControl(target, "roll", target.dataset.damageSide, target.dataset.damageStatRoll);
+    return;
+  }
+
+  if (target.dataset?.damageStatBoost) {
+    updateDamageStatControl(target, "boost", target.dataset.damageSide, target.dataset.damageStatBoost);
+    return;
+  }
+
+  if (target.dataset?.damageField) {
+    updateDamageField(target.dataset.damageField, target.value);
+    return;
+  }
+
+  if (target.dataset?.damageToggle) {
+    updateDamageField(target.dataset.damageToggle, target.checked);
+    return;
+  }
+
   if (target.dataset?.moveSlot !== undefined) {
     const slot = Number(target.dataset.moveSlot);
     updateSelectedMember((member) => {
       member.moves[slot] = target.value || null;
     });
+    return;
+  }
+
+  if (target.dataset?.action === "change-damage-move") {
+    state.damage.moveSlot = clamp(Math.trunc(finiteNumber(target.value, 0)), 0, 4);
+    saveState();
+    render();
+    return;
+  }
+
+  if (target.dataset?.action === "change-opponent-add-form") {
+    state.damage.opponentAddFormId = indexes.formsById.has(target.value) ? target.value : data.forms[0]?.id || null;
+    saveState();
+    render();
     return;
   }
 
@@ -1119,6 +2544,37 @@ function onChange(event) {
     return;
   }
 
+}
+
+function updateDamageField(field, value) {
+  if (DAMAGE_TOGGLE_FIELDS.has(field)) {
+    state.damage[field] = Boolean(value);
+  } else if (DAMAGE_NUMERIC_FIELDS.has(field)) {
+    state.damage[field] = value;
+  } else if (DAMAGE_SELECT_FIELDS.has(field)) {
+    state.damage[field] = value;
+  }
+  state.damage = sanitizeDamageState(state.damage);
+  saveState();
+  render();
+}
+
+function updateDamageStatControl(target, kind, side, key) {
+  const member = selectedDamageMember(side);
+  if (!member || !data.rules.statKeys.includes(key)) return;
+
+  if (kind === "roll") {
+    member.statRolls[key] = clamp(Number(target.value), data.rules.statRollMin, data.rules.statRollMax);
+  } else {
+    const current = Number(member.statBoosts[key] || 0);
+    const other = totalBoosts(member) - current;
+    const max = Math.min(data.rules.statBoostPerStatCap, data.rules.statBoostBudget - other);
+    member.statBoosts[key] = clamp(Number(target.value), data.rules.statBoostMin, max);
+  }
+
+  trimBoostBudget(member);
+  saveState();
+  render();
 }
 
 function updateSelectedMember(mutator) {
@@ -1186,41 +2642,58 @@ function onDragStart(event) {
     return;
   }
 
-  const partySlot = event.target.closest(".party-slot.filled");
+  const partySlot = event.target.closest(".party-slot.filled, .damage-member-card:not(.empty)");
   if (partySlot) {
-    event.dataTransfer.setData("application/x-lumentale-slot", partySlot.dataset.slot);
+    const payload = {
+      side: normalizePartySide(partySlot.dataset.partySide),
+      slot: clamp(Math.trunc(finiteNumber(partySlot.dataset.slot, 0)), 0, 5)
+    };
+    event.dataTransfer.setData("application/x-lumentale-party-member", JSON.stringify(payload));
+    event.dataTransfer.setData("application/x-lumentale-slot", String(payload.slot));
     event.dataTransfer.effectAllowed = "move";
   }
 }
 
 function onDragOver(event) {
-  if (event.target.closest(".party-slot")) event.preventDefault();
+  if (partyDropTarget(event.target)) event.preventDefault();
 }
 
 function onDrop(event) {
-  const slotElement = event.target.closest(".party-slot");
+  const slotElement = partyDropTarget(event.target);
   if (!slotElement) return;
   event.preventDefault();
 
   const targetSlot = Number(slotElement.dataset.slot);
+  const targetSide = normalizePartySide(slotElement.dataset.partySide);
   const formId = event.dataTransfer.getData("application/x-lumentale-form");
+  const partyPayload = event.dataTransfer.getData("application/x-lumentale-party-member");
   const sourceSlot = event.dataTransfer.getData("application/x-lumentale-slot");
 
   if (formId) {
-    addFormToSlot(formId, targetSlot);
+    addFormToTeamSlot(formId, targetSide, targetSlot);
+  } else if (partyPayload) {
+    try {
+      const source = JSON.parse(partyPayload);
+      movePartyMember(source.side, source.slot, targetSide, targetSlot);
+    } catch {
+    }
   } else if (sourceSlot !== "") {
-    swapSlots(Number(sourceSlot), targetSlot);
+    movePartyMember("current", Number(sourceSlot), targetSide, targetSlot);
   }
 }
 
-function teamPayload() {
+function partyDropTarget(target) {
+  return target.closest?.(".party-slot[data-party-side], .damage-member-card[data-party-side]") || null;
+}
+
+function teamPayload(members = state.team) {
   return {
     format: "lumentale-team-builder",
     version: 1,
     allocationLevel: data.rules.allocationLevel,
     battleLevel: data.rules.battleLevel,
     exportedAtUtc: new Date().toISOString(),
-    team: state.team
+    team: members
   };
 }
 
@@ -1265,11 +2738,11 @@ async function writeClipboardText(text) {
   return false;
 }
 
-async function exportTeam() {
+async function exportTeam(members = state.team, label = "Team") {
   try {
-    const code = encodeTeamCode(teamPayload());
+    const code = encodeTeamCode(teamPayload(members));
     const copied = await writeClipboardText(code);
-    if (copied) alert("Team code copied to clipboard.");
+    if (copied) alert(`${label} code copied to clipboard.`);
   } catch (error) {
     alert(`Export failed: ${error.message}`);
   }
@@ -1281,11 +2754,33 @@ async function importTeam() {
     const parsed = decodeTeamCode(text);
     const importedTeam = Array.isArray(parsed) ? parsed : parsed.team;
     if (!Array.isArray(importedTeam)) throw new Error("No team array found.");
-    state.team = Array.from({ length: 6 }, (_, index) => sanitizeMember(importedTeam[index]));
+    state.team = sanitizeTeamArray(importedTeam);
     state.selectedSlot = 0;
+    state.damage.attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
+    state.damage.moveSlot = effectiveMoveSlot(state.team[state.damage.attackerSlot], state.damage.moveSlot);
     saveState();
     render();
     alert("Team code imported.");
+  } catch (error) {
+    alert(`Import failed: ${error.message}`);
+  }
+}
+
+async function exportOpponentTeam() {
+  await exportTeam(state.opponentTeam, "Opponent party");
+}
+
+async function importOpponentTeam() {
+  try {
+    const text = await readClipboardText();
+    const parsed = decodeTeamCode(text);
+    const importedTeam = Array.isArray(parsed) ? parsed : parsed.team;
+    if (!Array.isArray(importedTeam)) throw new Error("No team array found.");
+    state.opponentTeam = sanitizeTeamArray(importedTeam);
+    state.damage.targetSlot = effectiveFilledSlot(state.opponentTeam, state.damage.targetSlot);
+    saveState();
+    render();
+    alert("Opponent party code imported.");
   } catch (error) {
     alert(`Import failed: ${error.message}`);
   }
