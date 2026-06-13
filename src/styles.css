@@ -901,6 +901,36 @@ button {
   text-align: right;
 }
 
+.team-manager {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.team-manager-field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.team-manager-field span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.team-manager-field select,
+.team-manager-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 7px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--field);
+  color: var(--text);
+}
+
 .party-grid {
   display: grid;
   grid-template-rows: repeat(6, minmax(74px, 1fr));

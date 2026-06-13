@@ -114,6 +114,7 @@ const LEGENDARY_DEX_RANGE = { min: 124, max: 136, label: "#124-136" };
 const COMMUNITY_BANNED_ANIMON = new Set(["Kentaress", "Primalong", "Weaphoon", "Zenicore"].map(normalize));
 const COMMUNITY_BANNED_ITEMS = new Set(["Silhouchain"].map(normalize));
 const ACTIVE_PARTY_SLOT_COUNT = 4;
+const SAVED_TEAM_COUNT = 10;
 const TYPE_ICONS = {
   NONE: "-",
   AURA: "Au",
@@ -143,8 +144,11 @@ let state = {
   activeTab: "builder",
   search: "",
   selectedSlot: 0,
+  activeTeamSlot: 0,
+  activeOpponentTeamSlot: 0,
   theme: "light",
   team: Array(6).fill(null),
+  savedTeams: [],
   opponentTeam: Array(6).fill(null),
   damage: defaultDamageState()
 };
@@ -277,13 +281,94 @@ function loadState() {
 }
 
 function saveState() {
+  syncActiveSavedTeam();
+  syncActiveOpponentSharedTeam();
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     activeTab: state.activeTab,
     selectedSlot: state.selectedSlot,
+    activeTeamSlot: state.activeTeamSlot,
+    activeOpponentTeamSlot: state.activeOpponentTeamSlot,
     team: state.team,
+    savedTeams: state.savedTeams,
     opponentTeam: state.opponentTeam,
     damage: state.damage
   }));
+}
+
+function syncActiveSavedTeam() {
+  state.activeTeamSlot = clamp(Math.trunc(finiteNumber(state.activeTeamSlot, 0)), 0, SAVED_TEAM_COUNT - 1);
+  state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
+  const active = state.savedTeams[state.activeTeamSlot];
+  state.savedTeams[state.activeTeamSlot] = {
+    name: sanitizeTeamName(active?.name, state.activeTeamSlot),
+    team: sanitizeTeamArray(state.team)
+  };
+}
+
+function syncActiveOpponentSharedTeam() {
+  state.activeOpponentTeamSlot = clamp(Math.trunc(finiteNumber(state.activeOpponentTeamSlot, 0)), 0, SAVED_TEAM_COUNT - 1);
+  state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
+  if (state.activeOpponentTeamSlot === state.activeTeamSlot) {
+    state.opponentTeam = sanitizeTeamArray(state.team);
+    return;
+  }
+
+  const active = state.savedTeams[state.activeOpponentTeamSlot];
+  state.savedTeams[state.activeOpponentTeamSlot] = {
+    name: sanitizeTeamName(active?.name, state.activeOpponentTeamSlot),
+    team: sanitizeTeamArray(state.opponentTeam)
+  };
+}
+
+function savedTeamOptionLabel(slot, index) {
+  return `${index + 1}. ${sanitizeTeamName(slot?.name, index)} (${(slot?.team || []).filter(Boolean).length}/6)`;
+}
+
+function switchSavedTeam(slot) {
+  const nextSlot = clamp(Math.trunc(finiteNumber(slot, 0)), 0, SAVED_TEAM_COUNT - 1);
+  if (nextSlot === state.activeTeamSlot) return;
+
+  syncActiveSavedTeam();
+  state.activeTeamSlot = nextSlot;
+  state.team = sanitizeTeamArray(state.savedTeams[nextSlot]?.team);
+  if (state.activeOpponentTeamSlot === nextSlot) state.opponentTeam = sanitizeTeamArray(state.team);
+  state.selectedSlot = effectiveFilledSlot(state.team, state.selectedSlot);
+  state.damage.attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
+  state.damage.moveSlot = effectiveMoveSlot(state.team[state.damage.attackerSlot], state.damage.moveSlot);
+  saveState();
+  render();
+}
+
+function switchOpponentSavedTeam(slot) {
+  const nextSlot = clamp(Math.trunc(finiteNumber(slot, 0)), 0, SAVED_TEAM_COUNT - 1);
+  if (nextSlot === state.activeOpponentTeamSlot) return;
+
+  syncActiveSavedTeam();
+  syncActiveOpponentSharedTeam();
+  state.activeOpponentTeamSlot = nextSlot;
+  state.opponentTeam = sanitizeTeamArray(nextSlot === state.activeTeamSlot ? state.team : state.savedTeams[nextSlot]?.team);
+  state.damage.targetSlot = effectiveFilledSlot(state.opponentTeam, state.damage.targetSlot);
+  saveState();
+  render();
+}
+
+function renameSavedTeam(name) {
+  state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
+  state.savedTeams[state.activeTeamSlot].name = String(name ?? "").slice(0, 48);
+  saveState();
+  const option = document.querySelector(`[data-action="change-team-slot"] option[value="${state.activeTeamSlot}"]`);
+  if (option) option.textContent = savedTeamOptionLabel(state.savedTeams[state.activeTeamSlot], state.activeTeamSlot);
+}
+
+function renameOpponentSavedTeam(name) {
+  state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
+  state.savedTeams[state.activeOpponentTeamSlot].name = String(name ?? "").slice(0, 48);
+  saveState();
+  document
+    .querySelectorAll(`[data-action="change-team-slot"] option[value="${state.activeOpponentTeamSlot}"], [data-action="change-opponent-team-slot"] option[value="${state.activeOpponentTeamSlot}"]`)
+    .forEach((option) => {
+      option.textContent = savedTeamOptionLabel(state.savedTeams[state.activeOpponentTeamSlot], state.activeOpponentTeamSlot);
+    });
 }
 
 function loadTheme() {
@@ -309,13 +394,39 @@ function applyTheme(theme) {
 function sanitizeState() {
   state.activeTab = state.activeTab === "damage" ? "damage" : "builder";
   state.selectedSlot = clamp(Number(state.selectedSlot || 0), 0, 5);
-  state.team = sanitizeTeamArray(state.team);
-  state.opponentTeam = sanitizeTeamArray(state.opponentTeam);
+  state.activeTeamSlot = clamp(Math.trunc(finiteNumber(state.activeTeamSlot, 0)), 0, SAVED_TEAM_COUNT - 1);
+  state.activeOpponentTeamSlot = clamp(Math.trunc(finiteNumber(state.activeOpponentTeamSlot, 0)), 0, SAVED_TEAM_COUNT - 1);
+  const loadedTeam = sanitizeTeamArray(state.team);
+  state.savedTeams = sanitizeSavedTeams(state.savedTeams, loadedTeam);
+  state.team = sanitizeTeamArray(state.savedTeams[state.activeTeamSlot]?.team);
+  state.opponentTeam = sanitizeTeamArray(state.activeOpponentTeamSlot === state.activeTeamSlot
+    ? state.team
+    : state.savedTeams[state.activeOpponentTeamSlot]?.team);
   state.damage = sanitizeDamageState(state.damage);
+  state.damage.attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
+  state.damage.moveSlot = effectiveMoveSlot(state.team[state.damage.attackerSlot], state.damage.moveSlot);
+  state.damage.targetSlot = effectiveFilledSlot(state.opponentTeam, state.damage.targetSlot);
 }
 
 function sanitizeTeamArray(team) {
   return Array.from({ length: 6 }, (_, index) => sanitizeMember(team?.[index]));
+}
+
+function sanitizeTeamName(value, index) {
+  const name = String(value ?? "").trim();
+  return name || `Team ${index + 1}`;
+}
+
+function sanitizeSavedTeams(savedTeams, fallbackTeam = Array(6).fill(null)) {
+  const slots = Array.isArray(savedTeams) ? savedTeams : [];
+  return Array.from({ length: SAVED_TEAM_COUNT }, (_, index) => {
+    const slot = slots[index] || {};
+    const team = Array.isArray(slot.team) ? slot.team : (index === 0 ? fallbackTeam : null);
+    return {
+      name: sanitizeTeamName(slot.name, index),
+      team: sanitizeTeamArray(team)
+    };
+  });
 }
 
 function sanitizeDamageState(damage) {
@@ -1408,13 +1519,24 @@ function renderDamageCalculator() {
 
 function renderDamagePartyPanel({ title, side, team, selectedSlot, action }) {
   const filled = team.filter(Boolean).length;
+  const isOpponent = side === "opponent";
+  const savedTeams = state.savedTeams;
+  const activeSlot = isOpponent ? state.activeOpponentTeamSlot : state.activeTeamSlot;
+  const activeTeam = savedTeams[activeSlot] || { name: `Team ${activeSlot + 1}`, team };
   return `
     <section class="panel damage-party-panel damage-${escapeHtml(side)}-panel" aria-label="${escapeHtml(title)}">
       <div class="panel-title">
         <h2>${escapeHtml(title)}</h2>
         <span>${filled}/6</span>
       </div>
-      ${side === "opponent" ? `
+      ${renderTeamManager({
+        activeTeam,
+        activeSlot,
+        savedTeams,
+        selectAction: isOpponent ? "change-opponent-team-slot" : "change-team-slot",
+        renameAction: isOpponent ? "rename-opponent-team" : "rename-team"
+      })}
+      ${isOpponent ? `
         <div class="damage-panel-actions">
           <button class="command small" type="button" data-action="add-opponent-member">Add</button>
           <button class="command small" type="button" data-action="import-opponent-team">Import</button>
@@ -1881,16 +2003,43 @@ function renderDexEntry(form) {
 }
 
 function renderParty() {
+  const activeTeam = state.savedTeams[state.activeTeamSlot] || { name: `Team ${state.activeTeamSlot + 1}`, team: state.team };
   return `
     <section class="panel party-panel" aria-label="Party">
       <div class="panel-title">
         <h2>Party</h2>
         <span>6 slots</span>
       </div>
+      ${renderTeamManager({
+        activeTeam,
+        activeSlot: state.activeTeamSlot,
+        savedTeams: state.savedTeams,
+        selectAction: "change-team-slot",
+        renameAction: "rename-team"
+      })}
       <div class="party-grid">
         ${state.team.map((member, index) => renderPartySlot(member, index)).join("")}
       </div>
     </section>
+  `;
+}
+
+function renderTeamManager({ activeTeam, activeSlot, savedTeams, selectAction, renameAction }) {
+  return `
+    <div class="team-manager">
+      <label class="team-manager-field">
+        <span>Team Slot</span>
+        <select data-action="${escapeHtml(selectAction)}">
+          ${savedTeams.map((slot, index) => `
+            <option value="${index}" ${index === activeSlot ? "selected" : ""}>${escapeHtml(savedTeamOptionLabel(slot, index))}</option>
+          `).join("")}
+        </select>
+      </label>
+      <label class="team-manager-field">
+        <span>Team Name</span>
+        <input type="text" value="${escapeHtml(activeTeam.name)}" maxlength="48" data-action="${escapeHtml(renameAction)}" autocomplete="off">
+      </label>
+    </div>
   `;
 }
 
@@ -2491,6 +2640,16 @@ function onInput(event) {
     return;
   }
 
+  if (target.dataset?.action === "rename-team") {
+    renameSavedTeam(target.value);
+    return;
+  }
+
+  if (target.dataset?.action === "rename-opponent-team") {
+    renameOpponentSavedTeam(target.value);
+    return;
+  }
+
   const rollKey = target.dataset?.statRoll;
   const boostKey = target.dataset?.statBoost;
   if (rollKey) {
@@ -2546,6 +2705,16 @@ function onChange(event) {
     state.damage.opponentAddFormId = indexes.formsById.has(target.value) ? target.value : data.forms[0]?.id || null;
     saveState();
     render();
+    return;
+  }
+
+  if (target.dataset?.action === "change-team-slot") {
+    switchSavedTeam(target.value);
+    return;
+  }
+
+  if (target.dataset?.action === "change-opponent-team-slot") {
+    switchOpponentSavedTeam(target.value);
     return;
   }
 
