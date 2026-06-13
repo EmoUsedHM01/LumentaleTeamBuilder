@@ -707,17 +707,7 @@ function formSearchText(form) {
   const parts = [form.search];
   for (const quirk of form.possibleQuirks || []) {
     const detail = indexes.abilitiesById.get(quirk.id);
-    parts.push(
-      quirk.id,
-      quirk.internalName,
-      quirk.displayName,
-      quirk.isHidden ? "hidden quirk hidden ability" : "",
-      detail?.id,
-      detail?.internalName,
-      detail?.displayName,
-      detail?.description,
-      detail?.effectDetails
-    );
+    parts.push(quirk.displayName, detail?.displayName);
   }
 
   const searchText = normalize(parts.filter(Boolean).join(" "));
