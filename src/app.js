@@ -78,6 +78,7 @@ const DAMAGE_STATE_DEFAULTS = Object.freeze({
   targetSlot: 0,
   moveSlot: 0,
   critical: false,
+  forceElementalWeakness: false,
   attackerSynchronized: false,
   attackerAttributeActive: false,
   attackerAttackStage: 0,
@@ -104,6 +105,7 @@ const DAMAGE_SELECT_FIELDS = new Set([
 ]);
 const DAMAGE_TOGGLE_FIELDS = new Set([
   "critical",
+  "forceElementalWeakness",
   "attackerSynchronized",
   "attackerAttributeActive"
 ]);
@@ -323,6 +325,7 @@ function sanitizeDamageState(damage) {
     targetSlot: clamp(Math.trunc(finiteNumber(next.targetSlot, 0)), 0, 5),
     moveSlot: clamp(Math.trunc(finiteNumber(next.moveSlot, 0)), 0, 4),
     critical: Boolean(next.critical),
+    forceElementalWeakness: Boolean(next.forceElementalWeakness),
     attackerSynchronized: Boolean(next.attackerSynchronized),
     attackerAttributeActive: Boolean(next.attackerAttributeActive),
     attackerAttackStage: clamp(Math.trunc(finiteNumber(next.attackerAttackStage, 0)), -6, 6),
@@ -1178,9 +1181,11 @@ function calculateDamagePreview() {
 
   const effectiveType = effectiveMoveTypeForDamage(attacker, move);
   warnings.push(...effectiveType.notes);
-  const relation = relationForDamage(effectiveType.type, target.form);
+  const naturalRelation = relationForDamage(effectiveType.type, target.form);
+  const forcedWeakness = Boolean(state.damage.forceElementalWeakness);
+  const relation = forcedWeakness ? "WEAKNESS" : naturalRelation;
   const effectivenessMultiplier = RELATION_MULTIPLIERS[relation] ?? 1;
-  const reflected = relation === "REFLECT";
+  const reflected = !forcedWeakness && relation === "REFLECT";
   const { attackKey, defenseKey, source } = damageStatKeys(move);
   const attackStage = attackKey === "atk" ? state.damage.attackerAttackStage : state.damage.attackerSpecialAttackStage;
   const defenseStage = defenseKey === "def" ? state.damage.targetDefenseStage : state.damage.targetSpecialDefenseStage;
@@ -1234,6 +1239,8 @@ function calculateDamagePreview() {
     selection,
     moveType: effectiveType.type,
     relation,
+    naturalRelation,
+    forcedWeakness,
     reflected,
     effectivenessMultiplier,
     isSuperEffective,
@@ -1643,6 +1650,10 @@ function renderDamageBattleControls() {
               <input type="checkbox" data-damage-toggle="critical" ${state.damage.critical ? "checked" : ""}>
               <span>Critical</span>
             </label>
+            <label class="calc-check">
+              <input type="checkbox" data-damage-toggle="forceElementalWeakness" ${state.damage.forceElementalWeakness ? "checked" : ""}>
+              <span>Weakness</span>
+            </label>
             ${renderDamageSelectField("weatherEffect", "Weather", DAMAGE_WEATHER_EFFECTS)}
             ${renderDamageSelectField("terrainEffect", "Terrain", DAMAGE_TERRAIN_EFFECTS)}
           </div>
@@ -1717,7 +1728,7 @@ function renderDamageResult(preview) {
         <div class="damage-metric">
           <span>Type</span>
           <strong>${typePill(preview.moveType)}</strong>
-          <small>${escapeHtml(preview.relation)} ${formatMultiplier(preview.effectivenessMultiplier)}</small>
+          <small>${escapeHtml(preview.relation)} ${formatMultiplier(preview.effectivenessMultiplier)}${preview.forcedWeakness ? `; natural ${escapeHtml(preview.naturalRelation)}` : ""}</small>
         </div>
         <div class="damage-metric">
           <span>Hit Chance</span>
@@ -1734,6 +1745,7 @@ function renderDamageResult(preview) {
         ${renderTraceRow("Stats", `${formatStatKey(preview.attackKey)} ${preview.attack} vs ${formatStatKey(preview.defenseKey)} ${preview.defense}`, preview.categorySource)}
         ${renderTraceRow("Recipient", preview.damageRecipientRole, preview.damageRecipientName)}
         ${renderTraceRow("Base", roundForDisplay(preview.base.baseDamageFloat, 4), "before multipliers")}
+        ${renderTraceRow("Type", formatMultiplier(preview.effectivenessMultiplier), preview.forcedWeakness ? `forced weakness; natural ${preview.naturalRelation}` : preview.relation)}
         ${renderTraceRow("STAB", formatMultiplier(preview.stab), memberHasMoveType(preview.selection.attacker.form, preview.selection.attacker.member, preview.moveType) ? "matched" : "none")}
         ${renderTraceRow("Critical", preview.critical ? formatMultiplier(preview.criticalStageMultiplier * preview.known.criticalMultiplier) : "x1", preview.critical ? "forced" : "off")}
         ${renderTraceRow("Crit Chance", preview.critChance.display, preview.critChance.detail)}

@@ -606,7 +606,7 @@ button {
 }
 
 .field-effect-grid {
-  grid-template-columns: minmax(90px, 0.55fr) repeat(2, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, minmax(88px, 0.55fr)) repeat(2, minmax(132px, 1fr));
 }
 
 .attacker-state-grid {
