@@ -32,7 +32,7 @@ The builder stores level-100 BP allocation and previews level-50 battle stats fo
 
 Completed-team usage is stored in Supabase. GitHub Pages submits with the public anon key; Row Level Security allows anonymous inserts only.
 
-Create this table and policies in the Supabase SQL Editor. The same SQL is also available at `tools/supabase-team-snapshots.sql`.
+Here's the table and policies in the Supabase SQL Editor. The same SQL is also available at `tools/supabase-team-snapshots.sql`.
 
 ```sql
 create table if not exists public.team_snapshots (
@@ -66,7 +66,7 @@ with check (
 );
 ```
 
-Then set the Supabase project URL and public anon key in `index.html`:
+Supabase project URL and public anon key in `index.html`:
 
 ```html
 <meta name="lumentale-community-usage-supabase-url" content="https://your-project-ref.supabase.co">
