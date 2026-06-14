@@ -3,6 +3,13 @@ const STORAGE_KEY = "lumentale-team-builder:v1";
 const THEME_STORAGE_KEY = "lumentale-team-builder:theme";
 const TEAM_CODE_PREFIX = "LUMENTALE-TEAM:";
 const ANIMON_CODE_PREFIX = "LUMENTALE-ANIMON:";
+const COMMUNITY_USAGE_SUPABASE_URL_META = "lumentale-community-usage-supabase-url";
+const COMMUNITY_USAGE_SUPABASE_ANON_KEY_META = "lumentale-community-usage-supabase-anon-key";
+const COMMUNITY_USAGE_TABLE_META = "lumentale-community-usage-table";
+const COMMUNITY_USAGE_DEFAULT_TABLE = "team_snapshots";
+const COMMUNITY_USAGE_STORAGE_KEY = "lumentale-team-builder:community-usage:v1";
+const COMMUNITY_USAGE_FORMAT = "lumentale-community-team-snapshot";
+const COMMUNITY_USAGE_SUBMITTED_LIMIT = 500;
 const DAMAGING_CATEGORIES = new Set(["PHYSICAL", "SPECIAL"]);
 const RELATION_MULTIPLIERS = {
   WEAKNESS: 1.5,
@@ -63,6 +70,7 @@ const DAMAGE_CONSTANTS = {
   sereumCritChanceFlat: 33.33333,
   furorTraitMultiplier: 1.314159,
   furorSynchronizedTraitMultiplier: 1.6,
+  mestusTraitHpFraction: 0.05,
   superEffectiveThreshold: 1.5,
   criticalBaseMultiplier: 1.7999999523162842
 };
@@ -146,6 +154,11 @@ let formSearchCache = new Map();
 let undoHistory = {
   builder: [],
   damage: []
+};
+let communityUsageRequest = {
+  hash: null,
+  pending: false,
+  error: null
 };
 let activeUndoInputKey = null;
 let isRestoringUndo = false;
@@ -1191,7 +1204,8 @@ function attackerTraitState(attacker) {
   const attributeActive = Boolean(state.damage.attackerAttributeActive);
   const synchronized = Boolean(state.damage.attackerSynchronized);
   const active = ATTRIBUTE_TRAIT_TYPES.has(attribute) && attributeActive;
-  const cromacartaBuff = attributeActive && attacker?.heldItem?.battleEffectClass === "CromacartaEffect"
+  const attributeItemActive = attributeActive && attacker?.heldItem?.battleEffectClass === "CromacartaEffect";
+  const cromacartaBuff = attributeItemActive
     ? Number(CROMACARTA_TRAIT_FLAT_BUFFS[attribute] || 0)
     : 0;
   return {
@@ -1199,7 +1213,8 @@ function attackerTraitState(attacker) {
     active,
     attributeActive,
     synchronized,
-    flatBuff: active ? cromacartaBuff : 0
+    flatBuff: active ? cromacartaBuff : 0,
+    itemBuffName: attributeItemActive ? attacker.heldItem.displayName || "Chromacatcher" : null
   };
 }
 
@@ -1208,16 +1223,18 @@ function describeTraitState(trait) {
   const sources = [];
   if (trait.attributeActive) sources.push("activation");
   if (trait.synchronized) sources.push("sync");
-  if (trait.flatBuff) sources.push(`Cromacarta +${roundForDisplay(trait.flatBuff, 2)}`);
+  if (trait.flatBuff) sources.push(`${trait.itemBuffName || "Chromacatcher"} +${roundForDisplay(trait.flatBuff, 2)}`);
   return sources.join("; ");
 }
 
-function attributeDamageEffects(attacker, damageFloat) {
+function attributeDamageEffects(attacker, target, damageFloat) {
   const trait = attackerTraitState(attacker);
   const result = {
     trait,
     damageFloat,
     damageMultiplier: 1,
+    flatDamage: 0,
+    hpFraction: 0,
     label: trait.active ? typePill(trait.attribute) : "off",
     detail: describeTraitState(trait),
     warnings: []
@@ -1237,6 +1254,17 @@ function attributeDamageEffects(attacker, damageFloat) {
     result.detail = `crit chance only (${describeTraitState(trait)})`;
   } else if (trait.attribute === "FELICIS") {
     result.detail = `no direct damage change (${describeTraitState(trait)})`;
+  } else if (trait.attribute === "MESTUS") {
+    const baseFraction = DAMAGE_CONSTANTS.mestusTraitHpFraction;
+    const syncFraction = trait.synchronized ? DAMAGE_CONSTANTS.mestusTraitHpFraction : 0;
+    const itemFraction = Number(trait.flatBuff || 0);
+    const hpFraction = f32(f32(baseFraction + syncFraction) + itemFraction);
+    const targetHp = Number(target?.stats?.hp || 0);
+    const flatDamage = f32(targetHp * hpFraction);
+    result.hpFraction = hpFraction;
+    result.flatDamage = flatDamage;
+    result.damageFloat = f32(damageFloat + flatDamage);
+    result.detail = `${roundForDisplay(hpFraction * 100, 1)}% target max HP (+${roundForDisplay(flatDamage, 2)} damage; ${describeTraitState(trait)})`;
   } else {
     result.detail = `pending direct damage branch (${describeTraitState(trait)})`;
     result.warnings.push(`${trait.attribute} Attribute activation is selected, but that direct damage branch is not fully decoded yet.`);
@@ -1468,7 +1496,7 @@ function calculateDamagePreview() {
   const afterCrit = f32(effectivenessTimesStab * criticalCombined);
   const afterStack = f32(afterCrit * stackMultiplier);
   const afterBaseDamage = f32(afterStack * base.nativeFloat);
-  const attributeEffects = attributeDamageEffects(attacker, afterBaseDamage);
+  const attributeEffects = attributeDamageEffects(attacker, target, afterBaseDamage);
   warnings.push(...attributeEffects.warnings);
   const truncatedBeforeFlat = truncTowardZero(attributeEffects.damageFloat);
   const finalDamage = truncatedBeforeFlat;
@@ -1610,6 +1638,7 @@ function render(options = {}) {
       if (dexList) dexList.scrollTop = dexScrollTop;
     });
   }
+  maybeSubmitCommunityUsage();
 }
 
 function renderTeamBuilder() {
@@ -2007,7 +2036,7 @@ function renderDamageResult(preview) {
         ${renderTraceRow("Weather", formatMultiplier(preview.fieldEffects.weatherMultiplier), preview.fieldEffects.weatherDetail)}
         ${renderTraceRow("Terrain", formatMultiplier(preview.fieldEffects.terrainMultiplier), preview.fieldEffects.terrainDetail)}
         ${renderTraceRow("Attribute", preview.attributeEffects.label, preview.attributeEffects.detail)}
-        ${renderTraceRow("Rounding", preview.truncatedBeforeFlat, "trunc after multipliers")}
+        ${renderTraceRow("Rounding", preview.truncatedBeforeFlat, "trunc after attribute effects")}
       </div>
       ${renderDamageWarnings(preview)}
     </section>
@@ -2480,6 +2509,30 @@ function teamEntries(members = state.team.filter(Boolean)) {
     .filter((entry) => entry.form);
 }
 
+function pluralize(count, singular, plural = `${singular}s`) {
+  return count === 1 ? singular : plural;
+}
+
+function buildTeamShellWarnings(team = state.team) {
+  const warnings = [];
+  const members = (team || []).filter(Boolean);
+  const missingSlots = Math.max(0, 6 - members.length);
+
+  if (missingSlots > 0) {
+    warnings.push(`${missingSlots} open party ${pluralize(missingSlots, "slot")}`);
+  }
+
+  for (const [index, member] of (team || []).entries()) {
+    if (!member) continue;
+    const form = indexes.formsById.get(member.formId);
+    if (remainingBoosts(member) > 0) warnings.push(`Slot ${index + 1}: ${remainingBoosts(member)} BP unspent`);
+    if (member.moves.filter(Boolean).length < 5) warnings.push(`Slot ${index + 1}: open move slot`);
+    if (!form || (data.learnsets[form.id] || []).length === 0) warnings.push(`Slot ${index + 1}: no source learnset`);
+  }
+
+  return warnings;
+}
+
 function entryListLabel(entries) {
   return entries.map(({ form }) => form.display).join(", ");
 }
@@ -2559,12 +2612,324 @@ function renderRuleViolations(violations) {
   `;
 }
 
+function orderedStats(stats) {
+  return Object.fromEntries(data.rules.statKeys.map((key) => [key, Number(stats?.[key] || 0)]));
+}
+
+function communityUsageMoveSnapshot(moveId) {
+  const move = indexes.movesById.get(moveId);
+  if (!move) return { id: moveId, name: moveId };
+  return {
+    id: move.id,
+    name: move.displayName || move.name || move.internalName || move.id,
+    type: move.type || null,
+    category: move.category || null,
+    power: Number.isFinite(Number(move.power)) ? Number(move.power) : null,
+    target: move.target || move.aoeType || move.aoe || null
+  };
+}
+
+function communityUsageImportPayload(team = state.team) {
+  return {
+    format: "lumentale-team-builder",
+    version: 1,
+    allocationLevel: data.rules.allocationLevel,
+    battleLevel: data.rules.battleLevel,
+    team: (team || []).map((member) => member ? {
+      formId: member.formId,
+      allocationLevel: data.rules.allocationLevel,
+      battleLevel: data.rules.battleLevel,
+      statRolls: orderedStats(member.statRolls),
+      statBoosts: orderedStats(member.statBoosts),
+      luck: Number(member.luck || 0),
+      abilityId: member.abilityId || null,
+      heldItemId: member.heldItemId || null,
+      hiddenType: member.hiddenType || null,
+      moves: Array.from({ length: 5 }, (_, index) => member.moves?.[index] || null)
+    } : null)
+  };
+}
+
+function buildCommunityUsageSnapshotBase(team = state.team) {
+  const members = (team || []).map((member, index) => {
+    if (!member) return null;
+    const form = indexes.formsById.get(member.formId);
+    if (!form) return null;
+    const ability = member.abilityId ? indexes.abilitiesById.get(member.abilityId) : null;
+    const item = member.heldItemId ? indexes.heldItemsById.get(member.heldItemId) : null;
+    return {
+      slot: index + 1,
+      formId: member.formId,
+      display: form.display,
+      animonName: form.animonName || form.name || form.display,
+      formName: form.form || "Base Form",
+      dexIndex: Number(form.dexIndex || 0),
+      types: {
+        attribute: form.types?.attribute || null,
+        main: form.types?.main || null,
+        hidden: member.hiddenType || null
+      },
+      ability: ability ? {
+        id: ability.id,
+        name: ability.displayName || ability.name || ability.id
+      } : null,
+      heldItem: item ? {
+        id: item.id,
+        name: item.displayName || item.internalName || item.id
+      } : null,
+      moves: Array.from({ length: 5 }, (_, moveIndex) => member.moves?.[moveIndex] || null).map(communityUsageMoveSnapshot),
+      statRolls: orderedStats(member.statRolls),
+      statBoosts: orderedStats(member.statBoosts)
+    };
+  }).filter(Boolean);
+
+  return {
+    format: COMMUNITY_USAGE_FORMAT,
+    version: 1,
+    allocationLevel: data.rules.allocationLevel,
+    battleLevel: data.rules.battleLevel,
+    teamName: sanitizeTeamName(state.savedTeams?.[state.activeTeamSlot]?.name, state.activeTeamSlot),
+    members,
+    ruleViolations: buildRuleViolations((team || []).filter(Boolean)),
+    summary: {
+      forms: members.map((member) => member.formId),
+      animon: members.map((member) => member.animonName),
+      abilities: members.map((member) => member.ability?.id || null),
+      heldItems: members.map((member) => member.heldItem?.id || null),
+      moves: members.flatMap((member) => member.moves.map((move) => move.id))
+    }
+  };
+}
+
+function stableStringify(value) {
+  if (value === undefined) return "null";
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`).join(",")}}`;
+}
+
+function hashString(value) {
+  let h1 = 0xdeadbeef ^ value.length;
+  let h2 = 0x41c6ce57 ^ value.length;
+  for (let index = 0; index < value.length; index += 1) {
+    const ch = value.charCodeAt(index);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return `${(h2 >>> 0).toString(16).padStart(8, "0")}${(h1 >>> 0).toString(16).padStart(8, "0")}`;
+}
+
+function communityUsageSnapshotHash(baseSnapshot) {
+  return hashString(stableStringify(baseSnapshot));
+}
+
+function metaContent(name) {
+  return document.querySelector(`meta[name="${name}"]`)?.getAttribute("content")?.trim() || "";
+}
+
+function communityUsageSupabaseConfig() {
+  return {
+    url: metaContent(COMMUNITY_USAGE_SUPABASE_URL_META).replace(/\/+$/, "").replace(/\/rest\/v1$/i, ""),
+    anonKey: metaContent(COMMUNITY_USAGE_SUPABASE_ANON_KEY_META),
+    table: metaContent(COMMUNITY_USAGE_TABLE_META) || COMMUNITY_USAGE_DEFAULT_TABLE
+  };
+}
+
+function hasCommunityUsageDatabaseConfig() {
+  const config = communityUsageSupabaseConfig();
+  return Boolean(config.url && config.anonKey && config.table);
+}
+
+function communityUsageSupabaseHeaders(key) {
+  const headers = {
+    "Content-Type": "application/json",
+    "apikey": key,
+    "Prefer": "return=minimal"
+  };
+  if (String(key || "").startsWith("eyJ")) headers.Authorization = `Bearer ${key}`;
+  return headers;
+}
+
+function loadCommunityUsageStore() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(COMMUNITY_USAGE_STORAGE_KEY) || "{}");
+    return {
+      submittedHashes: Array.isArray(parsed.submittedHashes)
+        ? parsed.submittedHashes.filter(Boolean).slice(-COMMUNITY_USAGE_SUBMITTED_LIMIT)
+        : []
+    };
+  } catch {
+    return { submittedHashes: [] };
+  }
+}
+
+function saveCommunityUsageStore(store) {
+  try {
+    localStorage.setItem(COMMUNITY_USAGE_STORAGE_KEY, JSON.stringify({
+      submittedHashes: (store.submittedHashes || []).slice(-COMMUNITY_USAGE_SUBMITTED_LIMIT)
+    }));
+  } catch {
+  }
+}
+
+function communityUsageSubmitted(hash) {
+  return loadCommunityUsageStore().submittedHashes.includes(hash);
+}
+
+function markCommunityUsageSubmitted(hash) {
+  const store = loadCommunityUsageStore();
+  if (!store.submittedHashes.includes(hash)) store.submittedHashes.push(hash);
+  saveCommunityUsageStore(store);
+}
+
+function communityUsageStatusDetails(warnings = buildTeamShellWarnings(state.team)) {
+  if (warnings.length) {
+    return {
+      kind: "pending",
+      title: "Not ready",
+      message: "Fill 6 slots, 5 moves each, and spend all BP to queue usage."
+    };
+  }
+
+  const baseSnapshot = buildCommunityUsageSnapshotBase();
+  const hash = communityUsageSnapshotHash(baseSnapshot);
+  if (communityUsageSubmitted(hash)) {
+    return {
+      kind: "ok",
+      title: "Snapshot saved",
+      message: `Usage hash ${hash.slice(0, 8)} already recorded from this browser.`
+    };
+  }
+
+  if (communityUsageRequest.pending && communityUsageRequest.hash === hash) {
+    return {
+      kind: "saving",
+      title: "Saving snapshot",
+      message: "Sending completed team usage now."
+    };
+  }
+
+  if (communityUsageRequest.error && communityUsageRequest.hash === hash) {
+    return {
+      kind: "error",
+      title: "Snapshot failed",
+      message: communityUsageRequest.error
+    };
+  }
+
+  if (!hasCommunityUsageDatabaseConfig()) {
+    return {
+      kind: "blocked",
+      title: "Snapshot ready",
+      message: "Supabase database not configured yet."
+    };
+  }
+
+  return {
+    kind: "ready",
+    title: "Snapshot ready",
+    message: "Completed team usage will save automatically."
+  };
+}
+
+function renderCommunityUsageStatus(warnings) {
+  const status = communityUsageStatusDetails(warnings);
+  return `
+    <section class="coverage-section community-usage-section">
+      <h3>Community Usage</h3>
+      <div class="community-usage-status community-usage-${escapeHtml(status.kind)}" data-community-usage-status>
+        <strong>${escapeHtml(status.title)}</strong>
+        <span>${escapeHtml(status.message)}</span>
+      </div>
+    </section>
+  `;
+}
+
+function updateCommunityUsageStatusElement() {
+  const element = document.querySelector("[data-community-usage-status]");
+  if (!element) return;
+  const status = communityUsageStatusDetails();
+  element.className = `community-usage-status community-usage-${status.kind}`;
+  element.innerHTML = `
+    <strong>${escapeHtml(status.title)}</strong>
+    <span>${escapeHtml(status.message)}</span>
+  `;
+}
+
+async function maybeSubmitCommunityUsage() {
+  if (!data || !indexes || state.activeTab !== "builder") return;
+
+  const warnings = buildTeamShellWarnings(state.team);
+  if (warnings.length) {
+    updateCommunityUsageStatusElement();
+    return;
+  }
+
+  const baseSnapshot = buildCommunityUsageSnapshotBase();
+  const hash = communityUsageSnapshotHash(baseSnapshot);
+  if (communityUsageSubmitted(hash)) {
+    if (communityUsageRequest.hash === hash) communityUsageRequest = { hash, pending: false, error: null };
+    updateCommunityUsageStatusElement();
+    return;
+  }
+
+  const config = communityUsageSupabaseConfig();
+  if (!config.url || !config.anonKey || !config.table) {
+    updateCommunityUsageStatusElement();
+    return;
+  }
+
+  if (communityUsageRequest.pending && communityUsageRequest.hash === hash) {
+    updateCommunityUsageStatusElement();
+    return;
+  }
+
+  communityUsageRequest = { hash, pending: true, error: null };
+  updateCommunityUsageStatusElement();
+
+  try {
+    const snapshot = {
+      ...baseSnapshot,
+      snapshotHash: hash,
+      submittedAtUtc: new Date().toISOString(),
+      pageUrl: location.href,
+      teamCode: encodeTeamCode(communityUsageImportPayload(state.team))
+    };
+    const response = await fetch(`${config.url}/rest/v1/${encodeURIComponent(config.table)}`, {
+      method: "POST",
+      mode: "cors",
+      headers: communityUsageSupabaseHeaders(config.anonKey),
+      body: JSON.stringify({
+        hash,
+        snapshot
+      })
+    });
+    if (!response.ok && response.status !== 409) {
+      const detail = await response.text().catch(() => "");
+      throw new Error(`Supabase returned ${response.status}${detail ? `: ${detail.slice(0, 160)}` : ""}`);
+    }
+    markCommunityUsageSubmitted(hash);
+    communityUsageRequest = { hash, pending: false, error: null };
+  } catch (error) {
+    communityUsageRequest = {
+      hash,
+      pending: false,
+      error: error.message || "Supabase request failed."
+    };
+    console.warn("Community usage snapshot failed", error);
+  }
+
+  updateCommunityUsageStatusElement();
+}
+
 function renderCoverage() {
   const members = state.team.filter(Boolean);
   const moveIds = members.flatMap((member) => member.moves.filter(Boolean));
   const moveCounts = new Map();
   const categoryCounts = new Map();
-  const warnings = [];
+  const warnings = buildTeamShellWarnings(state.team);
   const ruleViolations = buildRuleViolations(members);
   let damagingMoveCount = 0;
 
@@ -2576,14 +2941,6 @@ function renderCoverage() {
       damagingMoveCount += 1;
       moveCounts.set(move.type, (moveCounts.get(move.type) || 0) + 1);
     }
-  }
-
-  for (const [index, member] of state.team.entries()) {
-    if (!member) continue;
-    const form = indexes.formsById.get(member.formId);
-    if (remainingBoosts(member) > 0) warnings.push(`Slot ${index + 1}: ${remainingBoosts(member)} BP unspent`);
-    if (member.moves.filter(Boolean).length < 5) warnings.push(`Slot ${index + 1}: open move slot`);
-    if ((data.learnsets[form.id] || []).length === 0) warnings.push(`Slot ${index + 1}: no source learnset`);
   }
 
   return `
@@ -2619,6 +2976,7 @@ function renderCoverage() {
           ${warnings.length ? warnings.slice(0, 10).map((warning) => `<div>${escapeHtml(warning)}</div>`).join("") : `<div class="ok">Team shell complete</div>`}
         </div>
       </section>
+      ${renderCommunityUsageStatus(warnings)}
     </aside>
   `;
 }

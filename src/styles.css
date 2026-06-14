@@ -1565,6 +1565,33 @@ button {
   font-weight: 700;
 }
 
+.community-usage-status {
+  display: grid;
+  gap: 2px;
+  padding: 6px 7px;
+  border: 1px solid var(--warn-border);
+  border-radius: 4px;
+  background: var(--warn-bg);
+  color: var(--warn-text);
+  font-size: 12px;
+}
+
+.community-usage-status span {
+  overflow-wrap: anywhere;
+}
+
+.community-usage-ok {
+  border-color: var(--ok-border);
+  background: var(--ok-bg);
+  color: var(--good);
+}
+
+.community-usage-error {
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger-text);
+}
+
 .command {
   display: inline-flex;
   align-items: center;
