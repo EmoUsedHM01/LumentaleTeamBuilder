@@ -14348,7 +14348,7 @@
       "internalName": "MagmaHeart",
       "displayName": "Magmaheart",
       "description": "During the battle, Morsiver accumulates energy until it ignites and grows stronger.",
-      "effectDetails": "Ignited/stronger form attacks deal x1.35 damage (+35%).",
+      "effectDetails": "Ignited/stronger form attacks deal x1.35 damage (+35%). Becomes Ignited after landing 3 hits.",
       "statModifiers": []
     },
     {
