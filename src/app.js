@@ -110,6 +110,7 @@ const DAMAGE_TOGGLE_FIELDS = new Set([
   "attackerSynchronized",
   "attackerAttributeActive"
 ]);
+const UNDO_HISTORY_LIMIT = 3;
 const STARTER_DEX_RANGE = { min: 1, max: 20, label: "#1-20" };
 const LEGENDARY_DEX_RANGE = { min: 124, max: 136, label: "#124-136" };
 const COMMUNITY_BANNED_ANIMON = new Set(["Kentaress", "Primalong", "Weaphoon", "Zenicore"].map(normalize));
@@ -142,6 +143,12 @@ const app = document.querySelector("#app");
 let data = null;
 let indexes = null;
 let formSearchCache = new Map();
+let undoHistory = {
+  builder: [],
+  damage: []
+};
+let activeUndoInputKey = null;
+let isRestoringUndo = false;
 let state = {
   activeTab: "builder",
   search: "",
@@ -298,6 +305,96 @@ function saveState() {
   }));
 }
 
+function clonePlain(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function undoTabKey(tab = state.activeTab) {
+  return tab === "damage" ? "damage" : "builder";
+}
+
+function clearUndoHistory() {
+  undoHistory = {
+    builder: [],
+    damage: []
+  };
+  activeUndoInputKey = null;
+}
+
+function captureUndoState() {
+  syncActiveSavedTeam();
+  syncActiveOpponentSharedTeam();
+  return clonePlain({
+    selectedSlot: state.selectedSlot,
+    activeTeamSlot: state.activeTeamSlot,
+    activeOpponentTeamSlot: state.activeOpponentTeamSlot,
+    team: state.team,
+    savedTeams: state.savedTeams,
+    opponentTeam: state.opponentTeam,
+    damage: state.damage
+  });
+}
+
+function rememberUndo(inputKey = null) {
+  if (isRestoringUndo) return;
+
+  const tab = undoTabKey();
+  const scopedInputKey = inputKey ? `${tab}:${inputKey}` : null;
+  if (scopedInputKey && activeUndoInputKey === scopedInputKey) return;
+  activeUndoInputKey = scopedInputKey;
+
+  const snapshot = captureUndoState();
+  const serialized = JSON.stringify(snapshot);
+  const stack = undoHistory[tab];
+  if (stack[stack.length - 1]?.serialized === serialized) return;
+
+  stack.push({ snapshot, serialized });
+  if (stack.length > UNDO_HISTORY_LIMIT) stack.shift();
+}
+
+function endUndoInputSession() {
+  activeUndoInputKey = null;
+}
+
+function undoLastAction() {
+  const stack = undoHistory[undoTabKey()];
+  const entry = stack.pop();
+  if (!entry) return;
+
+  isRestoringUndo = true;
+  try {
+    const activeTab = state.activeTab;
+    const theme = state.theme;
+    const search = state.search;
+    state = {
+      ...state,
+      ...clonePlain(entry.snapshot),
+      activeTab,
+      theme,
+      search
+    };
+    sanitizeState();
+    saveState();
+    render();
+  } finally {
+    isRestoringUndo = false;
+    endUndoInputSession();
+  }
+}
+
+function isNativeUndoTarget(target) {
+  if (!target || target === document.body) return false;
+  if (target.isContentEditable) return true;
+  if (target.id === "dex-search") return true;
+  if (target.tagName === "TEXTAREA") return true;
+  if (target.tagName !== "INPUT") return false;
+
+  const type = String(target.type || "text").toLowerCase();
+  return ["text", "search", "email", "url", "tel", "password"].includes(type)
+    && target.dataset?.action !== "rename-team"
+    && target.dataset?.action !== "rename-opponent-team";
+}
+
 function syncActiveSavedTeam() {
   state.activeTeamSlot = clamp(Math.trunc(finiteNumber(state.activeTeamSlot, 0)), 0, SAVED_TEAM_COUNT - 1);
   state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
@@ -331,6 +428,7 @@ function switchSavedTeam(slot) {
   const nextSlot = clamp(Math.trunc(finiteNumber(slot, 0)), 0, SAVED_TEAM_COUNT - 1);
   if (nextSlot === state.activeTeamSlot) return;
 
+  rememberUndo();
   syncActiveSavedTeam();
   state.activeTeamSlot = nextSlot;
   state.team = sanitizeTeamArray(state.savedTeams[nextSlot]?.team);
@@ -346,6 +444,7 @@ function switchOpponentSavedTeam(slot) {
   const nextSlot = clamp(Math.trunc(finiteNumber(slot, 0)), 0, SAVED_TEAM_COUNT - 1);
   if (nextSlot === state.activeOpponentTeamSlot) return;
 
+  rememberUndo();
   syncActiveSavedTeam();
   syncActiveOpponentSharedTeam();
   state.activeOpponentTeamSlot = nextSlot;
@@ -356,6 +455,7 @@ function switchOpponentSavedTeam(slot) {
 }
 
 function renameSavedTeam(name) {
+  rememberUndo(`rename-team:${state.activeTeamSlot}`);
   state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
   state.savedTeams[state.activeTeamSlot].name = String(name ?? "").slice(0, 48);
   saveState();
@@ -364,6 +464,7 @@ function renameSavedTeam(name) {
 }
 
 function renameOpponentSavedTeam(name) {
+  rememberUndo(`rename-opponent-team:${state.activeOpponentTeamSlot}`);
   state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
   state.savedTeams[state.activeOpponentTeamSlot].name = String(name ?? "").slice(0, 48);
   saveState();
@@ -542,6 +643,7 @@ function setSelectedSlot(slot) {
 
 function addFormToSlot(formId, slot) {
   if (!indexes.formsById.has(formId)) return;
+  rememberUndo();
   state.team[slot] = createMember(formId);
   state.selectedSlot = slot;
   saveState();
@@ -558,6 +660,8 @@ function swapSlots(from, to) {
 }
 
 function clearSlot(slot) {
+  if (!state.team[slot]) return;
+  rememberUndo();
   state.team[slot] = null;
   saveState();
   render();
@@ -590,6 +694,7 @@ function selectedDamageMember(side) {
 function updateDamageMember(side, mutator) {
   const member = selectedDamageMember(side);
   if (!member) return;
+  rememberUndo();
   mutator(member);
   trimBoostBudget(member);
   state.damage = sanitizeDamageState(state.damage);
@@ -599,6 +704,7 @@ function updateDamageMember(side, mutator) {
 
 function addOpponentForm(formId) {
   if (!indexes.formsById.has(formId)) return;
+  rememberUndo();
   const emptySlot = state.opponentTeam.findIndex((member) => !member);
   const slot = emptySlot === -1 ? state.damage.targetSlot : emptySlot;
   state.opponentTeam[slot] = createMember(formId);
@@ -612,6 +718,7 @@ function addFormToTeamSlot(formId, side, slot) {
   if (targetSide === "opponent") {
     if (!indexes.formsById.has(formId)) return;
     const targetSlot = clamp(Math.trunc(finiteNumber(slot, 0)), 0, 5);
+    rememberUndo();
     state.opponentTeam[targetSlot] = createMember(formId);
     state.damage.targetSlot = targetSlot;
     saveState();
@@ -633,6 +740,7 @@ function movePartyMember(sourceSide, sourceSlot, targetSide, targetSlot) {
   const draggedMember = sourceTeam[fromSlot];
   if (!draggedMember) return;
 
+  rememberUndo();
   if (fromSide === toSide) {
     const nextTeam = [...sourceTeam];
     nextTeam[fromSlot] = nextTeam[toSlot];
@@ -673,6 +781,7 @@ function movePartyMember(sourceSide, sourceSlot, targetSide, targetSlot) {
 }
 
 function swapCurrentAndOpponentTeams() {
+  rememberUndo();
   syncActiveSavedTeam();
   syncActiveOpponentSharedTeam();
   const nextTeam = sanitizeTeamArray(state.opponentTeam);
@@ -2567,9 +2676,26 @@ function bindEvents() {
   app.addEventListener("click", onClick);
   app.addEventListener("input", onInput);
   app.addEventListener("change", onChange);
+  app.addEventListener("focusout", onFocusOut);
   app.addEventListener("dragstart", onDragStart);
   app.addEventListener("dragover", onDragOver);
   app.addEventListener("drop", onDrop);
+  document.addEventListener("keydown", onKeyDown);
+}
+
+function onKeyDown(event) {
+  const wantsUndo = (event.ctrlKey || event.metaKey)
+    && !event.altKey
+    && !event.shiftKey
+    && String(event.key).toLowerCase() === "z";
+  if (!wantsUndo || isNativeUndoTarget(event.target)) return;
+
+  event.preventDefault();
+  undoLastAction();
+}
+
+function onFocusOut() {
+  endUndoInputSession();
 }
 
 function onClick(event) {
@@ -2602,9 +2728,13 @@ function onClick(event) {
     applyTheme(state.theme);
     render();
   } else if (action === "switch-tab") {
-    state.activeTab = actionTarget.dataset.tab === "damage" ? "damage" : "builder";
-    saveState();
-    render();
+    const nextTab = actionTarget.dataset.tab === "damage" ? "damage" : "builder";
+    if (nextTab !== state.activeTab) {
+      state.activeTab = nextTab;
+      clearUndoHistory();
+      saveState();
+      render();
+    }
   } else if (action === "export-team") {
     exportTeam();
   } else if (action === "import-team") {
@@ -2644,6 +2774,7 @@ function onClick(event) {
     });
   } else if (action === "clear-opponent-team") {
     if (confirm("Clear the opposing party?")) {
+      rememberUndo();
       state.opponentTeam = Array(6).fill(null);
       state.damage.targetSlot = 0;
       saveState();
@@ -2651,6 +2782,7 @@ function onClick(event) {
     }
   } else if (action === "reset-team") {
     if (confirm("Reset the current team?")) {
+      rememberUndo();
       state.team = Array(6).fill(null);
       state.selectedSlot = 0;
       saveState();
@@ -2697,16 +2829,19 @@ function onChange(event) {
   const target = event.target;
   if (target.dataset?.statRoll || target.dataset?.statBoost) {
     render();
+    endUndoInputSession();
     return;
   }
 
   if (target.dataset?.damageStatRoll) {
     updateDamageStatControl(target, "roll", target.dataset.damageSide, target.dataset.damageStatRoll);
+    endUndoInputSession();
     return;
   }
 
   if (target.dataset?.damageStatBoost) {
     updateDamageStatControl(target, "boost", target.dataset.damageSide, target.dataset.damageStatBoost);
+    endUndoInputSession();
     return;
   }
 
@@ -2729,6 +2864,7 @@ function onChange(event) {
   }
 
   if (target.dataset?.action === "change-damage-move") {
+    rememberUndo();
     state.damage.moveSlot = clamp(Math.trunc(finiteNumber(target.value, 0)), 0, 4);
     saveState();
     render();
@@ -2790,6 +2926,7 @@ function onChange(event) {
 }
 
 function updateDamageField(field, value) {
+  rememberUndo();
   if (DAMAGE_TOGGLE_FIELDS.has(field)) {
     state.damage[field] = Boolean(value);
   } else if (DAMAGE_NUMERIC_FIELDS.has(field)) {
@@ -2806,6 +2943,7 @@ function updateDamageStatControl(target, kind, side, key) {
   const member = selectedDamageMember(side);
   if (!member || !data.rules.statKeys.includes(key)) return;
 
+  rememberUndo(`damage-stat:${side}:${selectedDamageSlot(side)}:${kind}:${key}`);
   if (kind === "roll") {
     member.statRolls[key] = clamp(Number(target.value), data.rules.statRollMin, data.rules.statRollMax);
   } else {
@@ -2823,6 +2961,7 @@ function updateDamageStatControl(target, kind, side, key) {
 function updateSelectedMember(mutator) {
   const member = selectedMember();
   if (!member) return;
+  rememberUndo();
   mutator(member);
   trimBoostBudget(member);
   saveState();
@@ -2834,6 +2973,7 @@ function updateStatControl(target, kind, key) {
   const form = selectedForm();
   if (!member || !form) return;
 
+  rememberUndo(`builder-stat:${state.selectedSlot}:${kind}:${key}`);
   if (kind === "roll") {
     member.statRolls[key] = clamp(Number(target.value), data.rules.statRollMin, data.rules.statRollMax);
   } else {
@@ -3018,6 +3158,7 @@ async function importTeam() {
     const parsed = decodeTeamCode(text);
     const importedTeam = Array.isArray(parsed) ? parsed : parsed.team;
     if (!Array.isArray(importedTeam)) throw new Error("No team array found.");
+    rememberUndo();
     state.team = sanitizeTeamArray(importedTeam);
     state.selectedSlot = 0;
     state.damage.attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
@@ -3053,6 +3194,7 @@ async function importAnimonIntoSlot(slot = state.selectedSlot) {
     const parsed = decodeTeamCode(text);
     const importedMember = sanitizeMember(memberFromImportPayload(parsed));
     if (!importedMember) throw new Error("No Animon found in code.");
+    rememberUndo();
     importedMember.id = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
     state.team[targetSlot] = importedMember;
     state.selectedSlot = targetSlot;
@@ -3076,6 +3218,7 @@ async function importOpponentTeam() {
     const parsed = decodeTeamCode(text);
     const importedTeam = Array.isArray(parsed) ? parsed : parsed.team;
     if (!Array.isArray(importedTeam)) throw new Error("No team array found.");
+    rememberUndo();
     state.opponentTeam = sanitizeTeamArray(importedTeam);
     state.damage.targetSlot = effectiveFilledSlot(state.opponentTeam, state.damage.targetSlot);
     saveState();
