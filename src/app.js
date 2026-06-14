@@ -673,10 +673,16 @@ function movePartyMember(sourceSide, sourceSlot, targetSide, targetSlot) {
 }
 
 function swapCurrentAndOpponentTeams() {
-  const nextTeam = state.opponentTeam;
-  const nextOpponent = state.team;
+  syncActiveSavedTeam();
+  syncActiveOpponentSharedTeam();
+  const nextTeam = sanitizeTeamArray(state.opponentTeam);
+  const nextOpponent = sanitizeTeamArray(state.team);
+  const nextActiveTeamSlot = state.activeOpponentTeamSlot;
+  const nextActiveOpponentTeamSlot = state.activeTeamSlot;
   const nextAttackerSlot = effectiveFilledSlot(nextTeam, state.damage.targetSlot);
   const nextTargetSlot = effectiveFilledSlot(nextOpponent, state.damage.attackerSlot);
+  state.activeTeamSlot = nextActiveTeamSlot;
+  state.activeOpponentTeamSlot = nextActiveOpponentTeamSlot;
   state.team = nextTeam;
   state.opponentTeam = nextOpponent;
   state.selectedSlot = nextAttackerSlot;
