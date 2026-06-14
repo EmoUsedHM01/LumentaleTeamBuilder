@@ -68,4 +68,4 @@ with check (
 
 Supabase project URL and public anon key in `index.html`
 
-When a team has all 6 slots filled, 5 moves on each Animon, and all BP spent, the app creates a normalized usage snapshot, hashes it, and sends it once per unique team from that browser. Usage sharing is opt-in, saved locally, and can be changed from the top bar. Team names are not included in usage snapshots.
+When a team has all 6 slots filled, 5 moves on each Animon, and all BP spent, the app creates a normalized usage snapshot, hashes it, and sends it once per unique team from that browser. The hash ignores party slot order, so swapping two Animon does not create a new usage entry. Usage sharing is opt-in, saved locally, and can be changed from the top bar. Team names are not included in usage snapshots.

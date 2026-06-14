@@ -2741,6 +2741,24 @@ function stableStringify(value) {
   return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`).join(",")}}`;
 }
 
+function communityUsageHashMember(member) {
+  const { slot, ...rest } = member;
+  return rest;
+}
+
+function communityUsageHashSource(snapshot) {
+  const members = snapshot.members
+    .map(communityUsageHashMember)
+    .sort((a, b) => stableStringify(a).localeCompare(stableStringify(b)));
+  return {
+    format: snapshot.format,
+    version: snapshot.version,
+    allocationLevel: snapshot.allocationLevel,
+    battleLevel: snapshot.battleLevel,
+    members
+  };
+}
+
 function hashString(value) {
   let h1 = 0xdeadbeef ^ value.length;
   let h2 = 0x41c6ce57 ^ value.length;
@@ -2755,7 +2773,7 @@ function hashString(value) {
 }
 
 function communityUsageSnapshotHash(baseSnapshot) {
-  return hashString(stableStringify(baseSnapshot));
+  return hashString(stableStringify(communityUsageHashSource(baseSnapshot)));
 }
 
 function metaContent(name) {
