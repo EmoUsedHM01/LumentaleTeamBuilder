@@ -66,12 +66,6 @@ with check (
 );
 ```
 
-Supabase project URL and public anon key in `index.html`:
-
-```html
-<meta name="lumentale-community-usage-supabase-url" content="https://your-project-ref.supabase.co">
-<meta name="lumentale-community-usage-supabase-anon-key" content="your-public-anon-key">
-<meta name="lumentale-community-usage-table" content="team_snapshots">
-```
+Supabase project URL and public anon key in `index.html`
 
 When a team has all 6 slots filled, 5 moves on each Animon, and all BP spent, the app creates a normalized usage snapshot, hashes it, and sends it once per unique team from that browser.
