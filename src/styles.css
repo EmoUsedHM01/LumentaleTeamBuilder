@@ -116,6 +116,48 @@ button {
   margin-top: 0;
 }
 
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(10, 15, 24, 0.56);
+}
+
+.consent-dialog {
+  width: min(440px, 100%);
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34);
+}
+
+.consent-dialog h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.consent-dialog p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.consent-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
 .app-shell {
   min-height: 100vh;
   display: grid;
@@ -194,6 +236,64 @@ button {
   flex-wrap: wrap;
   justify-content: flex-end;
   padding: 10px 0;
+}
+
+.usage-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 4px 0 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--topbar-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.usage-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.usage-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.usage-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border: 1px solid var(--theme-track-border);
+  border-radius: 999px;
+  background: var(--theme-track);
+  box-shadow: inset 0 2px 5px rgba(17, 24, 38, 0.24);
+}
+
+.usage-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--theme-thumb);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.32);
+  transition: transform 160ms ease;
+}
+
+.usage-toggle-on {
+  color: #b9f1d2;
+}
+
+.usage-toggle-on .usage-track {
+  border-color: #70c992;
+  background: #1d6b45;
+}
+
+.usage-toggle-on .usage-thumb {
+  transform: translateX(20px);
 }
 
 .theme-toggle {

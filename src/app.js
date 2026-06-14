@@ -168,6 +168,7 @@ let state = {
   selectedSlot: 0,
   activeTeamSlot: 0,
   activeOpponentTeamSlot: 0,
+  communityUsageConsent: null,
   theme: "light",
   team: Array(6).fill(null),
   savedTeams: [],
@@ -311,6 +312,7 @@ function saveState() {
     selectedSlot: state.selectedSlot,
     activeTeamSlot: state.activeTeamSlot,
     activeOpponentTeamSlot: state.activeOpponentTeamSlot,
+    communityUsageConsent: state.communityUsageConsent,
     team: state.team,
     savedTeams: state.savedTeams,
     opponentTeam: state.opponentTeam,
@@ -513,6 +515,11 @@ function sanitizeState() {
   state.selectedSlot = clamp(Number(state.selectedSlot || 0), 0, 5);
   state.activeTeamSlot = clamp(Math.trunc(finiteNumber(state.activeTeamSlot, 0)), 0, SAVED_TEAM_COUNT - 1);
   state.activeOpponentTeamSlot = clamp(Math.trunc(finiteNumber(state.activeOpponentTeamSlot, 0)), 0, SAVED_TEAM_COUNT - 1);
+  state.communityUsageConsent = state.communityUsageConsent === true
+    ? true
+    : state.communityUsageConsent === false
+      ? false
+      : null;
   const loadedTeam = sanitizeTeamArray(state.team);
   state.savedTeams = sanitizeSavedTeams(state.savedTeams, loadedTeam);
   state.team = sanitizeTeamArray(state.savedTeams[state.activeTeamSlot]?.team);
@@ -1631,6 +1638,7 @@ function render(options = {}) {
       ${renderHeader()}
       ${state.activeTab === "damage" ? renderDamageCalculator() : renderTeamBuilder()}
     </div>
+    ${renderCommunityUsageConsentDialog()}
   `;
   if (dexScrollTop !== null && dexScrollTop !== undefined) {
     requestAnimationFrame(() => {
@@ -2106,6 +2114,7 @@ function renderTurnOrderRow(entry) {
 function renderHeader() {
   const filled = state.team.filter(Boolean).length;
   const isDark = state.theme === "dark";
+  const usageEnabled = state.communityUsageConsent === true;
   return `
     <header class="topbar">
       <nav class="app-tabs" aria-label="App sections">
@@ -2119,6 +2128,10 @@ function renderHeader() {
         </button>
       </nav>
       <div class="topbar-actions">
+        <button class="usage-toggle ${usageEnabled ? "usage-toggle-on" : ""}" type="button" data-action="toggle-community-usage" aria-label="Toggle anonymous usage sharing" aria-pressed="${usageEnabled}">
+          <span class="usage-toggle-label">Usage</span>
+          <span class="usage-track" aria-hidden="true"><span class="usage-thumb"></span></span>
+        </button>
         <button class="theme-toggle ${isDark ? "theme-toggle-dark" : ""}" type="button" data-action="toggle-theme" aria-label="Toggle dark mode" aria-pressed="${isDark}">
           <span class="theme-icon theme-icon-sun" aria-hidden="true"></span>
           <span class="theme-track" aria-hidden="true"><span class="theme-thumb"></span></span>
@@ -2130,6 +2143,27 @@ function renderHeader() {
         <a class="command kofi-link" href="https://ko-fi.com/emousedhm01" target="_blank" rel="noopener noreferrer">Donate</a>
       </div>
     </header>
+  `;
+}
+
+function renderCommunityUsageConsentDialog() {
+  if (state.communityUsageConsent !== null) return "";
+  return `
+    <div class="modal-backdrop" role="presentation">
+      <section class="consent-dialog" role="dialog" aria-modal="true" aria-labelledby="community-usage-title">
+        <h2 id="community-usage-title">Share Community Usage?</h2>
+        <p>
+          Share anonymous completed teams for community usage stats.
+        </p>
+        <p>
+          Sends Animon, forms, moves, items, ability, hidden type, rolls and BP.
+        </p>
+        <div class="consent-actions">
+          <button class="command subtle" type="button" data-action="set-community-usage-consent" data-consent="false">No</button>
+          <button class="command" type="button" data-action="set-community-usage-consent" data-consent="true">Yes</button>
+        </div>
+      </section>
+    </div>
   `;
 }
 
@@ -2688,7 +2722,6 @@ function buildCommunityUsageSnapshotBase(team = state.team) {
     version: 1,
     allocationLevel: data.rules.allocationLevel,
     battleLevel: data.rules.battleLevel,
-    teamName: sanitizeTeamName(state.savedTeams?.[state.activeTeamSlot]?.name, state.activeTeamSlot),
     members,
     ruleViolations: buildRuleViolations((team || []).filter(Boolean)),
     summary: {
@@ -2785,6 +2818,22 @@ function markCommunityUsageSubmitted(hash) {
 }
 
 function communityUsageStatusDetails(warnings = buildTeamShellWarnings(state.team)) {
+  if (state.communityUsageConsent === false) {
+    return {
+      kind: "blocked",
+      title: "Usage sharing off",
+      message: "Turn on Usage in the top bar to share anonymous completed teams."
+    };
+  }
+
+  if (state.communityUsageConsent !== true) {
+    return {
+      kind: "blocked",
+      title: "Permission needed",
+      message: "Choose Yes or No for anonymous community usage sharing."
+    };
+  }
+
   if (warnings.length) {
     return {
       kind: "pending",
@@ -2860,6 +2909,10 @@ function updateCommunityUsageStatusElement() {
 
 async function maybeSubmitCommunityUsage() {
   if (!data || !indexes || state.activeTab !== "builder") return;
+  if (state.communityUsageConsent !== true) {
+    updateCommunityUsageStatusElement();
+    return;
+  }
 
   const warnings = buildTeamShellWarnings(state.team);
   if (warnings.length) {
@@ -3056,6 +3109,12 @@ function onFocusOut() {
   endUndoInputSession();
 }
 
+function setCommunityUsageConsent(enabled) {
+  state.communityUsageConsent = Boolean(enabled);
+  saveState();
+  render();
+}
+
 function onClick(event) {
   const actionTarget = event.target.closest("[data-action]");
   if (!actionTarget) return;
@@ -3085,6 +3144,10 @@ function onClick(event) {
     saveTheme(state.theme);
     applyTheme(state.theme);
     render();
+  } else if (action === "toggle-community-usage") {
+    setCommunityUsageConsent(state.communityUsageConsent !== true);
+  } else if (action === "set-community-usage-consent") {
+    setCommunityUsageConsent(actionTarget.dataset.consent === "true");
   } else if (action === "switch-tab") {
     const nextTab = actionTarget.dataset.tab === "damage" ? "damage" : "builder";
     if (nextTab !== state.activeTab) {
