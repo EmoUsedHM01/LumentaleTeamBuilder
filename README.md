@@ -50,6 +50,9 @@ create table if not exists public.team_snapshots (
 
 alter table public.team_snapshots enable row level security;
 
+grant usage on schema public to anon;
+grant insert on public.team_snapshots to anon;
+
 drop policy if exists "Allow public completed team snapshots" on public.team_snapshots;
 create policy "Allow public completed team snapshots"
 on public.team_snapshots
