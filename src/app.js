@@ -2153,10 +2153,10 @@ function renderCommunityUsageConsentDialog() {
       <section class="consent-dialog" role="dialog" aria-modal="true" aria-labelledby="community-usage-title">
         <h2 id="community-usage-title">Share Community Usage?</h2>
         <p>
-          Share anonymous completed teams for community usage stats.
+          Are you cool with sharing anonymous completed teams for community usage stats?
         </p>
         <p>
-          Sends Animon, forms, moves, items, ability, hidden type, rolls and BP.
+          All it sends is Animon and their forms, moves, items, ability, hidden type, rolls, and BP.
         </p>
         <div class="consent-actions">
           <button class="command subtle" type="button" data-action="set-community-usage-consent" data-consent="false">No</button>
