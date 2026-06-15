@@ -6,7 +6,7 @@ const ANIMON_CODE_PREFIX = "LUMENTALE-ANIMON:";
 const COMMUNITY_USAGE_SUPABASE_URL_META = "lumentale-community-usage-supabase-url";
 const COMMUNITY_USAGE_SUPABASE_ANON_KEY_META = "lumentale-community-usage-supabase-anon-key";
 const COMMUNITY_USAGE_TABLE_META = "lumentale-community-usage-table";
-const COMMUNITY_USAGE_DEFAULT_TABLE = "team_snapshots";
+const COMMUNITY_USAGE_DEFAULT_TABLE = "team_current";
 const COMMUNITY_USAGE_STORAGE_KEY = "lumentale-team-builder:community-usage:v1";
 const COMMUNITY_USAGE_FORMAT = "lumentale-community-team-snapshot";
 const COMMUNITY_USAGE_SUBMITTED_LIMIT = 500;
@@ -127,6 +127,7 @@ const COMMUNITY_BANNED_ANIMON = new Set(["Kentaress", "Primalong", "Weaphoon", "
 const COMMUNITY_BANNED_ITEMS = new Set(["Silhouchain"].map(normalize));
 const ACTIVE_PARTY_SLOT_COUNT = 4;
 const SAVED_TEAM_COUNT = 10;
+const COMMUNITY_USAGE_MAJOR_COMPOSITION_CHANGE = 2;
 const TYPE_ICONS = {
   NONE: "-",
   AURA: "Au",
@@ -158,6 +159,7 @@ let undoHistory = {
   damage: []
 };
 let communityUsageRequest = {
+  teamId: null,
   hash: null,
   pending: false,
   error: null
@@ -417,6 +419,7 @@ function syncActiveSavedTeam() {
   state.savedTeams = sanitizeSavedTeams(state.savedTeams, state.team);
   const active = state.savedTeams[state.activeTeamSlot];
   state.savedTeams[state.activeTeamSlot] = {
+    ...active,
     name: sanitizeTeamName(active?.name, state.activeTeamSlot),
     team: sanitizeTeamArray(state.team)
   };
@@ -432,6 +435,7 @@ function syncActiveOpponentSharedTeam() {
 
   const active = state.savedTeams[state.activeOpponentTeamSlot];
   state.savedTeams[state.activeOpponentTeamSlot] = {
+    ...active,
     name: sanitizeTeamName(active?.name, state.activeOpponentTeamSlot),
     team: sanitizeTeamArray(state.opponentTeam)
   };
@@ -550,9 +554,25 @@ function sanitizeSavedTeams(savedTeams, fallbackTeam = Array(6).fill(null)) {
     const team = Array.isArray(slot.team) ? slot.team : (index === 0 ? fallbackTeam : null);
     return {
       name: sanitizeTeamName(slot.name, index),
-      team: sanitizeTeamArray(team)
+      team: sanitizeTeamArray(team),
+      usageTeamId: sanitizeUsageTeamId(slot.usageTeamId),
+      usageCompositionBaseline: sanitizeUsageComposition(slot.usageCompositionBaseline)
     };
   });
+}
+
+function sanitizeUsageTeamId(value) {
+  const text = String(value || "").trim();
+  return /^[a-zA-Z0-9_-]{16,80}$/.test(text) ? text : null;
+}
+
+function sanitizeUsageComposition(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => String(entry || "").trim())
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b))
+    .slice(0, 6);
 }
 
 function sanitizeDamageState(damage) {
@@ -2780,6 +2800,70 @@ function communityUsageSnapshotHash(baseSnapshot) {
   return hashString(stableStringify(communityUsageHashSource(baseSnapshot)));
 }
 
+function createCommunityUsageTeamId() {
+  const uuid = globalThis.crypto?.randomUUID?.();
+  if (uuid) return uuid;
+  return hashString(`${Date.now()}:${Math.random()}:${navigator.userAgent || ""}`);
+}
+
+function communityUsageComposition(team = state.team) {
+  return sanitizeUsageComposition((team || []).filter(Boolean).map((member) => member.formId));
+}
+
+function communityUsageCompositionChangeCount(previous, current) {
+  const previousEntries = sanitizeUsageComposition(previous);
+  const currentEntries = sanitizeUsageComposition(current);
+  const previousCounts = new Map();
+  for (const entry of previousEntries) {
+    previousCounts.set(entry, (previousCounts.get(entry) || 0) + 1);
+  }
+
+  let shared = 0;
+  for (const entry of currentEntries) {
+    const count = previousCounts.get(entry) || 0;
+    if (count <= 0) continue;
+    shared += 1;
+    previousCounts.set(entry, count - 1);
+  }
+
+  return Math.max(previousEntries.length, currentEntries.length) - shared;
+}
+
+function prepareCommunityUsageTeamRecord(hash, composition) {
+  syncActiveSavedTeam();
+  const slot = state.savedTeams[state.activeTeamSlot];
+  const baseline = sanitizeUsageComposition(slot.usageCompositionBaseline);
+  const changedFromBaseline = baseline.length
+    ? communityUsageCompositionChangeCount(baseline, composition)
+    : 0;
+
+  let teamId = sanitizeUsageTeamId(slot.usageTeamId);
+  let isNewUsageTeam = false;
+  const store = loadCommunityUsageStore();
+
+  if (!teamId && store.submittedHashes.includes(hash)) {
+    teamId = hash;
+  }
+
+  if (!teamId || (baseline.length === 6 && changedFromBaseline >= COMMUNITY_USAGE_MAJOR_COMPOSITION_CHANGE)) {
+    teamId = createCommunityUsageTeamId();
+    isNewUsageTeam = true;
+  }
+
+  slot.usageTeamId = teamId;
+  if (isNewUsageTeam || baseline.length !== 6) {
+    slot.usageCompositionBaseline = sanitizeUsageComposition(composition);
+  }
+
+  saveState();
+  return {
+    teamId,
+    baseline: sanitizeUsageComposition(slot.usageCompositionBaseline),
+    changedFromBaseline,
+    isNewUsageTeam
+  };
+}
+
 function metaContent(name) {
   return document.querySelector(`meta[name="${name}"]`)?.getAttribute("content")?.trim() || "";
 }
@@ -2797,11 +2881,11 @@ function hasCommunityUsageDatabaseConfig() {
   return Boolean(config.url && config.anonKey && config.table);
 }
 
-function communityUsageSupabaseHeaders(key) {
+function communityUsageSupabaseHeaders(key, prefer = "return=minimal") {
   const headers = {
     "Content-Type": "application/json",
     "apikey": key,
-    "Prefer": "return=minimal"
+    "Prefer": prefer
   };
   if (String(key || "").startsWith("eyJ")) headers.Authorization = `Bearer ${key}`;
   return headers;
@@ -2813,29 +2897,37 @@ function loadCommunityUsageStore() {
     return {
       submittedHashes: Array.isArray(parsed.submittedHashes)
         ? parsed.submittedHashes.filter(Boolean).slice(-COMMUNITY_USAGE_SUBMITTED_LIMIT)
-        : []
+        : [],
+      currentTeamHashes: parsed.currentTeamHashes && typeof parsed.currentTeamHashes === "object"
+        ? Object.fromEntries(Object.entries(parsed.currentTeamHashes).filter(([teamId, hash]) => sanitizeUsageTeamId(teamId) && hash))
+        : {}
     };
   } catch {
-    return { submittedHashes: [] };
+    return { submittedHashes: [], currentTeamHashes: {} };
   }
 }
 
 function saveCommunityUsageStore(store) {
   try {
+    const currentTeamHashes = Object.fromEntries(
+      Object.entries(store.currentTeamHashes || {}).filter(([teamId, hash]) => sanitizeUsageTeamId(teamId) && hash)
+    );
     localStorage.setItem(COMMUNITY_USAGE_STORAGE_KEY, JSON.stringify({
-      submittedHashes: (store.submittedHashes || []).slice(-COMMUNITY_USAGE_SUBMITTED_LIMIT)
+      submittedHashes: (store.submittedHashes || []).slice(-COMMUNITY_USAGE_SUBMITTED_LIMIT),
+      currentTeamHashes
     }));
   } catch {
   }
 }
 
-function communityUsageSubmitted(hash) {
-  return loadCommunityUsageStore().submittedHashes.includes(hash);
+function communityUsageSubmitted(teamId, hash) {
+  return Boolean(teamId && hash && loadCommunityUsageStore().currentTeamHashes?.[teamId] === hash);
 }
 
-function markCommunityUsageSubmitted(hash) {
+function markCommunityUsageSubmitted(teamId, hash) {
   const store = loadCommunityUsageStore();
   if (!store.submittedHashes.includes(hash)) store.submittedHashes.push(hash);
+  if (teamId) store.currentTeamHashes[teamId] = hash;
   saveCommunityUsageStore(store);
 }
 
@@ -2866,26 +2958,27 @@ function communityUsageStatusDetails(warnings = buildTeamShellWarnings(state.tea
 
   const baseSnapshot = buildCommunityUsageSnapshotBase();
   const hash = communityUsageSnapshotHash(baseSnapshot);
-  if (communityUsageSubmitted(hash)) {
+  const teamId = sanitizeUsageTeamId(state.savedTeams[state.activeTeamSlot]?.usageTeamId);
+  if (communityUsageSubmitted(teamId, hash)) {
     return {
       kind: "ok",
-      title: "Snapshot saved",
-      message: `Usage hash ${hash.slice(0, 8)} already recorded from this browser.`
+      title: "Usage saved",
+      message: `Team ${teamId.slice(0, 8)} is up to date.`
     };
   }
 
-  if (communityUsageRequest.pending && communityUsageRequest.hash === hash) {
+  if (communityUsageRequest.pending && communityUsageRequest.teamId === teamId && communityUsageRequest.hash === hash) {
     return {
       kind: "saving",
-      title: "Saving snapshot",
-      message: "Sending completed team usage now."
+      title: "Saving usage",
+      message: "Updating completed team usage now."
     };
   }
 
-  if (communityUsageRequest.error && communityUsageRequest.hash === hash) {
+  if (communityUsageRequest.error && communityUsageRequest.teamId === teamId && communityUsageRequest.hash === hash) {
     return {
       kind: "error",
-      title: "Snapshot failed",
+      title: "Usage failed",
       message: communityUsageRequest.error
     };
   }
@@ -2893,14 +2986,14 @@ function communityUsageStatusDetails(warnings = buildTeamShellWarnings(state.tea
   if (!hasCommunityUsageDatabaseConfig()) {
     return {
       kind: "blocked",
-      title: "Snapshot ready",
+      title: "Usage ready",
       message: "Supabase database not configured yet."
     };
   }
 
   return {
     kind: "ready",
-    title: "Snapshot ready",
+    title: "Usage ready",
     message: "Completed team usage will save automatically."
   };
 }
@@ -2944,40 +3037,52 @@ async function maybeSubmitCommunityUsage() {
 
   const baseSnapshot = buildCommunityUsageSnapshotBase();
   const hash = communityUsageSnapshotHash(baseSnapshot);
-  if (communityUsageSubmitted(hash)) {
-    if (communityUsageRequest.hash === hash) communityUsageRequest = { hash, pending: false, error: null };
-    updateCommunityUsageStatusElement();
-    return;
-  }
-
   const config = communityUsageSupabaseConfig();
   if (!config.url || !config.anonKey || !config.table) {
     updateCommunityUsageStatusElement();
     return;
   }
 
-  if (communityUsageRequest.pending && communityUsageRequest.hash === hash) {
+  const composition = communityUsageComposition(state.team);
+  const usageTeam = prepareCommunityUsageTeamRecord(hash, composition);
+  const teamId = usageTeam.teamId;
+
+  if (communityUsageSubmitted(teamId, hash)) {
+    if (communityUsageRequest.teamId === teamId && communityUsageRequest.hash === hash) {
+      communityUsageRequest = { teamId, hash, pending: false, error: null };
+    }
     updateCommunityUsageStatusElement();
     return;
   }
 
-  communityUsageRequest = { hash, pending: true, error: null };
+  if (communityUsageRequest.pending && communityUsageRequest.teamId === teamId && communityUsageRequest.hash === hash) {
+    updateCommunityUsageStatusElement();
+    return;
+  }
+
+  communityUsageRequest = { teamId, hash, pending: true, error: null };
   updateCommunityUsageStatusElement();
 
   try {
     const snapshot = {
       ...baseSnapshot,
+      teamId,
       snapshotHash: hash,
+      usageModel: "team_current",
+      usageCompositionBaseline: usageTeam.baseline,
+      usageCompositionChangedFromBaseline: usageTeam.changedFromBaseline,
+      usageStartedNewTeam: usageTeam.isNewUsageTeam,
       submittedAtUtc: new Date().toISOString(),
       pageUrl: location.href,
       teamCode: encodeTeamCode(communityUsageImportPayload(state.team))
     };
-    const response = await fetch(`${config.url}/rest/v1/${encodeURIComponent(config.table)}`, {
+    const response = await fetch(`${config.url}/rest/v1/${encodeURIComponent(config.table)}?on_conflict=team_id`, {
       method: "POST",
       mode: "cors",
-      headers: communityUsageSupabaseHeaders(config.anonKey),
+      headers: communityUsageSupabaseHeaders(config.anonKey, "resolution=merge-duplicates,return=minimal"),
       body: JSON.stringify({
-        hash,
+        team_id: teamId,
+        snapshot_hash: hash,
         snapshot
       })
     });
@@ -2985,10 +3090,11 @@ async function maybeSubmitCommunityUsage() {
       const detail = await response.text().catch(() => "");
       throw new Error(`Supabase returned ${response.status}${detail ? `: ${detail.slice(0, 160)}` : ""}`);
     }
-    markCommunityUsageSubmitted(hash);
-    communityUsageRequest = { hash, pending: false, error: null };
+    markCommunityUsageSubmitted(teamId, hash);
+    communityUsageRequest = { teamId, hash, pending: false, error: null };
   } catch (error) {
     communityUsageRequest = {
+      teamId,
       hash,
       pending: false,
       error: error.message || "Supabase request failed."

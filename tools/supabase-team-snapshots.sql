@@ -1,3 +1,6 @@
+-- Legacy append-only snapshot table. New community usage collection uses
+-- tools/supabase-team-current.sql so edits update a current team row instead.
+
 create table if not exists public.team_snapshots (
   hash text primary key,
   submitted_at timestamptz not null default now(),

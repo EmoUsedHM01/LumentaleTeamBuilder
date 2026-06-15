@@ -1,40 +1,3 @@
-# Lumentale Team Builder
-
-Static GitHub Pages team builder for Lumentale.
-
-## Local Use
-
-Generate app data from the workspace exports:
-
-```powershell
-node .\scripts\build-data.mjs
-```
-
-Serve locally:
-
-```powershell
-node .\scripts\serve.mjs
-```
-
-Then open `http://localhost:4173`.
-
-## Data Sources
-
-- `../DamageCalculatorResearch/data/forms.json`
-- `../DamageCalculatorResearch/data/moves.json`
-- `../DamageCalculatorResearch/data/stat_formula.json`
-- `../DamageCalculatorResearch/data/type_chart.json`
-- `../AnimonInventoryGifs_Scale1_12fps/manifest.json`
-
-The builder stores level-100 BP allocation and previews level-50 battle stats for PvP/damage-calculator checks.
-
-## Community Usage
-
-Completed-team usage is stored in Supabase. GitHub Pages submits with the public anon key; Row Level Security allows anonymous inserts and updates only.
-
-Run the setup in the Supabase SQL Editor. The same SQL is available at `tools/supabase-team-current.sql`.
-
-```sql
 create table if not exists public.team_current (
   team_id text primary key,
   snapshot_hash text not null,
@@ -52,6 +15,33 @@ create table if not exists public.team_current (
     and jsonb_array_length(snapshot->'members') = 6
   )
 );
+
+create index if not exists team_current_snapshot_gin on public.team_current using gin (snapshot);
+create index if not exists team_current_last_seen_idx on public.team_current (last_seen desc);
+
+create or replace function public.touch_team_current()
+returns trigger
+language plpgsql
+as $$
+begin
+  if tg_op = 'UPDATE' then
+    new.first_seen := old.first_seen;
+    new.last_seen := now();
+    if old.snapshot_hash is distinct from new.snapshot_hash then
+      new.revision := old.revision + 1;
+    else
+      new.revision := old.revision;
+    end if;
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists touch_team_current on public.team_current;
+create trigger touch_team_current
+before update on public.team_current
+for each row
+execute function public.touch_team_current();
 
 alter table public.team_current enable row level security;
 
@@ -84,8 +74,22 @@ with check (
   and jsonb_typeof(snapshot->'members') = 'array'
   and jsonb_array_length(snapshot->'members') = 6
 );
-```
 
-Supabase project URL and public anon key in `index.html`
-
-When a team has all 6 slots filled, 5 moves on each Animon, and all BP spent, the app creates a normalized usage snapshot, hashes it, and upserts it into `team_current`. Each saved team slot keeps a local usage team id. Move, item, BP, ability, hidden type, form, and one-Animon composition edits update that same current row. If two or more Animon/Form entries differ from that team id's baseline, the app starts a new usage team id. The hash ignores party slot order, so swapping two slots does not create a new usage entry. Usage sharing is opt-in, saved locally, and can be changed from the top bar. Team names are not included in usage snapshots.
+-- Optional one-time migration from the old append-only table. Existing snapshots
+-- become their own current teams, with team_id set to the old snapshot hash.
+do $$
+begin
+  if to_regclass('public.team_snapshots') is not null then
+    insert into public.team_current (team_id, snapshot_hash, first_seen, last_seen, snapshot)
+    select
+      hash as team_id,
+      hash as snapshot_hash,
+      submitted_at as first_seen,
+      submitted_at as last_seen,
+      jsonb_set(snapshot, '{teamId}', to_jsonb(hash), true) as snapshot
+    from public.team_snapshots
+    where snapshot->>'format' = 'lumentale-community-team-snapshot'
+    on conflict (team_id) do nothing;
+  end if;
+end;
+$$;

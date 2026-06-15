@@ -5,3 +5,5 @@ dist/
 
 SupabaseKey.txt
 *.sql
+!tools/
+!tools/supabase-*.sql
