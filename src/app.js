@@ -876,10 +876,14 @@ function formSearchText(form) {
   return searchText;
 }
 
+function formBaseStatTotal(form) {
+  return Number(form?.baseStatTotal) || data.rules.statKeys.reduce((sum, key) => sum + Number(form?.baseStats?.[key] || 0), 0);
+}
+
 function resolveStats(form, member, teamContext = state.team) {
   const constants = data.rules.constants;
   const level = member.battleLevel || data.rules.battleLevel;
-  const bst = form.baseStatTotal || data.rules.statKeys.reduce((sum, key) => sum + form.baseStats[key], 0);
+  const bst = formBaseStatTotal(form);
   const assumedAffection = finiteNumber(constants.affectionMax, ASSUMED_AFFECTION);
   const affectionScalar = finiteNumber(constants.affectionScalar ?? constants.luckScalar, ASSUMED_AFFECTION_SCALAR);
   const affectionMultiplier = 1 + assumedAffection * affectionScalar;
@@ -2223,7 +2227,7 @@ function renderDex() {
 }
 
 function renderDexEntry(form) {
-  const learnCount = (data.learnsets[form.id] || []).length;
+  const bst = formBaseStatTotal(form);
   return `
     <article class="dex-entry" draggable="true" data-form-id="${escapeHtml(form.id)}">
       ${spriteHtml(form, "tiny")}
@@ -2231,7 +2235,7 @@ function renderDexEntry(form) {
         <span class="dex-name">${escapeHtml(form.display)}</span>
         <span class="dex-meta">#${escapeHtml(form.dexIndex ?? "-")} ${typePill(form.types.attribute)} ${typePill(form.types.main)}</span>
       </button>
-      <span class="dex-count">${learnCount}</span>
+      <span class="dex-count" title="Base stat total">${bst}</span>
     </article>
   `;
 }
@@ -2344,7 +2348,7 @@ function renderEditorHeader(member, form) {
         <div>
           <h2>${escapeHtml(form.display)}</h2>
           <div class="type-row">${typePill(form.types.attribute)} ${typePill(form.types.main)} ${renderHiddenTypePicker(member, form)}</div>
-          <p>BST ${form.baseStatTotal} - SP ${form.sp}</p>
+          <p>BST ${formBaseStatTotal(form)} - SP ${form.sp}</p>
         </div>
       </div>
       <div class="editor-controls">
