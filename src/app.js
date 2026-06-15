@@ -40,17 +40,36 @@ const DAMAGE_WEATHER_EFFECTS = [
   { id: "AshesRain", label: "Ashes Rain", buffs: { FIRE: 1.5 }, debuffs: {}, pendingDetail: "fire proc not modeled" }
 ];
 const DAMAGE_TERRAIN_EFFECTS = [
-  { id: "none", label: "None" },
-  { id: "felicis-happiness-overload", label: "Felicis - Happiness Overload" },
-  { id: "felicis-delightful-bliss", label: "Felicis - Delightful Bliss" },
-  { id: "furor-berserking-rampage", label: "Furor - Berserking Rampage" },
-  { id: "furor-roaring-burst", label: "Furor - Roaring Burst" },
-  { id: "horrens-paralyzing-horror", label: "Horrens - Paralyzing Horror" },
-  { id: "horrens-malevolent-shriek", label: "Horrens - Malevolent Shriek" },
-  { id: "mestus-grievances-desolation", label: "Mestus - Grievances Desolation" },
-  { id: "mestus-unfathomable-anxiety", label: "Mestus - Unfathomable Anxiety" },
-  { id: "sereum-sovereigns-calm", label: "Sereum - Sovereign's Calm" },
-  { id: "sereum-ultimate-authority", label: "Sereum - Ultimate Authority" }
+  { id: "none", label: "None", detail: "None" },
+  { id: "felicis-happiness-overload", label: "Felicis - Happiness Overload", detail: "healing domain; no direct damage change" },
+  { id: "felicis-delightful-bliss", label: "Felicis - Delightful Bliss", detail: "healing and cleanse domain; no direct damage change" },
+  {
+    id: "furor-berserking-rampage",
+    label: "Furor - Berserking Rampage",
+    detail: "outgoing HP-change damage multiplier",
+    unresolvedField: "Multiplier",
+    nativeHook: "FurorDomainEffects.ChangeOutgoingDamage"
+  },
+  {
+    id: "furor-roaring-burst",
+    label: "Furor - Roaring Burst",
+    detail: "super-effective damage multiplier",
+    superEffectiveOnly: true,
+    unresolvedField: "Multiplier",
+    nativeHook: "FurorDomainEffects.ChangeSupereffectiveMultiplier"
+  },
+  { id: "horrens-paralyzing-horror", label: "Horrens - Paralyzing Horror", detail: "SP-cost domain; no direct damage change" },
+  { id: "horrens-malevolent-shriek", label: "Horrens - Malevolent Shriek", detail: "reflects actual incoming HP loss to the source after damage", reflectActualDamage: true },
+  { id: "mestus-grievances-desolation", label: "Mestus - Grievances Desolation", detail: "over-time damage multiplier; no direct hit damage change" },
+  { id: "mestus-unfathomable-anxiety", label: "Mestus - Unfathomable Anxiety", detail: "separate domain damage proc; not added to direct hit damage" },
+  {
+    id: "sereum-sovereigns-calm",
+    label: "Sereum - Sovereign's Calm",
+    detail: "incoming HP-change damage multiplier",
+    unresolvedField: "Multiplier",
+    nativeHook: "SereumDomainEffects.ChangeIncomingDamage"
+  },
+  { id: "sereum-ultimate-authority", label: "Sereum - Ultimate Authority", detail: "ultimate-charge denial; no direct damage change" }
 ];
 const DAMAGE_WEATHER_EFFECTS_BY_ID = new Map(DAMAGE_WEATHER_EFFECTS.map((effect) => [effect.id, effect]));
 const DAMAGE_TERRAIN_EFFECTS_BY_ID = new Map(DAMAGE_TERRAIN_EFFECTS.map((effect) => [effect.id, effect]));
@@ -1455,7 +1474,46 @@ function selectedTerrainEffect() {
   return DAMAGE_TERRAIN_EFFECTS_BY_ID.get(state.damage.terrainEffect) || DAMAGE_TERRAIN_EFFECTS[0];
 }
 
-function fieldDamageEffects(moveType) {
+function terrainDomainEffect(terrain, { isSuperEffective = false } = {}) {
+  const result = {
+    damageMultiplier: 1,
+    superEffectiveMultiplier: 1,
+    displayMultiplier: 1,
+    reflectActualDamage: Boolean(terrain.reflectActualDamage),
+    detail: terrain.detail || `${terrain.label}: no direct damage change`,
+    warnings: []
+  };
+
+  if (terrain.id === "none") return result;
+
+  if (Number.isFinite(terrain.damageMultiplier)) {
+    result.damageMultiplier = f32(result.damageMultiplier * f32(terrain.damageMultiplier));
+  }
+
+  if (terrain.superEffectiveOnly) {
+    if (Number.isFinite(terrain.superEffectiveMultiplier)) {
+      if (isSuperEffective) {
+        result.superEffectiveMultiplier = f32(result.superEffectiveMultiplier * f32(terrain.superEffectiveMultiplier));
+      } else {
+        result.detail = `${terrain.detail}; requires weakness/super-effective hit`;
+      }
+    } else if (isSuperEffective) {
+      result.warnings.push(`${terrain.label} uses serialized ${terrain.unresolvedField}; current data does not expose its numeric value.`);
+    } else {
+      result.detail = `${terrain.detail}; requires weakness/super-effective hit`;
+    }
+  } else if (terrain.unresolvedField) {
+    result.warnings.push(`${terrain.label} uses serialized ${terrain.unresolvedField}; current data does not expose its numeric value.`);
+  }
+
+  result.displayMultiplier = f32(result.damageMultiplier * result.superEffectiveMultiplier);
+  if (terrain.nativeHook) {
+    result.detail = `${result.detail} (${terrain.nativeHook})`;
+  }
+  return result;
+}
+
+function fieldDamageEffects(moveType, options = {}) {
   const weather = selectedWeatherEffect();
   const terrain = selectedTerrainEffect();
   let weatherMultiplier = 1;
@@ -1474,18 +1532,20 @@ function fieldDamageEffects(moveType) {
   }
 
   if (weather.pendingDetail) weatherNotes.push(weather.pendingDetail);
+  const terrainEffect = terrainDomainEffect(terrain, options);
 
   return {
     weather,
     terrain,
     weatherMultiplier,
-    terrainMultiplier: 1,
-    multiplier: weatherMultiplier,
+    terrainMultiplier: terrainEffect.displayMultiplier,
+    terrainDamageMultiplier: terrainEffect.damageMultiplier,
+    terrainSuperEffectiveMultiplier: terrainEffect.superEffectiveMultiplier,
+    reflectActualDamage: terrainEffect.reflectActualDamage,
+    multiplier: f32(weatherMultiplier * terrainEffect.damageMultiplier),
     weatherDetail: weatherNotes.length ? weatherNotes.join("; ") : `${weather.label}: no damage change`,
-    terrainDetail: terrain.id === "none" ? "None" : `${terrain.label}: effect math pending`,
-    warnings: terrain.id === "none"
-      ? []
-      : [`${terrain.label} terrain is selected, but terrain/domain damage math is not decoded yet.`]
+    terrainDetail: terrainEffect.detail,
+    warnings: terrainEffect.warnings
   };
 }
 
@@ -1526,7 +1586,8 @@ function calculateDamagePreview() {
   const hitChance = calculateHitChance({ attacker, target, move });
   const critChance = calculateCritChance({ attacker, target, move });
   warnings.push(...critChance.warnings);
-  const fieldEffects = fieldDamageEffects(effectiveType.type);
+  const isSuperEffective = effectivenessMultiplier >= DAMAGE_CONSTANTS.superEffectiveThreshold;
+  const fieldEffects = fieldDamageEffects(effectiveType.type, { isSuperEffective });
   warnings.push(...fieldEffects.warnings);
 
   const base = damageFormula({
@@ -1536,8 +1597,7 @@ function calculateDamagePreview() {
     defense,
     targetLevel: Number(target.member.battleLevel || data.rules.battleLevel)
   });
-  const isSuperEffective = effectivenessMultiplier >= DAMAGE_CONSTANTS.superEffectiveThreshold;
-  const effectivenessAfterSuper = f32(effectivenessMultiplier);
+  const effectivenessAfterSuper = f32(effectivenessMultiplier * f32(fieldEffects.terrainSuperEffectiveMultiplier));
   const stab = stabMultiplier(attacker.form, attacker.member, effectiveType.type);
   const effectivenessTimesStab = f32(effectivenessAfterSuper * f32(stab));
   const criticalStageMultiplier = critical ? DAMAGE_CONSTANTS.criticalBaseMultiplier : 1;
@@ -1554,6 +1614,7 @@ function calculateDamagePreview() {
   const damageRecipient = reflected ? attacker : target;
   const damageRecipientHp = Number(damageRecipient.stats.hp || 0);
   const damageRecipientRole = reflected ? "Attacker" : "Target";
+  const fieldReflectedDamage = fieldEffects.reflectActualDamage && !reflected ? finalDamage : 0;
 
   return {
     ready: true,
@@ -1591,6 +1652,7 @@ function calculateDamagePreview() {
     damageRecipientName: damageRecipient.form.display,
     damageRecipientHp,
     damageRecipientPercent: damageRecipientHp > 0 ? finalDamage / damageRecipientHp * 100 : 0,
+    fieldReflectedDamage,
     warnings
   };
 }
@@ -2086,6 +2148,7 @@ function renderDamageResult(preview) {
         ${renderTraceRow("Known", formatMultiplier(preview.known.stackMultiplier), renderKnownModifierText(preview.known.notes))}
         ${renderTraceRow("Weather", formatMultiplier(preview.fieldEffects.weatherMultiplier), preview.fieldEffects.weatherDetail)}
         ${renderTraceRow("Terrain", formatMultiplier(preview.fieldEffects.terrainMultiplier), preview.fieldEffects.terrainDetail)}
+        ${preview.fieldReflectedDamage ? renderTraceRow("Field Extra", preview.fieldReflectedDamage, "Malevolent Shriek reflected damage to attacker after HP loss") : ""}
         ${renderTraceRow("Attribute", preview.attributeEffects.label, preview.attributeEffects.detail)}
         ${renderTraceRow("Rounding", preview.truncatedBeforeFlat, "trunc after attribute effects")}
       </div>
