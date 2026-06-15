@@ -70,6 +70,7 @@ const DAMAGE_CONSTANTS = {
   stageFormulaPivot: 2,
   critChanceDenominator: 23,
   sereumCritChanceFlat: 33.33333,
+  luckyBreakCritChanceMultiplier: 1.2999999523162842,
   furorTraitMultiplier: 1.314159,
   furorSynchronizedTraitMultiplier: 1.6,
   mestusTraitHpFraction: 0.05,
@@ -1373,6 +1374,8 @@ function calculateHitChance({ attacker, target, move }) {
 }
 
 function calculateCritChance({ attacker, target, move }) {
+  const attackerAbilityId = abilityIdForMember(attacker.member);
+  const attackerAbilityName = attacker.ability?.displayName || attackerAbilityId;
   const targetAbilityId = abilityIdForMember(target.member);
   const targetAbilityName = target.ability?.displayName || targetAbilityId;
 
@@ -1417,13 +1420,23 @@ function calculateCritChance({ attacker, target, move }) {
     chance = f32(chance + flatBonus);
     modifiers.push({ label: "SEREUM Attribute", flat: flatBonus });
   }
+  if (attackerAbilityId === "LuckyStar") {
+    const multiplier = DAMAGE_CONSTANTS.luckyBreakCritChanceMultiplier;
+    chance = f32(chance * multiplier);
+    modifiers.push({ label: attackerAbilityName, multiplier });
+  }
 
   chance = clamp(chance, 0, 100);
+  const modifierDetails = modifiers.map((modifier) => {
+    if (Number.isFinite(modifier.flat)) return `${modifier.label} +${formatChance(modifier.flat)}`;
+    if (Number.isFinite(modifier.multiplier)) return `${modifier.label} ${formatMultiplier(modifier.multiplier)}`;
+    return modifier.label;
+  });
   return {
     chance,
     display: formatChance(chance),
-    detail: modifiers.length
-      ? `Base ${formatChance(baseChance)}; ${modifiers.map((modifier) => `${modifier.label} +${formatChance(modifier.flat)}`).join("; ")}`
+    detail: modifierDetails.length
+      ? `Base ${formatChance(baseChance)}; ${modifierDetails.join("; ")}`
       : `Base ${formatChance(baseChance)}`,
     modifiers,
     warnings: []
