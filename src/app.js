@@ -10,6 +10,8 @@ const COMMUNITY_USAGE_DEFAULT_TABLE = "team_snapshots";
 const COMMUNITY_USAGE_STORAGE_KEY = "lumentale-team-builder:community-usage:v1";
 const COMMUNITY_USAGE_FORMAT = "lumentale-community-team-snapshot";
 const COMMUNITY_USAGE_SUBMITTED_LIMIT = 500;
+const ASSUMED_AFFECTION = 100;
+const ASSUMED_AFFECTION_SCALAR = 0.0010000000474974513;
 const DAMAGING_CATEGORIES = new Set(["PHYSICAL", "SPECIAL"]);
 const RELATION_MULTIPLIERS = {
   WEAKNESS: 1.5,
@@ -855,17 +857,19 @@ function resolveStats(form, member, teamContext = state.team) {
   const constants = data.rules.constants;
   const level = member.battleLevel || data.rules.battleLevel;
   const bst = form.baseStatTotal || data.rules.statKeys.reduce((sum, key) => sum + form.baseStats[key], 0);
-  const luckMultiplier = 1 + Number(member.luck || 0) * constants.luckScalar;
+  const assumedAffection = finiteNumber(constants.affectionMax, ASSUMED_AFFECTION);
+  const affectionScalar = finiteNumber(constants.affectionScalar ?? constants.luckScalar, ASSUMED_AFFECTION_SCALAR);
+  const affectionMultiplier = 1 + assumedAffection * affectionScalar;
 
   return Object.fromEntries(data.rules.statKeys.map((key) => {
     const baseWithRoll = Number(form.baseStats[key] || 0) + Number(member.statRolls[key] || 0);
     const variance = baseWithRoll / (bst / constants.minBstDivisor);
     const boostTerm = Math.trunc(Number(member.statBoosts[key] || 0) / 3);
     const baseComponent = Math.sqrt(Math.pow(baseWithRoll, constants.powExponentBeforeSqrt)) * level / constants.baseComponentDivisor;
-    const beforeLuck = key === "hp"
+    const beforeAffection = key === "hp"
       ? Math.trunc(level * constants.levelHalfMultiplier + constants.nonHpFlat + boostTerm + baseComponent + level * constants.hpExtraLevelMultiplier + constants.hpExtraFlat)
       : Math.trunc(level * constants.levelHalfMultiplier * variance + constants.nonHpFlat + boostTerm + baseComponent);
-    const statBeforeModifiers = Math.trunc(beforeLuck * luckMultiplier);
+    const statBeforeModifiers = Math.trunc(beforeAffection * affectionMultiplier);
     const statMultiplier = statModifierMultiplier(form, member, key, teamContext);
 
     return [key, Math.trunc(statBeforeModifiers * statMultiplier)];

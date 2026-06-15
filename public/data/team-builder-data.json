@@ -45,11 +45,11 @@
       "variance": "baseWithRoll / (minBST / 6.0)",
       "boostTerm": "trunc(animon.StatBoost[stat] / 3)",
       "baseComponent": "sqrt(pow(baseWithRoll, 2.3333332538604736)) * level / 100.0",
-      "nonHpBeforeLuck": "trunc(level * 0.5 * variance + 5.0 + boostTerm + baseComponent)",
-      "hpBeforeLuck": "trunc(level * 0.5 + 5.0 + boostTerm + baseComponent + level + 15.0)",
-      "luckMultiplier": "1.0 + animon.Luck * 0.0010000000474974513",
-      "finalStat": "trunc(beforeLuck * luckMultiplier)",
-      "rounding": "native cvttss2si / C# truncation toward zero at StatFormula result, then again after luck multiplier"
+      "nonHpBeforeAffection": "trunc(level * 0.5 * variance + 5.0 + boostTerm + baseComponent)",
+      "hpBeforeAffection": "trunc(level * 0.5 + 5.0 + boostTerm + baseComponent + level + 15.0)",
+      "affectionMultiplier": "1.0 + animon.Affection * 0.0010000000474974513",
+      "finalStat": "trunc(beforeAffection * affectionMultiplier)",
+      "rounding": "native cvttss2si / C# truncation toward zero at StatFormula result, then again after affection multiplier"
     },
     "constants": {
       "powExponentBeforeSqrt": 2.3333332538604736,
@@ -60,7 +60,8 @@
       "nonHpFlat": 5,
       "hpExtraLevelMultiplier": 1,
       "hpExtraFlat": 15,
-      "luckScalar": 0.0010000000474974513
+      "affectionMax": 100,
+      "affectionScalar": 0.0010000000474974513
     }
   },
   "types": [
