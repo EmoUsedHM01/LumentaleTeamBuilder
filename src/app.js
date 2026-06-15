@@ -3102,14 +3102,14 @@ async function maybeSubmitCommunityUsage() {
       pageUrl: location.href,
       teamCode: encodeTeamCode(communityUsageImportPayload(state.team))
     };
-    const response = await fetch(`${config.url}/rest/v1/${encodeURIComponent(config.table)}?on_conflict=team_id`, {
+    const response = await fetch(`${config.url}/rest/v1/rpc/submit_team_current`, {
       method: "POST",
       mode: "cors",
-      headers: communityUsageSupabaseHeaders(config.anonKey, "resolution=merge-duplicates,return=minimal"),
+      headers: communityUsageSupabaseHeaders(config.anonKey),
       body: JSON.stringify({
-        team_id: teamId,
-        snapshot_hash: hash,
-        snapshot
+        payload_team_id: teamId,
+        payload_snapshot_hash: hash,
+        payload_snapshot: snapshot
       })
     });
     if (!response.ok && response.status !== 409) {

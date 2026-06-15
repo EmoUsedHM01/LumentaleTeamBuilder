@@ -46,7 +46,58 @@ execute function public.touch_team_current();
 alter table public.team_current enable row level security;
 
 grant usage on schema public to anon;
-grant insert, update on public.team_current to anon;
+revoke select, insert, update, delete on public.team_current from anon;
+
+create or replace function public.submit_team_current(
+  payload_team_id text,
+  payload_snapshot_hash text,
+  payload_snapshot jsonb
+)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if payload_team_id is null or payload_team_id !~ '^[a-zA-Z0-9_-]{16,80}$' then
+    raise exception 'Invalid team id' using errcode = '22023';
+  end if;
+
+  if payload_snapshot_hash is null or payload_snapshot_hash !~ '^[a-f0-9]{16}$' then
+    raise exception 'Invalid snapshot hash' using errcode = '22023';
+  end if;
+
+  if payload_snapshot->>'format' is distinct from 'lumentale-community-team-snapshot' then
+    raise exception 'Invalid snapshot format' using errcode = '22023';
+  end if;
+
+  if payload_snapshot->>'snapshotHash' is distinct from payload_snapshot_hash then
+    raise exception 'Snapshot hash mismatch' using errcode = '22023';
+  end if;
+
+  if payload_snapshot->>'teamId' is distinct from payload_team_id then
+    raise exception 'Team id mismatch' using errcode = '22023';
+  end if;
+
+  if jsonb_typeof(payload_snapshot->'members') is distinct from 'array' then
+    raise exception 'Snapshot members must be an array' using errcode = '22023';
+  end if;
+
+  if jsonb_array_length(payload_snapshot->'members') <> 6 then
+    raise exception 'Snapshot must contain 6 members' using errcode = '22023';
+  end if;
+
+  insert into public.team_current (team_id, snapshot_hash, snapshot)
+  values (payload_team_id, payload_snapshot_hash, payload_snapshot)
+  on conflict (team_id) do update
+  set
+    snapshot_hash = excluded.snapshot_hash,
+    snapshot = excluded.snapshot;
+end;
+$$;
+
+revoke all on function public.submit_team_current(text, text, jsonb) from public;
+grant execute on function public.submit_team_current(text, text, jsonb) to anon;
 
 drop policy if exists "Allow public completed team current inserts" on public.team_current;
 create policy "Allow public completed team current inserts"
