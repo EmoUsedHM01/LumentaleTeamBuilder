@@ -10485,7 +10485,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 35 power NONE special damage to one chosen battler. 100% accuracy; costs 2 SP. Special: Damage increases each time this move is used.",
-      "description": "The user shouts randomly, damaging the target. The skillâ€™s power increases with each use."
+      "description": "The user shouts randomly, damaging the target. The skill's power increases with each use."
     },
     {
       "id": "4ead9181-160b-435d-ac0e-ae64b930d3b7:2",
@@ -10700,7 +10700,7 @@
       "id": "a02450ec-48ab-4607-89ef-41896af9e506:0",
       "guid": "a02450ec-48ab-4607-89ef-41896af9e506",
       "internalName": "Furia del Pianeta",
-      "displayName": "Natureâ€™s Wrath",
+      "displayName": "Nature's Wrath",
       "variant": "base",
       "variantIndex": 0,
       "type": "GRASS",
@@ -10979,7 +10979,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user creates a sea of mud at its enemiesâ€™ feet, diminishing their Agility."
+      "description": "The user creates a sea of mud at its enemies' feet, diminishing their Agility."
     },
     {
       "id": "64c4cdd6-4ddf-4e29-bbcc-38292b6b27dc:0",
@@ -12138,7 +12138,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Special: Applies a stat, damage, or resource increase described in the text. Effect duration: 2 cycles.",
-      "description": "The user utilises sweet water to remove negative effects and boost the targetâ€™s damage."
+      "description": "The user utilises sweet water to remove negative effects and boost the target's damage."
     },
     {
       "id": "b641cadc-56fe-436b-9a5a-8f032d5db429:0",
@@ -12860,7 +12860,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally other than the user. 100% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user lends some of its energy to the target, adding the userâ€™s power to its next attack."
+      "description": "The user lends some of its energy to the target, adding the user's power to its next attack."
     },
     {
       "id": "3876450d-7157-4a59-a184-da19db66d855:0",
@@ -12993,7 +12993,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies a heavy DATA shield to the user; allied skills cost +1 SP while active.",
-      "description": "The user creates a heavy data shield that protects it against most damage, but also increases alliesâ€™ skill costs by 1 SP."
+      "description": "The user creates a heavy data shield that protects it against most damage, but also increases allies' skill costs by 1 SP."
     },
     {
       "id": "9330a53a-8459-4128-965a-b9a90fdb543d:0",
@@ -13316,7 +13316,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies Director to the user for 3 cycles.",
-      "description": "The user prepares the scene of the battle, increasing alliesâ€™ SP by 1 for the next three turn cycles."
+      "description": "The user prepares the scene of the battle, increasing allies' SP by 1 for the next three turn cycles."
     },
     {
       "id": "112fbaf3-e0d1-4f9b-866d-4c15c4c7a60e:0",
@@ -13658,7 +13658,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 40 power ELECTRIC physical damage to all enemies on the target side. 100% accuracy; costs 3 SP. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The user charges itself up with electric energy to attack all its opponents. If the skill hits, the userâ€™s Agility increases. If it fails, changes to the userâ€™s Agility are reversed and this stat is reduced by one."
+      "description": "The user charges itself up with electric energy to attack all its opponents. If the skill hits, the user's Agility increases. If it fails, changes to the user's Agility are reversed and this stat is reduced by one."
     },
     {
       "id": "a83c1e2d-b93b-45ea-96a4-2374ea1086a3:0",
@@ -13696,7 +13696,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 70 power DATA special damage to all enemies on the target side. 100% accuracy; costs 4 SP. Special: Hits the target side and raises the user Defence.",
-      "description": "The user analyses its opponentsâ€™ cognitive processes and corrupts them, inflicting damage and increasing its own defence."
+      "description": "The user analyses its opponents' cognitive processes and corrupts them, inflicting damage and increasing its own defence."
     },
     {
       "id": "b5d29817-4a4c-44bf-bed6-cb0dec27619d:0",
@@ -14034,7 +14034,7 @@
       "id": "Anode",
       "internalName": "Anode",
       "displayName": "Anode",
-      "description": "Boosts the Animonâ€™s stats if an Animon with Cathode is also in battle.",
+      "description": "Boosts the Animon's stats if an Animon with Cathode is also in battle.",
       "effectDetails": "With a Cathode ally in battle: Attack, Defence, Sp. Attack, Sp. Defence, and Agility x1.2 (+20%).",
       "statModifiers": [
         {
@@ -14079,7 +14079,7 @@
       "id": "Catode",
       "internalName": "Catode",
       "displayName": "Cathode",
-      "description": "Boosts the Animonâ€™s stats if an Animon with Anode is also in battle.",
+      "description": "Boosts the Animon's stats if an Animon with Anode is also in battle.",
       "effectDetails": "With an Anode ally in battle: Attack, Defence, Sp. Attack, Sp. Defence, and Agility x1.2 (+20%).",
       "statModifiers": [
         {
@@ -14140,7 +14140,7 @@
       "id": "SniperSense",
       "internalName": "SniperSense",
       "displayName": "Eagle Eyed",
-      "description": "Increases the Animonâ€™s Accuracy during battle.",
+      "description": "Increases the Animon's Accuracy during battle.",
       "effectDetails": "User move accuracy x1.2 (+20%).",
       "statModifiers": []
     },
@@ -14164,7 +14164,7 @@
       "id": "Echoblow",
       "internalName": "Echoblow",
       "displayName": "Echoblow",
-      "description": "The Animonâ€™s attacks inflict less damage, but echo off opponents.",
+      "description": "The Animon's attacks inflict less damage, but echo off opponents.",
       "effectDetails": "User attacks deal x0.7 damage (-30%); the attack echoes up to 3 additional times.",
       "statModifiers": []
     },
@@ -14196,7 +14196,7 @@
       "id": "TitForTat",
       "internalName": "TitForTat",
       "displayName": "Eye for an Eye",
-      "description": "When the Animonâ€™s stats are modified, the damage of its next attack is increased.",
+      "description": "When the Animon's stats are modified, the damage of its next attack is increased.",
       "effectDetails": "After the user stats are modified, the next attack deals x1.3 damage (+30%).",
       "statModifiers": []
     },
@@ -14204,7 +14204,7 @@
       "id": "FireEater",
       "internalName": "FireEater",
       "displayName": "Fire Eater",
-      "description": "Increases the damage of the Animonâ€™s next skill when hit by a Fire attack.",
+      "description": "Increases the damage of the Animon's next skill when hit by a Fire attack.",
       "effectDetails": "After being hit by a Fire attack, the next skill deals x1.3 damage (+30%).",
       "statModifiers": []
     },
@@ -14228,7 +14228,7 @@
       "id": "Handyman",
       "internalName": "Handyman",
       "displayName": "Handyman",
-      "description": "The Animonâ€™s SP decrease by 1 in battle, but its entire teamâ€™s damage increases.",
+      "description": "The Animon's SP decrease by 1 in battle, but its entire team's damage increases.",
       "effectDetails": "Team damage dealt x1.15 (+15%); team SP is reduced by 1.",
       "statModifiers": []
     },
@@ -14260,7 +14260,7 @@
       "id": "Hoarder",
       "internalName": "Hoarder",
       "displayName": "Hoarder",
-      "description": "The Animon can steal the opponentâ€™s held item during battle.",
+      "description": "The Animon can steal the opponent's held item during battle.",
       "effectDetails": "Can steal the target held item during battle.",
       "statModifiers": []
     },
@@ -14380,7 +14380,7 @@
       "id": "PerfectWeapon",
       "internalName": "PerfectWeapon",
       "displayName": "Perfect Weapon",
-      "description": "Prevents the Animonâ€™s Attack and Special Attack from being reduced.",
+      "description": "Prevents the Animon's Attack and Special Attack from being reduced.",
       "effectDetails": "Prevents Attack and Sp. Attack stat reductions.",
       "statModifiers": []
     },
@@ -14412,7 +14412,7 @@
       "id": "SoreLoser",
       "internalName": "SoreLoser",
       "displayName": "Sore Loser",
-      "description": "Maximises the Animonâ€™s Attack when it takes a critical hit, but severely reduces defences.",
+      "description": "Maximises the Animon's Attack when it takes a critical hit, but severely reduces defences.",
       "effectDetails": "After receiving a critical hit, Attack is maximized while Defence and Sp. Defence are sharply reduced.",
       "statModifiers": []
     },
@@ -14428,7 +14428,7 @@
       "id": "StunBody",
       "internalName": "StunBody",
       "displayName": "Stunner",
-      "description": "When the Animon is hit, the attacking Animonâ€™s Agility is reduced.",
+      "description": "When the Animon is hit, the attacking Animon's Agility is reduced.",
       "effectDetails": "When hit, lowers the attacker Agility by 1 stage.",
       "statModifiers": []
     },
@@ -14436,7 +14436,7 @@
       "id": "SeaSun",
       "internalName": "SeaSun",
       "displayName": "Sunbathe",
-      "description": "When Blumester is in trouble, it reveals itself, reducing the opponentâ€™s Agility.",
+      "description": "When Blumester is in trouble, it reveals itself, reducing the opponent's Agility.",
       "effectDetails": "When HP falls below 50%, changes form and lowers opposing Agility.",
       "statModifiers": []
     },
@@ -14444,7 +14444,7 @@
       "id": "SuperCharge",
       "internalName": "SuperCharge",
       "displayName": "Supercharge",
-      "description": "Increases the Animonâ€™s SP in battle by 1.",
+      "description": "Increases the Animon's SP in battle by 1.",
       "effectDetails": "Adds +1 SP.",
       "statModifiers": []
     },
@@ -14452,7 +14452,7 @@
       "id": "Tension",
       "internalName": "Tension",
       "displayName": "Tense",
-      "description": "When the Animon is hit, the cost of the opponentâ€™s next action increases by 1 SP.",
+      "description": "When the Animon is hit, the cost of the opponent's next action increases by 1 SP.",
       "effectDetails": "After being hit, the opponent next action costs +1 SP.",
       "statModifiers": []
     },
@@ -14517,7 +14517,7 @@
       "id": "Whimsical",
       "internalName": "Whimsical",
       "displayName": "Volatile",
-      "description": "When the Animon is suffering from a negative effect, the Animonâ€™s Agility increases.",
+      "description": "When the Animon is suffering from a negative effect, the Animon's Agility increases.",
       "effectDetails": "Agility scales with active debuffs: x1.1 with 1, x1.3 with 2, x1.7 with 3, and x2.0 with 4+ debuffs.",
       "statModifiers": []
     }
