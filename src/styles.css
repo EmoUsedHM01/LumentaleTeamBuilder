@@ -1547,6 +1547,79 @@ button {
   letter-spacing: 0;
 }
 
+.coverage-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+
+.coverage-section-heading h3 {
+  margin: 0;
+}
+
+.ruleset-info-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ruleset-info-button:hover,
+.ruleset-info-button:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.ruleset-info-popover {
+  position: fixed;
+  top: var(--ruleset-info-y, 0px);
+  left: var(--ruleset-info-x, 0px);
+  z-index: 30;
+  display: none;
+  width: min(var(--ruleset-info-width, 260px), calc(100vw - 24px));
+  padding: 8px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: left;
+  transform: translateX(-100%);
+}
+
+.ruleset-info-popover strong,
+.ruleset-info-popover span {
+  display: block;
+}
+
+.ruleset-info-popover strong {
+  margin-bottom: 5px;
+}
+
+.ruleset-info-popover span + span {
+  margin-top: 4px;
+}
+
+.ruleset-info-button:hover .ruleset-info-popover,
+.ruleset-info-button:focus .ruleset-info-popover,
+.ruleset-info-button:focus-within .ruleset-info-popover {
+  display: block;
+}
+
 .chip-list,
 .warning-list,
 .rule-list {
@@ -1653,6 +1726,10 @@ button {
 
 .rule-check-section {
   background: color-mix(in srgb, var(--danger-bg) 42%, transparent);
+}
+
+.rule-check-section-ok {
+  background: transparent;
 }
 
 .rule-list div {

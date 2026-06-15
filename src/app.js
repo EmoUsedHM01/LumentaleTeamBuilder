@@ -123,8 +123,10 @@ const DAMAGE_TOGGLE_FIELDS = new Set([
 const UNDO_HISTORY_LIMIT = 3;
 const STARTER_DEX_RANGE = { min: 1, max: 20, label: "#1-20" };
 const LEGENDARY_DEX_RANGE = { min: 124, max: 136, label: "#124-136" };
-const COMMUNITY_BANNED_ANIMON = new Set(["Kentaress", "Primalong", "Weaphoon", "Zenicore"].map(normalize));
-const COMMUNITY_BANNED_ITEMS = new Set(["Silhouchain"].map(normalize));
+const COMMUNITY_BANNED_ANIMON_NAMES = ["Kentaress", "Primalong", "Weaphoon", "Zenicore"];
+const COMMUNITY_BANNED_ITEM_NAMES = ["Silhouchain"];
+const COMMUNITY_BANNED_ANIMON = new Set(COMMUNITY_BANNED_ANIMON_NAMES.map(normalize));
+const COMMUNITY_BANNED_ITEMS = new Set(COMMUNITY_BANNED_ITEM_NAMES.map(normalize));
 const ACTIVE_PARTY_SLOT_COUNT = 4;
 const SAVED_TEAM_COUNT = 10;
 const COMMUNITY_USAGE_MAJOR_COMPOSITION_CHANGE = 2;
@@ -2658,13 +2660,37 @@ function buildRuleViolations(members) {
   return violations;
 }
 
-function renderRuleViolations(violations) {
-  if (!violations.length) return "";
+function renderRulesetInfo() {
+  const rules = [
+    `Maximum 1 Starter Animon (${STARTER_DEX_RANGE.label}).`,
+    `Maximum 1 Legendary Animon (${LEGENDARY_DEX_RANGE.label}).`,
+    `Banned Animon: ${COMMUNITY_BANNED_ANIMON_NAMES.join(", ")}.`,
+    `Banned item: ${COMMUNITY_BANNED_ITEM_NAMES.join(", ")}.`,
+    "No duplicate Animon and Form combinations.",
+    "No duplicate held items."
+  ];
   return `
-    <section class="coverage-section rule-check-section">
-      <h3>Rule Checks</h3>
-      <div class="rule-list">
-        ${violations.map((violation) => `<div>${escapeHtml(violation)}</div>`).join("")}
+    <button class="ruleset-info-button" type="button" aria-label="Current ruleset information">
+      <span class="ruleset-info-icon" aria-hidden="true">i</span>
+      <span class="ruleset-info-popover" role="tooltip">
+        <strong>Current community ruleset</strong>
+        ${rules.map((rule) => `<span>${escapeHtml(rule)}</span>`).join("")}
+      </span>
+    </button>
+  `;
+}
+
+function renderRuleViolations(violations) {
+  return `
+    <section class="coverage-section rule-check-section ${violations.length ? "" : "rule-check-section-ok"}">
+      <div class="coverage-section-heading">
+        <h3>Ruleset Checks</h3>
+        ${renderRulesetInfo()}
+      </div>
+      <div class="${violations.length ? "rule-list" : "warning-list"}">
+        ${violations.length
+          ? violations.map((violation) => `<div>${escapeHtml(violation)}</div>`).join("")
+          : `<div class="ok">All good</div>`}
       </div>
     </section>
   `;
@@ -3132,6 +3158,12 @@ function renderCoverage() {
       </div>
       ${renderRuleViolations(ruleViolations)}
       <section class="coverage-section">
+        <h3>Checks</h3>
+        <div class="warning-list">
+          ${warnings.length ? warnings.slice(0, 10).map((warning) => `<div>${escapeHtml(warning)}</div>`).join("") : `<div class="ok">All good</div>`}
+        </div>
+      </section>
+      <section class="coverage-section">
         <h3>Damaging Types</h3>
         <div class="chip-list">
           ${moveCounts.size ? [...moveCounts.entries()].sort((a, b) => b[1] - a[1]).map(([type, count]) => `
@@ -3151,12 +3183,6 @@ function renderCoverage() {
         </div>
       </section>
       ${renderWeaknesses(members)}
-      <section class="coverage-section">
-        <h3>Checks</h3>
-        <div class="warning-list">
-          ${warnings.length ? warnings.slice(0, 10).map((warning) => `<div>${escapeHtml(warning)}</div>`).join("") : `<div class="ok">Team shell complete</div>`}
-        </div>
-      </section>
       ${renderCommunityUsageStatus(warnings)}
     </aside>
   `;
@@ -3215,11 +3241,29 @@ function bindEvents() {
   app.addEventListener("click", onClick);
   app.addEventListener("input", onInput);
   app.addEventListener("change", onChange);
+  app.addEventListener("focusin", onRulesetInfoIntent);
+  app.addEventListener("pointerenter", onRulesetInfoIntent, true);
   app.addEventListener("focusout", onFocusOut);
   app.addEventListener("dragstart", onDragStart);
   app.addEventListener("dragover", onDragOver);
   app.addEventListener("drop", onDrop);
   document.addEventListener("keydown", onKeyDown);
+}
+
+function positionRulesetInfoPopover(button) {
+  const rect = button.getBoundingClientRect();
+  const viewportPadding = 12;
+  const preferredWidth = Math.min(260, window.innerWidth - viewportPadding * 2);
+  const x = clamp(rect.right, viewportPadding + preferredWidth, window.innerWidth - viewportPadding);
+  const y = clamp(rect.top, viewportPadding, window.innerHeight - viewportPadding);
+  button.style.setProperty("--ruleset-info-x", `${x}px`);
+  button.style.setProperty("--ruleset-info-y", `${y}px`);
+  button.style.setProperty("--ruleset-info-width", `${preferredWidth}px`);
+}
+
+function onRulesetInfoIntent(event) {
+  const button = event.target.closest?.(".ruleset-info-button");
+  if (button) positionRulesetInfoPopover(button);
 }
 
 function onKeyDown(event) {
@@ -3244,6 +3288,7 @@ function setCommunityUsageConsent(enabled) {
 }
 
 function onClick(event) {
+  onRulesetInfoIntent(event);
   const actionTarget = event.target.closest("[data-action]");
   if (!actionTarget) return;
 
