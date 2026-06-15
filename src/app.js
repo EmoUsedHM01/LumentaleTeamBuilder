@@ -124,7 +124,7 @@ const DAMAGE_TOGGLE_FIELDS = new Set([
 const UNDO_HISTORY_LIMIT = 3;
 const STARTER_DEX_RANGE = { min: 1, max: 20, label: "#1-20" };
 const LEGENDARY_DEX_RANGE = { min: 124, max: 136, label: "#124-136" };
-const COMMUNITY_BANNED_ANIMON_NAMES = ["Kentaress", "Primalong", "Weaphoon", "Zenicore"];
+const COMMUNITY_BANNED_ANIMON_NAMES = ["Kentaress", "Primalong"];
 const COMMUNITY_BANNED_ITEM_NAMES = ["Silhouchain"];
 const COMMUNITY_BANNED_ANIMON = new Set(COMMUNITY_BANNED_ANIMON_NAMES.map(normalize));
 const COMMUNITY_BANNED_ITEMS = new Set(COMMUNITY_BANNED_ITEM_NAMES.map(normalize));
@@ -2638,17 +2638,14 @@ function buildRuleViolations(members) {
   const starters = entries.filter(({ form }) => inDexRange(form, STARTER_DEX_RANGE));
   const bannedAnimon = entries.filter(({ form }) => isCommunityBannedAnimon(form));
   const legendaries = entries.filter(({ form }) => inDexRange(form, LEGENDARY_DEX_RANGE));
-
-  if (starters.length > 1) {
-    violations.push(`Starter limit: ${starters.length} selected (${STARTER_DEX_RANGE.label}): ${entryListLabel(starters)}`);
-  }
+  const starterOrLegendary = [...starters, ...legendaries];
 
   if (bannedAnimon.length > 0) {
     violations.push(`Banned Animon: ${entryListLabel(bannedAnimon)}`);
   }
 
-  if (legendaries.length > 1) {
-    violations.push(`Legendary limit: ${legendaries.length} selected (${LEGENDARY_DEX_RANGE.label}): ${entryListLabel(legendaries)}`);
+  if (starterOrLegendary.length > 1) {
+    violations.push(`Starter/Legendary limit: ${starterOrLegendary.length} selected (${STARTER_DEX_RANGE.label} or ${LEGENDARY_DEX_RANGE.label}): ${entryListLabel(starterOrLegendary)}`);
   }
 
   for (const group of duplicateEntryGroups(entries, ({ form }) => `${normalize(form.animonName || form.name)}:${normalize(form.form)}`)) {
@@ -2675,8 +2672,7 @@ function buildRuleViolations(members) {
 
 function renderRulesetInfo() {
   const rules = [
-    `Maximum 1 Starter Animon (${STARTER_DEX_RANGE.label}).`,
-    `Maximum 1 Legendary Animon (${LEGENDARY_DEX_RANGE.label}).`,
+    `Maximum 1 total Starter or Legendary Animon (${STARTER_DEX_RANGE.label} or ${LEGENDARY_DEX_RANGE.label}).`,
     `Banned Animon: ${COMMUNITY_BANNED_ANIMON_NAMES.join(", ")}.`,
     `Banned item: ${COMMUNITY_BANNED_ITEM_NAMES.join(", ")}.`,
     "No duplicate Animon and Form combinations.",
