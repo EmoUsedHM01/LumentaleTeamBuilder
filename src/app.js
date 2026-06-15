@@ -1284,7 +1284,7 @@ function describeTraitState(trait) {
   return sources.join("; ");
 }
 
-function attributeDamageEffects(attacker, target, damageFloat) {
+function attributeDamageEffects(attacker, target, damageFloat, options = {}) {
   const trait = attackerTraitState(attacker);
   const result = {
     trait,
@@ -1311,6 +1311,11 @@ function attributeDamageEffects(attacker, target, damageFloat) {
     result.detail = `crit chance only (${describeTraitState(trait)})`;
   } else if (trait.attribute === "FELICIS") {
     result.detail = `no direct damage change (${describeTraitState(trait)})`;
+  } else if (trait.attribute === "HORRENS") {
+    result.detail = options.horrensNeutralizedResistance
+      ? `neutralized resistance (${describeTraitState(trait)})`
+      : `pending non-resistance branch (${describeTraitState(trait)})`;
+    result.warnings.push("HORRENS resistance neutralization is modeled; the remaining native threshold branch is still partially decoded.");
   } else if (trait.attribute === "MESTUS") {
     const baseFraction = DAMAGE_CONSTANTS.mestusTraitHpFraction;
     const syncFraction = trait.synchronized ? DAMAGE_CONSTANTS.mestusTraitHpFraction : 0;
@@ -1564,7 +1569,10 @@ function calculateDamagePreview() {
   warnings.push(...effectiveType.notes);
   const naturalRelation = relationForDamage(effectiveType.type, target.form);
   const forcedWeakness = Boolean(state.damage.forceElementalWeakness);
-  const relation = forcedWeakness ? "WEAKNESS" : naturalRelation;
+  const relationBeforeTrait = forcedWeakness ? "WEAKNESS" : naturalRelation;
+  const attackerTrait = attackerTraitState(attacker);
+  const horrensNeutralizedResistance = attackerTrait.active && attackerTrait.attribute === "HORRENS" && relationBeforeTrait === "RESISTANCE";
+  const relation = horrensNeutralizedResistance ? "NORMAL" : relationBeforeTrait;
   const effectivenessMultiplier = RELATION_MULTIPLIERS[relation] ?? 1;
   const reflected = !forcedWeakness && relation === "REFLECT";
   const { attackKey, defenseKey, source } = damageStatKeys(move);
@@ -1606,7 +1614,7 @@ function calculateDamagePreview() {
   const afterCrit = f32(effectivenessTimesStab * criticalCombined);
   const afterStack = f32(afterCrit * stackMultiplier);
   const afterBaseDamage = f32(afterStack * base.nativeFloat);
-  const attributeEffects = attributeDamageEffects(attacker, target, afterBaseDamage);
+  const attributeEffects = attributeDamageEffects(attacker, target, afterBaseDamage, { horrensNeutralizedResistance });
   warnings.push(...attributeEffects.warnings);
   const truncatedBeforeFlat = truncTowardZero(attributeEffects.damageFloat);
   const finalDamage = truncatedBeforeFlat;
@@ -1622,7 +1630,9 @@ function calculateDamagePreview() {
     moveType: effectiveType.type,
     relation,
     naturalRelation,
+    relationBeforeTrait,
     forcedWeakness,
+    horrensNeutralizedResistance,
     reflected,
     effectivenessMultiplier,
     isSuperEffective,
@@ -2081,6 +2091,27 @@ function renderDamageSelectField(field, label, options) {
   `;
 }
 
+function damageTypeDetail(preview) {
+  const detail = [`${preview.relation} ${formatMultiplier(preview.effectivenessMultiplier)}`];
+  if (preview.forcedWeakness) {
+    detail.push(`natural ${preview.naturalRelation}`);
+  }
+  if (preview.horrensNeutralizedResistance) {
+    detail.push(`HORRENS neutralized ${preview.relationBeforeTrait}`);
+  }
+  return detail.join("; ");
+}
+
+function damageTypeTraceDetail(preview) {
+  if (preview.forcedWeakness) {
+    return `forced weakness; natural ${preview.naturalRelation}`;
+  }
+  if (preview.horrensNeutralizedResistance) {
+    return `HORRENS neutralized ${preview.relationBeforeTrait}`;
+  }
+  return preview.relation;
+}
+
 function renderDamageResult(preview) {
   if (!preview.ready) {
     return `
@@ -2124,7 +2155,7 @@ function renderDamageResult(preview) {
         <div class="damage-metric">
           <span>Type</span>
           <strong>${typePill(preview.moveType)}</strong>
-          <small>${escapeHtml(preview.relation)} ${formatMultiplier(preview.effectivenessMultiplier)}${preview.forcedWeakness ? `; natural ${escapeHtml(preview.naturalRelation)}` : ""}</small>
+          <small>${escapeHtml(damageTypeDetail(preview))}</small>
         </div>
         <div class="damage-metric">
           <span>Hit Chance</span>
@@ -2141,7 +2172,7 @@ function renderDamageResult(preview) {
         ${renderTraceRow("Stats", `${formatStatKey(preview.attackKey)} ${preview.attack} vs ${formatStatKey(preview.defenseKey)} ${preview.defense}`, preview.categorySource)}
         ${renderTraceRow("Recipient", preview.damageRecipientRole, preview.damageRecipientName)}
         ${renderTraceRow("Base", roundForDisplay(preview.base.baseDamageFloat, 4), "before multipliers")}
-        ${renderTraceRow("Type", formatMultiplier(preview.effectivenessMultiplier), preview.forcedWeakness ? `forced weakness; natural ${preview.naturalRelation}` : preview.relation)}
+        ${renderTraceRow("Type", formatMultiplier(preview.effectivenessMultiplier), damageTypeTraceDetail(preview))}
         ${renderTraceRow("STAB", formatMultiplier(preview.stab), memberHasMoveType(preview.selection.attacker.form, preview.selection.attacker.member, preview.moveType) ? "matched" : "none")}
         ${renderTraceRow("Critical", preview.critical ? formatMultiplier(preview.criticalStageMultiplier * preview.known.criticalMultiplier) : "x1", preview.critical ? "forced" : "off")}
         ${renderTraceRow("Crit Chance", preview.critChance.display, preview.critChance.detail)}
