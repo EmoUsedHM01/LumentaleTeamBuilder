@@ -13206,7 +13206,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "Removes all stat changes from all enemies."
+      "description": "Removes all positive BattleEffects from all enemies."
     },
     {
       "id": "310008c2-71a9-4fde-9429-9b8997f16697:0",
