@@ -93,6 +93,7 @@ const DAMAGE_CONSTANTS = {
   furorTraitMultiplier: 1.314159,
   furorSynchronizedTraitMultiplier: 1.6,
   mestusTraitHpFraction: 0.05,
+  synchroStatShareMultiplier: 1.5,
   superEffectiveThreshold: 1.5,
   criticalBaseMultiplier: 1.7999999523162842
 };
@@ -111,6 +112,7 @@ const DAMAGE_STATE_DEFAULTS = Object.freeze({
   critical: false,
   forceElementalWeakness: false,
   attackerSynchronized: false,
+  defenderSynchronized: false,
   attackerAttributeActive: false,
   attackerAttackStage: 0,
   attackerSpecialAttackStage: 0,
@@ -134,10 +136,12 @@ const DAMAGE_SELECT_FIELDS = new Set([
   "weatherEffect",
   "terrainEffect"
 ]);
+const MOVE_DESCRIPTION_CATEGORIES = new Set(["STATUS", "PHYSICAL", "SPECIAL"]);
 const DAMAGE_TOGGLE_FIELDS = new Set([
   "critical",
   "forceElementalWeakness",
   "attackerSynchronized",
+  "defenderSynchronized",
   "attackerAttributeActive"
 ]);
 const UNDO_HISTORY_LIMIT = 3;
@@ -606,6 +610,7 @@ function sanitizeDamageState(damage) {
     critical: Boolean(next.critical),
     forceElementalWeakness: Boolean(next.forceElementalWeakness),
     attackerSynchronized: Boolean(next.attackerSynchronized),
+    defenderSynchronized: Boolean(next.defenderSynchronized),
     attackerAttributeActive: Boolean(next.attackerAttributeActive),
     attackerAttackStage: clamp(Math.trunc(finiteNumber(next.attackerAttackStage, 0)), -6, 6),
     attackerSpecialAttackStage: clamp(Math.trunc(finiteNumber(next.attackerSpecialAttackStage, 0)), -6, 6),
@@ -922,6 +927,26 @@ function resolveStats(form, member, teamContext = state.team) {
   }));
 }
 
+function synchroStatMultiplier(form, key) {
+  if (key === "hp") return 1;
+  const baseStat = Number(form?.baseStats?.[key] || 0);
+  const bst = formBaseStatTotal(form);
+  if (!baseStat || !bst) return 1;
+  return 1 + baseStat * DAMAGE_CONSTANTS.synchroStatShareMultiplier / bst;
+}
+
+function applySynchroStatBoosts(stats, form, synchronized = false) {
+  if (!synchronized) return stats;
+  return Object.fromEntries(data.rules.statKeys.map((key) => {
+    const value = finiteNumber(stats?.[key], 0);
+    return [key, key === "hp" ? value : Math.trunc(value * synchroStatMultiplier(form, key))];
+  }));
+}
+
+function resolveDamageStats(form, member, teamContext = state.team, synchronized = false) {
+  return applySynchroStatBoosts(resolveStats(form, member, teamContext), form, synchronized);
+}
+
 function activeHeldItemStatModifiers(form, member, key) {
   const heldItem = member.heldItemId ? indexes.heldItemsById.get(member.heldItemId) : null;
   if (!heldItem) return [];
@@ -1069,16 +1094,18 @@ function effectiveMoveSlot(member, preferredSlot) {
   return first === -1 ? preferred : first;
 }
 
-function battleEntry(team, slot, side) {
+function battleEntry(team, slot, side, options = {}) {
   const member = team[slot] || null;
   const form = member ? indexes.formsById.get(member.formId) : null;
   if (!member || !form) return null;
+  const synchronized = Boolean(options.synchronized);
   return {
     side,
     slot,
     member,
     form,
-    stats: resolveStats(form, member, team),
+    synchronized,
+    stats: resolveDamageStats(form, member, team, synchronized),
     ability: abilityForMember(member),
     heldItem: heldItemForMember(member)
   };
@@ -1087,8 +1114,12 @@ function battleEntry(team, slot, side) {
 function damageSelection() {
   const attackerSlot = effectiveFilledSlot(state.team, state.damage.attackerSlot);
   const targetSlot = effectiveFilledSlot(state.opponentTeam, state.damage.targetSlot);
-  const attacker = battleEntry(state.team, attackerSlot, "current");
-  const target = battleEntry(state.opponentTeam, targetSlot, "opponent");
+  const attacker = battleEntry(state.team, attackerSlot, "current", {
+    synchronized: state.damage.attackerSynchronized
+  });
+  const target = battleEntry(state.opponentTeam, targetSlot, "opponent", {
+    synchronized: state.damage.defenderSynchronized
+  });
   const moveSlot = effectiveMoveSlot(attacker?.member, state.damage.moveSlot);
   const moveId = attacker?.member?.moves?.[moveSlot] || null;
   const move = moveId ? indexes.movesById.get(moveId) : null;
@@ -1580,6 +1611,8 @@ function calculateDamagePreview() {
   const defenseStage = defenseKey === "def" ? state.damage.targetDefenseStage : state.damage.targetSpecialDefenseStage;
   const attack = liveStatValue(attacker.stats[attackKey], attackStage, attackKey);
   const defense = liveStatValue(target.stats[defenseKey], defenseStage, defenseKey);
+  const attackerSynchroMultiplier = synchroStatMultiplier(attacker.form, attackKey);
+  const defenderSynchroMultiplier = synchroStatMultiplier(target.form, defenseKey);
   const targetAbilityId = abilityIdForMember(target.member);
   const critical = Boolean(state.damage.critical && move.category !== "STATUS" && targetAbilityId !== "HardBoiled");
   const known = knownDamageModifiers({
@@ -1643,6 +1676,10 @@ function calculateDamagePreview() {
     defense,
     attackStage,
     defenseStage,
+    attackerSynchronized: Boolean(attacker.synchronized),
+    defenderSynchronized: Boolean(target.synchronized),
+    attackerSynchroMultiplier,
+    defenderSynchroMultiplier,
     categorySource: source,
     critical,
     criticalStageMultiplier,
@@ -1697,6 +1734,16 @@ function predictedTurnOrder() {
   }));
 }
 
+function damageEntrySynchronized(entry) {
+  if (entry.side === "current" && entry.slot === state.damage.attackerSlot) {
+    return Boolean(state.damage.attackerSynchronized);
+  }
+  if (entry.side === "opponent" && entry.slot === state.damage.targetSlot) {
+    return Boolean(state.damage.defenderSynchronized);
+  }
+  return Boolean(entry.synchronized);
+}
+
 function turnOrderAgility(entry) {
   let stage = 0;
   if (entry.side === "current" && entry.slot === state.damage.attackerSlot) {
@@ -1704,7 +1751,8 @@ function turnOrderAgility(entry) {
   } else if (entry.side === "opponent" && entry.slot === state.damage.targetSlot) {
     stage = state.damage.targetAgilityStage;
   }
-  return liveStatValue(entry.stats.agility, stage, "agility");
+  const stats = applySynchroStatBoosts(entry.stats, entry.form, damageEntrySynchronized(entry));
+  return liveStatValue(stats.agility, stage, "agility");
 }
 
 function roundForDisplay(value, places = 2) {
@@ -1858,7 +1906,10 @@ function renderDamageMemberCard(member, index, team, side, selectedSlot, action)
   }
 
   const form = indexes.formsById.get(member.formId);
-  const stats = resolveStats(form, member, team);
+  const synchronized = side === "current"
+    ? index === state.damage.attackerSlot && state.damage.attackerSynchronized
+    : index === state.damage.targetSlot && state.damage.defenderSynchronized;
+  const stats = resolveDamageStats(form, member, team, synchronized);
   const moveCount = member.moves.filter(Boolean).length;
   return `
     <button class="damage-member-card ${selected} ${active}" type="button" draggable="true" data-action="${escapeHtml(action)}" data-party-side="${escapeHtml(side)}" data-slot="${index}" title="${escapeHtml(activeTitle)}">
@@ -1924,7 +1975,7 @@ function renderDamageStatEditor(side, entry, title) {
         <button class="command small" type="button" data-action="damage-balanced-bp" data-side="${escapeHtml(side)}">Balanced</button>
         <button class="command small subtle" type="button" data-action="damage-clear-bp" data-side="${escapeHtml(side)}">Clear BP</button>
       </div>
-      <div class="damage-stat-summary">${escapeHtml(entry.form.display)} - ${remaining} BP left</div>
+      <div class="damage-stat-summary">${escapeHtml(entry.form.display)} - ${remaining} BP left${entry.synchronized ? " - Synchro stats" : ""}</div>
       <div class="damage-stat-table" role="table">
         <div class="damage-stat-row damage-stat-head" role="row">
           <span>Stat</span>
@@ -2042,6 +2093,15 @@ function renderDamageBattleControls() {
           </div>
         </div>
         <div class="modifier-group">
+          <h4>Defender State</h4>
+          <div class="calc-control-grid attacker-state-grid">
+            <label class="calc-check">
+              <input type="checkbox" data-damage-toggle="defenderSynchronized" ${state.damage.defenderSynchronized ? "checked" : ""}>
+              <span>Synchronisation</span>
+            </label>
+          </div>
+        </div>
+        <div class="modifier-group">
           <h4>Defender Changes</h4>
           <div class="calc-control-grid stage-grid">
             ${renderDamageNumberField("targetDefenseStage", "Def", -6, 6, 1)}
@@ -2112,6 +2172,12 @@ function damageTypeTraceDetail(preview) {
   return preview.relation;
 }
 
+function synchroStatTraceDetail(entry, key) {
+  const baseStat = Number(entry?.form?.baseStats?.[key] || 0);
+  const bst = formBaseStatTotal(entry?.form);
+  return `${formatStatKey(key)} base ${baseStat}/${bst}`;
+}
+
 function renderDamageResult(preview) {
   if (!preview.ready) {
     return `
@@ -2170,6 +2236,8 @@ function renderDamageResult(preview) {
       </div>
       <div class="damage-trace">
         ${renderTraceRow("Stats", `${formatStatKey(preview.attackKey)} ${preview.attack} vs ${formatStatKey(preview.defenseKey)} ${preview.defense}`, preview.categorySource)}
+        ${preview.attackerSynchronized ? renderTraceRow("Attacker Sync", formatMultiplier(preview.attackerSynchroMultiplier), synchroStatTraceDetail(preview.selection.attacker, preview.attackKey)) : ""}
+        ${preview.defenderSynchronized ? renderTraceRow("Defender Sync", formatMultiplier(preview.defenderSynchroMultiplier), synchroStatTraceDetail(preview.selection.target, preview.defenseKey)) : ""}
         ${renderTraceRow("Recipient", preview.damageRecipientRole, preview.damageRecipientName)}
         ${renderTraceRow("Base", roundForDisplay(preview.base.baseDamageFloat, 4), "before multipliers")}
         ${renderTraceRow("Type", formatMultiplier(preview.effectivenessMultiplier), damageTypeTraceDetail(preview))}
@@ -2553,8 +2621,14 @@ function renderMoveSlot(index, moveId, learnset, selectedMoves) {
       <div class="move-detail ${move ? "" : "muted"}">
         ${move ? renderMoveDetail(move) : "Empty slot"}
       </div>
+      ${move ? renderMoveDescription(move) : ""}
     </div>
   `;
+}
+
+function renderMoveDescription(move) {
+  if (!MOVE_DESCRIPTION_CATEGORIES.has(move.category) || !move.description) return "";
+  return `<div class="move-description">${escapeHtml(move.description)}</div>`;
 }
 
 function renderMoveDetail(move) {

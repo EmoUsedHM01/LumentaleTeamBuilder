@@ -1,7 +1,7 @@
 {
   "metadata": {
     "appDataVersion": "0.1.0",
-    "generatedAtUtc": "2026-06-12T22:07:02.670Z",
+    "generatedAtUtc": "2026-06-16T14:12:11.016Z",
     "sourceFingerprint": "Extractor=1.0.0-lumentale|GameAssembly.dll=50019840:639154102666364801|global-metadata.dat=17225544:639154102666384333|Assembly-CSharp.dll=14212608:639154132725891810",
     "sourceCounts": {
       "forms": 157,
@@ -177,10 +177,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Mewaii.gif",
-      "spriteSize": [
-        115,
-        124
-      ],
+      "spriteSize": null,
       "search": "mewaiibaseformmewaiibaseformmewaiifelicisvirusacidshotexaegisaftershockarcticmirrorbacterialsmashcorrosiondeltablastelectrocutionencouragefieldsweephardenhydrojetexhydrotherapyibuprofenmeltdownmudtrapnonsensenostalgiapainkillerpatpoisoncloakpoundexpowersharetonicwatertreatmentexvenobeamvilewave"
     },
     {
@@ -240,10 +237,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Maidelly.gif",
-      "spriteSize": [
-        133,
-        157
-      ],
+      "spriteSize": null,
       "search": "maidellybaseformmaidellybaseformmaidellyfelicisvirusacidshotexaegisaftershockarcticmirrorbacterialsmashcorrosiondeltablastelectrocutionencouragefieldsweephardenhydrojetexhydrotherapyibuprofenmeltdownmudtrapnonsensenostalgiapainkillerpatpoisoncloakpoundexpowersharetonicwatertreatmentexvenobeamvilewave"
     },
     {
@@ -302,10 +296,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Megamitosa.gif",
-      "spriteSize": [
-        232,
-        211
-      ],
+      "spriteSize": null,
       "search": "megamitosabaseformmegamitosabaseformmegamitosafelicisvirusanomalousacidshotexaegisaftershockarcticmirrorbacterialsmashbaitcorrosiondeltablastectoplasmelectrocutionencouragefieldsweephardenhydrojetexhydrotherapyibuprofenmeltdownmisdirectionmudtrapnonsensenostalgiapainkillerpatpoisoncloakpoundexpowersharespiritstrikeextonicwatertreatmentexvenobeamvilewavewrathfulspite"
     },
     {
@@ -364,10 +355,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Dolegami.gif",
-      "spriteSize": [
-        194,
-        212
-      ],
+      "spriteSize": null,
       "search": "dolegamiibaseformdolegamiibaseformdolegamiifelicisviruswateracidshotexaegisaftershockarcticmirrorbacterialsmashcorrosiondeltablastelectrocutionencouragefieldsweephardenhydrojetexhydrotherapyibuprofenmeltdownmudtrapnonsensenostalgiapainkillerpatpoisoncloakpoundexpowershareriptidetonicwatertreatmentexvenobeamvilewave"
     },
     {
@@ -426,10 +414,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Vortail.gif",
-      "spriteSize": [
-        99,
-        134
-      ],
+      "spriteSize": null,
       "search": "vortailbaseformvortailbaseformvortailmestusaurabrilliantbeamdazzlingflashdeltablastenlightenmentfieldsweepglisteningwindhydrovortexleafscythementalstrikeexmudjetnonsensenostalgiapiercingsquallpoundexpsychoslashradiantblowexslicingflurryslicingwindexsolarflashtearfulthunderclawupdraftvilewave"
     },
     {
@@ -489,10 +474,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Furtex.gif",
-      "spriteSize": [
-        138,
-        164
-      ],
+      "spriteSize": null,
       "search": "furtexbaseformfurtexbaseformfurtexmestusaurabrilliantbeamdazzlingflashdeltablastenlightenmentfieldsweepglisteningwindhydrovortexiceballexleafscythementalstrikeexmudjetnonsensenostalgiapiercingsquallpoundexpsychoslashradiantblowexslicingflurryslicingwindexsolarflashtearfulthunderclawupdraftvilewave"
     },
     {
@@ -551,10 +533,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Weaphoon.gif",
-      "spriteSize": [
-        192,
-        207
-      ],
+      "spriteSize": null,
       "search": "weaphoonbaseformweaphoonbaseformweaphoonmestusaurachakrabrilliantbeamdazzlingflashdeltablastdiagonalstrikedigitdriverenlightenmentfieldsweepglisteningwindgrassfanhydrovortexiceballexleafscythementalstrikeexmudjetnonsensenostalgiapiercingsquallpoundexpowersharepsychoslashradiantblowexslicingflurryslicingwindexsolarflashspiritsurgeextearfulthunderclawupdraftvilewave"
     },
     {
@@ -613,10 +592,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Fursazen.gif",
-      "spriteSize": [
-        260,
-        200
-      ],
+      "spriteSize": null,
       "search": "fursazenbaseformfursazenbaseformfursazenmestusauraiceblizzardbrilliantbeamdazzlingflashdeltablastdigitdriverenlightenmentfieldsweepfroststrikeexglisteningwindhydrovortexiceslideiceballexleafscythementalstrikeexmudjetnonsensenostalgiapiercingsquallpolarrayexpoundexpsychoslashradiantblowexslicingflurryslicingwindexsnowploughsolarflashtearfulthunderclawupdraftvilewave"
     },
     {
@@ -675,10 +651,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Ozelash.gif",
-      "spriteSize": [
-        126,
-        120
-      ],
+      "spriteSize": null,
       "search": "ozelashbaseformozelashbaseformozelashfurorelectricaftershockboltrushburningemberchompexdarkboltdeltablastdiagonalstrikeelectroboltexelectrocutionenergyslashfieldsweepfocalpointmagneticwavenonsenseseismicstepsharpenshockexstackingstrikestaticreleasethunderclawthunderballexwarmupzettavoltbeam"
     },
     {
@@ -738,10 +711,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Kouzear.gif",
-      "spriteSize": [
-        175,
-        152
-      ],
+      "spriteSize": null,
       "search": "kouzearbaseformkouzearbaseformkouzearfurorelectricaftershockboltrushburningemberchompexdarkboltdeltablastdiagonalstrikeelectroboltexelectrocutionenergyslashfieldsweepfocalpointmagneticwavenonsenseseismicstepsharpenshockexstackingstrikestaticreleasethunderclawthunderballexwarmupzettavoltbeam"
     },
     {
@@ -800,10 +770,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Byazevolt.gif",
-      "spriteSize": [
-        248,
-        214
-      ],
+      "spriteSize": null,
       "search": "byazevoltbaseformbyazevoltbaseformbyazevoltfurorelectricancientaftershockboltrushburningemberchompexcorleonisdarkboltdeltablastdiagonalstrikeelectroboltexelectrocutionenergyslashexcisiofieldsweepfocalpointmagneticwavenonsenseseismicstepsharpenshockexstackingstrikestaticreleasethunderclawthunderballexturbovortexwarmupzettavoltbeam"
     },
     {
@@ -862,10 +829,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Zenicore.gif",
-      "spriteSize": [
-        235,
-        192
-      ],
+      "spriteSize": null,
       "search": "zenicorebaseformzenicorebaseformzenicorefurorelectricdataaftershockboltrushburningemberchompexdarkboltdeltablastdiagonalstrikeelectroboltexelectrocutionenergyslashfieldsweepfocalpointglitchwavemagneticwavenonsensenumbercrunchexseismicstepsharpenshockexstackingstrikestaticreleasethunderclawthunderballexwarmupzettavoltbeam"
     },
     {
@@ -924,10 +888,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Salabel.gif",
-      "spriteSize": [
-        113,
-        99
-      ],
+      "spriteSize": null,
       "search": "salabelbaseformsalabelbaseformsalabelhorrensdemonbaitbetrayalbingoblazeexchompexcunningstrikeexcursedeltablastdemonslashenergyslashfieldsweepinfernalwaveexmalevolentorbmasterplanmasterplanmisdirectionmudjetmudtrapnonsensepyrochargeexrupturestartlethunderclaw"
     },
     {
@@ -987,10 +948,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Vilender.gif",
-      "spriteSize": [
-        163,
-        151
-      ],
+      "spriteSize": null,
       "search": "vilenderbaseformvilenderbaseformvilenderhorrensdemonbaitbetrayalbingoblazeexchompexcunningstrikeexcursedeltablastdemonslashenergyslashfieldsweepinfernalwaveexmalevolentorbmasterplanmasterplanmisdirectionmudjetmudtrapnonsensepyrochargeexrupturestartlethunderclaw"
     },
     {
@@ -1049,10 +1007,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Horrogre.gif",
-      "spriteSize": [
-        280,
-        220
-      ],
+      "spriteSize": null,
       "search": "horrogrebaseformhorrogrebaseformhorrogrehorrensdemonancientbaitbetrayalbingoblazeexchompexcorchelyscunningstrikeexcursedeltablastdemonslashenergyslashfieldsweepinfernalwaveexlamareliquiamalevolentorbmasterplanmasterplanmisdirectionmudjetmudtrapnonsenseplusultraprovocatioanimapyrochargeexrupturestartlethunderclaw"
     },
     {
@@ -1111,10 +1066,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Goldrago.gif",
-      "spriteSize": [
-        245,
-        217
-      ],
+      "spriteSize": null,
       "search": "goldragobaseformgoldragobaseformgoldragohorrensdemondataaegisbaitbetrayalbingoblazeexchompexcunningstrikeexcursecyberbeamdeltablastdemonslashenergyslashfieldsweepfirewallglitchwaveinfernalwaveexlagswitchmalevolentorbmasterplanmasterplanmisdirectionmudjetmudtrapnonsensenumbercrunchexpyrochargeexrupturestartlethunderclaw"
     },
     {
@@ -1173,10 +1125,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Queccha.gif",
-      "spriteSize": [
-        102,
-        134
-      ],
+      "spriteSize": null,
       "search": "quecchabaseformquecchabaseformquecchasereumgeoaegisattracktdeltablastdiagonalstrikediamondspikedropkickfieldsweephardenheadbuttmudblastmudjetmudtrapnonsensenostalgiapoundexprotectivewallrecklessruptureseismicstepshardsrainsharpensporalluresproutingblowextrance"
     },
     {
@@ -1236,10 +1185,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Quequator.gif",
-      "spriteSize": [
-        152,
-        166
-      ],
+      "spriteSize": null,
       "search": "quequatorbaseformquequatorbaseformquequatorsereumgeoaegisattracktdeltablastdiagonalstrikediamondspikedropkickfieldsweephardenheadbuttmudblastmudjetmudtrapnonsensenostalgiapoundexprotectivewallrecklessruptureseismicstepshardsrainsharpensporalluresproutingblowextrance"
     },
     {
@@ -1298,10 +1244,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Barangu.gif",
-      "spriteSize": [
-        246,
-        213
-      ],
+      "spriteSize": null,
       "search": "barangubaseformbarangubaseformbarangusereumgeograssaegisattracktdeltablastdiagonalstrikediamondspikedropkickfieldsweepgrassfanhardenheadbuttleafscythelogtrainingmudblastmudjetmudtrapnatureaswrathnonsensenostalgiapoundexprotectivewallrecklessruptureseismicstepshardsrainsharpensporalluresproutingblowextrance"
     },
     {
@@ -1360,10 +1303,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Meterier.gif",
-      "spriteSize": [
-        263,
-        251
-      ],
+      "spriteSize": null,
       "search": "meterierbaseformmeterierbaseformmeteriersereumgeofireaegisattracktdeltablastdiagonalstrikediamondspikedropkickfieldsweepfireballexflamingarrowsflamingbulletshardenheadbuttmudblastmudjetmudtrapnonsensenostalgiapoundexprotectivewallpyrochargeexrecklessrupturescorchingblastseismicstepshardsrainsharpensolarflashsporalluresproutingblowextrance"
     },
     {
@@ -1424,10 +1364,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Melotica-Felicis.gif",
-      "spriteSize": [
-        146,
-        106
-      ],
+      "spriteSize": null,
       "search": "meloticafelicismeloticafelicismeloticafelicisgeograssabsorbexaromasynthesisbacterialsmashchlorobeamcorchelysdeltablastfieldsweepheadbuttmudblastmudjetmudtrapnonsensepatphotosynthesispoundexpowershareseismicstepspiritsurgeexsproutingblowexstackingstrikesweethoneytrancetreatmentexvigourcureex"
     },
     {
@@ -1494,10 +1431,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Melotica-Furor.gif",
-      "spriteSize": [
-        135,
-        111
-      ],
+      "spriteSize": null,
       "search": "meloticafurormeloticafurormeloticafurorgeofirebacterialsmashblazeexblazingslashburningemberchompexdeltablastdemonslashdiagonalstrikediamondspikeelectrocutionfatalcrushfieldsweepfireballexfocalpointhardenheadbuttmeltingpointmudblastmudjetnonsenserupturescorchingblastvoltaicslashwarmup"
     },
     {
@@ -1556,10 +1490,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Meloquina.gif",
-      "spriteSize": [
-        149,
-        205
-      ],
+      "spriteSize": null,
       "search": "meloquiniabaseformmeloquiniabaseformmeloquiniafelicisgeograssabsorbexaromasynthesisbacterialsmashchlorobeamcorchelysdeltablastfieldsweepheadbuttmudblastmudjetmudtrapnonsensepatphotosynthesispoundexpowershareseismicstepspiritsurgeexsproutingblowexstackingstrikesweethoneytrancetreatmentexvigourcureex"
     },
     {
@@ -1624,10 +1555,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Doryogun.gif",
-      "spriteSize": [
-        273,
-        231
-      ],
+      "spriteSize": null,
       "search": "doryogunbaseformdoryogunbaseformdoryogunfurorgeofirebacterialsmashblazeexblazingslashburningemberchompexdeltablastdemonslashdiagonalstrikediamondspikeelectrocutionfatalcrushfieldsweepfireballexfocalpointhardenheadbuttmeltingpointmudblastmudjetnonsenserupturescorchingblastvoltaicslashwarmup"
     },
     {
@@ -1688,10 +1616,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Almyuna.gif",
-      "spriteSize": [
-        100,
-        110
-      ],
+      "spriteSize": null,
       "search": "almyunabaseformalmyunabaseformalmyunasereumiceanomalousarcticmirrorblizzardcryospeardazzlingflashdeltablastdeviantdimensiondirectorencourageesperbeamfieldsweepfroststrikeexfrozenbladegravikinesisiceslideiceballexmentalstrikeexnonsensenumbercrunchexpatpolarrayexpoundexpowersharesoulcannonsparklingwatertearfulvilewave"
     },
     {
@@ -1750,10 +1675,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Lopyuna.gif",
-      "spriteSize": [
-        147,
-        199
-      ],
+      "spriteSize": null,
       "search": "lopyunabaseformlopyunabaseformlopyunasereumiceanomalousarcticmirrorblizzardcryospearcursedazzlingflashdeltablastdeviantdimensiondirectorencourageesperbeamfieldsweepfroststrikeexfrozenbladegravikinesisiceslideiceballexmentalstrikeexnonsensenumbercrunchexpatpermafrostpolarrayexpoundexpowersharesoulcannonsparklingwatertearfulvilewave"
     },
     {
@@ -1814,10 +1736,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Deniuli.gif",
-      "spriteSize": [
-        176,
-        112
-      ],
+      "spriteSize": null,
       "search": "deniulibaseformdeniulibaseformdeniulihorrensdemonfirebaitblazeexburningembercunningstrikeexdeltablastdiagonalstrikefieldsweepfireballexflamingbulletsfocalpointheadbuttinfernalwaveexmaliciousgazemasterplanmasterplanmentalstrikeexmisdirectionnonsensepyrochargeexscorchingblastscratchexshadowflamesharpenstartlewarmup"
     },
     {
@@ -1876,10 +1795,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Fulgaze.gif",
-      "spriteSize": [
-        230,
-        214
-      ],
+      "spriteSize": null,
       "search": "fulgazebaseformfulgazebaseformfulgazehorrensdemonfirebaitblazeexburningembercunningstrikeexdeltablastdiagonalstrikefieldsweepfireballexflamingbulletsfocalpointheadbuttinfernalwaveexmaliciousgazemasterplanmasterplanmentalstrikeexmisdirectionnonsensepyrochargeexscorchingblastscratchexshadowflamesharpenstartlewarmup"
     },
     {
@@ -1940,10 +1856,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Smellwing.gif",
-      "spriteSize": [
-        132,
-        126
-      ],
+      "spriteSize": null,
       "search": "smellwingbaseformsmellwingbaseformsmellwingsereumvirusdemonacidshotexbacterialsmashbrainrotcarriercursedeltablastdemonslashdirectordosattackdropkickfatalcrushfieldsweepinfernalwaveexmaliciousgazemeltdownmisdirectionnonsensepoundexpyreticsprayrancidkickexrecklessseismicstepstartletrancevilewavewarmup"
     },
     {
@@ -2004,10 +1917,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Toxigall.gif",
-      "spriteSize": [
-        159,
-        166
-      ],
+      "spriteSize": null,
       "search": "toxigallbaseformtoxigallbaseformtoxigallfurorvirusdemonacidshotexbacterialsmashbrainrotcarriercursedatabreachdeltablastdemonslashdirectordosattackdropkickfatalcrushfieldsweepinfernalwaveexmaliciousgazemeltdownmisdirectionnonsensepoundexpyreticsprayrancidkickexrecklessseismicstepstartletrancevilewavewarmup"
     },
     {
@@ -2066,10 +1976,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Garbasilisk.gif",
-      "spriteSize": [
-        229,
-        243
-      ],
+      "spriteSize": null,
       "search": "garbasiliskbaseformgarbasiliskbaseformgarbasiliskfurorvirusdemonacidshotexbacterialsmashbrainrotcarriercursedatabreachdeltablastdemonslashdirectordosattackdropkickfatalcrushfieldsweepinfernalwaveexmaliciousgazemeltdownmisdirectionnonsensepoundexpyreticsprayrancidkickexrecklessseismicstepstartletrancevilewavewarmup"
     },
     {
@@ -2136,10 +2043,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Lampecko.gif",
-      "spriteSize": [
-        121,
-        123
-      ],
+      "spriteSize": null,
       "search": "lampeckobaseformlampeckobaseformlampeckofeliciselectricauraaftershockarcticmirrorbrilliantbeamcordraconisdazzlingflashdeltablastelectroboltexelectrocutionenergiseenlightenmentfieldsweepgentlebreezeglisteningwindglitchwavenonsensepatchpolarrayexscratchexshockexsolarflashstaticreleasethunderballextreatmentexvisbolidiszettavoltbeam"
     },
     {
@@ -2204,10 +2108,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Luxeco.gif",
-      "spriteSize": [
-        173,
-        162
-      ],
+      "spriteSize": null,
       "search": "luxeckobaseformluxeckobaseformluxeckofeliciselectricauraaftershockarcticmirrorbrilliantbeamcordraconisdazzlingflashdeltablastelectroboltexelectrocutionenergiseenlightenmentfieldsweepgentlebreezeglisteningwindglitchwavenonsensepatchpolarrayexscratchexshockexsolarflashstaticreleasethunderballextreatmentexvisbolidiszettavoltbeam"
     },
     {
@@ -2269,10 +2170,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Bonkey.gif",
-      "spriteSize": [
-        129,
-        126
-      ],
+      "spriteSize": null,
       "search": "bonkeybaseformbonkeybaseformbonkeymestusanomalouschakrafireblazeexdeltablastdeviantdimensiondigitdriverdirecthitexectoplasmesperbeamfatalcrushfieldsweepfireballexflamingbulletsheadbuttmeltingpointmentalstrikeexnonsensepowersharepressuppsychoslashpyrochargeexscratchexseriouspunchshadowflameshockexsitupsoulcannonspiritstrikeexstartletrancewrathfulspite"
     },
     {
@@ -2334,10 +2232,7 @@
         "GRASS": "NOEFF"
       },
       "sprite": "./public/assets/animon/Skeletape.gif",
-      "spriteSize": [
-        203,
-        144
-      ],
+      "spriteSize": null,
       "search": "skeletapebaseformskeletapebaseformskeletapemestusanomalouschakrafireblazeexdeltablastdeviantdimensiondigitdriverdirecthitexectoplasmesperbeamfatalcrushfieldsweepfireballexflamingbulletsheadbuttmeltingpointmentalstrikeexnonsensepowersharepressuppsychoslashpyrochargeexscratchexseriouspunchshadowflameshockexsitupsoulcannonspiritstrikeexstartletrancewrathfulspite"
     },
     {
@@ -2403,10 +2298,7 @@
         "GRASS": "NOEFF"
       },
       "sprite": "./public/assets/animon/Ghorious.gif",
-      "spriteSize": [
-        326,
-        253
-      ],
+      "spriteSize": null,
       "search": "ghoriousbaseformghoriousbaseformghoriousfuroranomalouschakrafireblazeexdeltablastdeviantdimensiondigitdriverdirecthitexectoplasmesperbeamfatalcrushfieldsweepfireballexflamingbulletsheadbuttmeltingpointmentalstrikeexnonsensepowersharepressuppsychoslashpyrochargeexscratchexseriouspunchshadowflameshockexsitupsoulcannonspiritstrikeexstartletrancewrathfulspite"
     },
     {
@@ -2467,10 +2359,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Flowende.gif",
-      "spriteSize": [
-        117,
-        135
-      ],
+      "spriteSize": null,
       "search": "flowendebaseformflowendebaseformflowendefelicisgrasschakraabsorbexaromasynthesischlorobeamdatabreachdeltablastdigitdriverencouragefieldsweepgrassfanleafscythenonsensepatphotosynthesispoundexpowershareqichargeragingtorrentshockexsproutingblowexstackingstrikevigourcureex"
     },
     {
@@ -2531,10 +2420,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Flobesque.gif",
-      "spriteSize": [
-        139,
-        166
-      ],
+      "spriteSize": null,
       "search": "flobesquebaseformflobesquebaseformflobesquefelicisgrasschakraabsorbexaromasynthesischlorobeamdatabreachdeltablastdigitdriverencouragefieldsweepgrassfanleafscythenonsensepatphotosynthesispoundexpowershareqichargeragingtorrentshockexsproutingblowexstackingstrikevigourcureex"
     },
     {
@@ -2593,10 +2479,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Florenco.gif",
-      "spriteSize": [
-        190,
-        235
-      ],
+      "spriteSize": null,
       "search": "florencobaseformflorencobaseformflorencofelicisgrasschakraabsorbexaromasynthesischlorobeamdatabreachdeltablastdigitdriverencouragefieldsweepgrassfanleafscythenonsensepatphotosynthesispoundexpowershareqichargeragingtorrentshockexsproutingblowexstackingstrikevigourcureex"
     },
     {
@@ -2657,10 +2540,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Rainxy.gif",
-      "spriteSize": [
-        112,
-        120
-      ],
+      "spriteSize": null,
       "search": "rainxybaseformrainxybaseformrainxymestusancientwateraquastrikeexcongestioncorleonisdeltablastdiagonalstrikedracoflatusexexcisiofatalcrushfieldsweepheadbutthydrojetexmalevolentorbmentalstrikeexmudjetmudtrapnonsensepiercingrainexriptiderupturescratchextearfulthunderballexturbovortexwarmupwaterbomb"
     },
     {
@@ -2719,10 +2599,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Rainagon.gif",
-      "spriteSize": [
-        288,
-        172
-      ],
+      "spriteSize": null,
       "search": "rainagonbaseformrainagonbaseformrainagonmestusancientwateraegisaquastrikeexcongestioncorleonisdeltablastdiagonalstrikedispersiodracoflatusexexcisiofatalcrushfieldsweepheadbutthydrojetexmagnaparmamalevolentorbmentalstrikeexmudjetmudtrapnonsensepiercingrainexriptiderupturescratchextearfulthunderballexturbovortexvisbolidiswarmupwaterbomb"
     },
     {
@@ -2784,10 +2661,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Mushwick.gif",
-      "spriteSize": [
-        84,
-        147
-      ],
+      "spriteSize": null,
       "search": "mushwickbaseformmushwickbaseformmushwickmestusanomalousvirusfireacidshotexbaitblazeexcorrosiondeltablastdeviantdimensionectoplasmesperbeamfieldsweepfireballexflamingbulletsmalevolentorbmaliciousgazemeltdownmentalstrikeexnonsensenostalgiapoundexscorchingblastshadowflamespiritstrikeexvenobeamvilewavewrathfulspite"
     },
     {
@@ -2849,10 +2723,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Owaxle.gif",
-      "spriteSize": [
-        158,
-        165
-      ],
+      "spriteSize": null,
       "search": "owaxlebaseformowaxlebaseformowaxlehorrensanomalousvirusfireacidshotexbaitblazeexcorrosiondeltablastdeviantdimensionectoplasmesperbeamfieldsweepfireballexflamingbulletsmalevolentorbmaliciousgazemeltdownmentalstrikeexnonsensenostalgiapoundexscorchingblastshadowflamespiritstrikeexvenobeamvilewavewrathfulspite"
     },
     {
@@ -2912,10 +2783,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Nefandle.gif",
-      "spriteSize": [
-        222,
-        220
-      ],
+      "spriteSize": null,
       "search": "nefandlebaseformnefandlebaseformnefandlehorrensanomalousvirusfireabsorbexacidshotexbaitblazeexcarriercorrosiondeltablastdeviantdimensionectoplasmesperbeamfieldsweepfireballexflamingbulletsmalevolentorbmaliciousgazemeltdownmentalstrikeexnonsensenostalgiapoundexpyreticsprayscorchingblastshadowflamespiritstrikeexvenobeamvilewavewrathfulspite"
     },
     {
@@ -2976,10 +2844,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Cocopa.gif",
-      "spriteSize": [
-        131,
-        90
-      ],
+      "spriteSize": null,
       "search": "cocopabaseformcocopabaseformcocopasereumgrassgeoabsorbexaegisattracktavshieldbingochlorobeamdeltablastdiamondspikedirectordispersiofieldsweephardenlogtrainingmudblastnonsensephotosynthesispoundexprotectivewallragingtorrentseismicstepshardsrainshockexsporalluresproutingblowextrickwrathfulspite"
     },
     {
@@ -3038,10 +2903,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Papaco.gif",
-      "spriteSize": [
-        214,
-        202
-      ],
+      "spriteSize": null,
       "search": "papacobaseformpapacobaseformpapacosereumgrassgeoabsorbexaegisattracktavshieldbingochlorobeamdeltablastdiamondspikedirectordispersiofieldsweepgrassfanhardenlogtrainingmudblastnonsensephotosynthesispoundexprotectivewallragingtorrentseismicstepshardsrainshockexsporalluresproutingblowextrickwrathfulspite"
     },
     {
@@ -3102,10 +2964,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Puffella.gif",
-      "spriteSize": [
-        100,
-        117
-      ],
+      "spriteSize": null,
       "search": "puffellabaseformpuffellabaseformpuffellafelicisauraicearcticmirrorbrilliantbeamcoldheartdazzlingflashdeltablastdiagonalstrikedirectorenergyslashenlightenmentfieldsweepfroststrikeexgentlebreezeglisteningwindgrassfaniceballexnonsensepiercingsquallpolarrayexpoundexprovocatioanimaslicingwindexspiritsurgeextrancetrickupdraftzephyrboost"
     },
     {
@@ -3164,10 +3023,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Lequilar.gif",
-      "spriteSize": [
-        212,
-        199
-      ],
+      "spriteSize": null,
       "search": "lequilarbaseformlequilarbaseformlequilarfelicisauraicearcticmirrorbrilliantbeamcoldheartdazzlingflashdeltablastdiagonalstrikedirectorenergyslashenlightenmentfieldsweepfroststrikeexgentlebreezeglisteningwindgrassfaniceballexnonsensepiercingsquallpolarrayexpoundexprovocatioanimaslicingwindexspiritsurgeextrancetrickupdraftzephyrboost"
     },
     {
@@ -3228,10 +3084,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Cadedro.gif",
-      "spriteSize": [
-        143,
-        143
-      ],
+      "spriteSize": null,
       "search": "cadedrobaseformcadedrobaseformcadedromestusgrasswaterabsorbexchlorobeamcongestiondeltablastdigitdriverdropkickfieldsweephydrovortexiceballexleafscythemudjetnatureaswrathnonsensepatphotosynthesispiercingrainexpoundexseismicstepsparklingwatersproutingblowextearfulvilewavewaterbomb"
     },
     {
@@ -3290,10 +3143,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Nelumbier.gif",
-      "spriteSize": [
-        241,
-        185
-      ],
+      "spriteSize": null,
       "search": "nelumbierbaseformnelumbierbaseformnelumbiermestusgrasswaterabsorbexchlorobeamcongestiondeltablastdigitdriverdropkickfieldsweephydrovortexiceballexleafscythemudjetnatureaswrathnonsensepatphotosynthesispiercingrainexpoundexseismicstepsparklingwatersproutingblowextearfulvilewavewaterbomb"
     },
     {
@@ -3358,10 +3208,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Mimiral.gif",
-      "spriteSize": [
-        106,
-        142
-      ],
+      "spriteSize": null,
       "search": "mimiralbaseformmimiralbaseformmimiralfeliciswateraegisaquastrikeexbaitcongestiondeltablastdeviantdimensiondracoflatusexencouragefieldsweepheadbutthydrojetexhydrovortexhydrotherapyibuprofeniceballexmudjetmudtrapnonsensepainkillerpatpoundexsparklingwatertonicwatertreatmentex"
     },
     {
@@ -3426,10 +3273,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Trinkoral.gif",
-      "spriteSize": [
-        157,
-        174
-      ],
+      "spriteSize": null,
       "search": "trinkoralbaseformtrinkoralbaseformtrinkoralfeliciswateraegisaquastrikeexbaitcongestiondeltablastdeviantdimensiondracoflatusexencouragefieldsweepheadbutthydrojetexhydrovortexhydrotherapyibuprofeniceballexmudjetmudtrapnonsensepainkillerpatpoundexsparklingwatertonicwatertreatmentex"
     },
     {
@@ -3494,10 +3338,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Encantyss.gif",
-      "spriteSize": [
-        209,
-        228
-      ],
+      "spriteSize": null,
       "search": "encantyssbaseformencantyssbaseformencantyssfeliciswaterancientaegisaquastrikeexbaitcongestiondeltablastdeviantdimensiondracoflatusexencouragefieldsweepheadbutthydrojetexhydrovortexhydrotherapyibuprofeniceballexmudjetmudtrapnonsensepainkillerpatpoundexsparklingwatertonicwatertreatmentex"
     },
     {
@@ -3558,10 +3399,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Twinkler.gif",
-      "spriteSize": [
-        112,
-        100
-      ],
+      "spriteSize": null,
       "search": "twinklerbaseformtwinklerbaseformtwinklerfurordatavirusacidshotexbacterialsmashbaitboltrushbravadocarriercorrosioncyberbeamdatabreachdeltablastdosattackdownloaderrorelectroboltexfieldsweepfocalpointfroststrikeexglitchwaveheadbuttlagswitchnonsensenumbercrunchexoverclockpoundexrancidkickexshockexsnowplough"
     },
     {
@@ -3626,10 +3464,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Silverus.gif",
-      "spriteSize": [
-        252,
-        215
-      ],
+      "spriteSize": null,
       "search": "silverusbaseformsilverusbaseformsilverusfurordatavirusacidshotexbacterialsmashbaitboltrushbravadocarriercorrosioncyberbeamdatabreachdeltablastdosattackdownloaderrorelectroboltexfieldsweepfocalpointfroststrikeexglitchwaveheadbuttlagswitchnonsensenumbercrunchexoverclockpoundexrancidkickexshockexsnowplough"
     },
     {
@@ -3696,10 +3531,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Boobat.gif",
-      "spriteSize": [
-        177,
-        117
-      ],
+      "spriteSize": null,
       "search": "boobatbaseformboobatbaseformboobathorrensfiredemonbaitbetrayalblazeexburningembercunningstrikeexcursedeltablastdemonicroarfieldsweepflamingarrowsflamingbulletsglitchwaveinfernalwaveexmalevolentorbmaliciousgazenonsensepoundexrecklessshadowflameslicingwindexsolarflashsoultransfertrickturbovortexupdraftvilewave"
     },
     {
@@ -3764,10 +3596,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Konbian.gif",
-      "spriteSize": [
-        393,
-        233
-      ],
+      "spriteSize": null,
       "search": "konbianbaseformkonbianbaseformkonbianhorrensfiredemonbaitbetrayalblazeexburningembercunningstrikeexcursedeltablastdemonicroarfieldsweepflamingarrowsflamingbulletsglitchwaveinfernalwaveexmalevolentorbmaliciousgazenonsensepoundexrecklessshadowflameslicingwindexsolarflashsoultransfertrickturbovortexupdraftvilewave"
     },
     {
@@ -3834,10 +3663,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Brickle.gif",
-      "spriteSize": [
-        138,
-        97
-      ],
+      "spriteSize": null,
       "search": "bricklebaseformbricklebaseformbricklemestusancientgeoaegisattracktcorchelysdiamondspikedispersiodracoflatusexdropkickexcisiohardenheadbuttmagnaparmamudblastmudtrapnostalgiapoundexprotectivewallrancidkickexruptureshardsrainsharpentrancevisbolidis"
     },
     {
@@ -3904,10 +3730,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Bibrickle.gif",
-      "spriteSize": [
-        213,
-        166
-      ],
+      "spriteSize": null,
       "search": "bibricklebaseformbibricklebaseformbibricklemestusancientgeoaegisattracktcorchelysdiamondspikedispersiodracoflatusexdropkickexcisiohardenheadbuttmagnaparmamudblastmudtrapnostalgiapoundexprotectivewallrancidkickexruptureshardsrainsharpentrancevisbolidis"
     },
     {
@@ -3972,10 +3795,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Armancient.gif",
-      "spriteSize": [
-        261,
-        262
-      ],
+      "spriteSize": null,
       "search": "armansientbaseformarmansientbaseformarmansientmestusancientgeoaegisattracktcorchelysdiamondspikedispersiodracoflatusexdropkickexcisiohardenheadbuttmagnaparmamudblastmudtrapnostalgiapoundexprotectivewallrancidkickexruptureshardsrainsharpentrancevisbolidis"
     },
     {
@@ -4028,10 +3848,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Veveso-H.gif",
-      "spriteSize": [
-        135,
-        116
-      ],
+      "spriteSize": null,
       "search": "vevesohorridessencevevesohorridessencevevesohorrensgeoanomalousbaitbingodeltablastdeviantdimensionectoplasmesperbeamfieldsweepfocalpointheadbuttmudtrapnonsensepoundexruptureseismicstepspiritstrikeextrickvilewave"
     },
     {
@@ -4084,10 +3901,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Veveso-I.gif",
-      "spriteSize": [
-        134,
-        114
-      ],
+      "spriteSize": null,
       "search": "vevesoinfernoessencevevesoinfernoessencevevesofurorgeofirebingoblazeexdeltablastdiamondspikefieldsweepfireballexheadbuttmeltingpointmudblastnonsensepoundexpyrochargeexrecklessrupturescorchingblasttrickwarmup"
     },
     {
@@ -4140,10 +3954,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Veveso-M.gif",
-      "spriteSize": [
-        135,
-        118
-      ],
+      "spriteSize": null,
       "search": "vevesomoodyessencevevesomoodyessencevevesomestusgeovirusbacterialsmashbingobrainrotcorrosiondeltablastdiamondspikefieldsweepheadbuttmeltdownnonsensenostalgiapoundexpyreticsprayruptureshardsraintrickvaccine"
     },
     {
@@ -4196,10 +4007,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Veveso-S.gif",
-      "spriteSize": [
-        136,
-        115
-      ],
+      "spriteSize": null,
       "search": "vevesosimpleessencevevesosimpleessencevevesosereumgeoancientattracktbingocordraconisdeltablastdispersiodracoflatusexencourageexcisiofieldsweepheadbuttmagnaparmanonsensepoundexprotectivewallprovocatioanimarupturetrick"
     },
     {
@@ -4252,10 +4060,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Veveso-T.gif",
-      "spriteSize": [
-        137,
-        133
-      ],
+      "spriteSize": null,
       "search": "vevesotraditionalessencevevesotraditionalessencevevesofelicisgeograssabsorbexaegisbingochlorobeamdeltablastdiamondspikefieldsweepgrassfanheadbuttnonsensephotosynthesispoundexrupturesproutingblowextreatmentextrickvigourcureex"
     },
     {
@@ -4315,10 +4120,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Katamos.gif",
-      "spriteSize": [
-        202,
-        207
-      ],
+      "spriteSize": null,
       "search": "katamosbaseformkatamosbaseformkatamoshorrensanomalousauraancientbaitblazingslashbrilliantbeamchompexcordraconiscryospeardeltablastdemonslashectoplasmesperbeamfieldsweepfocalpointgentlebreezegrassfanhardeniceballexlamareliquiamalevolentorbmentalstrikeexnonsensepiercingsquallpsychoslashslicingwindexsoultransferspiritstrikeexturbovortex"
     },
     {
@@ -4379,10 +4181,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Chompuff.gif",
-      "spriteSize": [
-        114,
-        103
-      ],
+      "spriteSize": null,
       "search": "chompuffbaseformchompuffbaseformchompufffurordataauraaftershockbetrayalboltrushbravadobrilliantbeamchompexdatabreachdazzlingflashdeltablastdosattackenlightenmentfatalcrushfieldsweepfocalpointformatheadbuttlagswitchnonsensenumbercrunchexoverclockradiantblowexshockexstaticreleasethunderballex"
     },
     {
@@ -4435,10 +4234,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Patround.gif",
-      "spriteSize": [
-        142,
-        162
-      ],
+      "spriteSize": null,
       "search": "patroundpatrolmodepatroundpatrolmodepatroundsereumdataauraaftershockbetrayalboltrushbravadobrilliantbeamchompexdatabreachdazzlingflashdeltablastdosattackenlightenmentfatalcrushfieldsweepfocalpointformatheadbuttlagswitchnonsensenumbercrunchexoverclockradiantblowexshockexstaticreleasethunderballex"
     },
     {
@@ -4491,10 +4287,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Patround-Pursuit.gif",
-      "spriteSize": [
-        151,
-        183
-      ],
+      "spriteSize": null,
       "search": "patroundpursuitmodepatroundpursuitmodepatroundfurordataaurabravadodatabreachdosattackformatheadbuttoverclock"
     },
     {
@@ -4553,10 +4346,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Lobstrike-S.gif",
-      "spriteSize": [
-        209,
-        165
-      ],
+      "spriteSize": null,
       "search": "lobstrikefurorlobstrikefurorlobstrikefurorchakrawateraquastrikeexaquaslidecoldheartcunningstrikeexdeltablastdiagonalstrikedirecthitexenergyslashfatalcrushfieldsweepfocalpointfroststrikeexnonsensepoundexpowersharepressupragingtorrentrecklessseriouspunchsitupsparklingwaterstackingstrike"
     },
     {
@@ -4615,10 +4405,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Lobstrike-N.gif",
-      "spriteSize": [
-        170,
-        190
-      ],
+      "spriteSize": null,
       "search": "lobstrikemestuslobstrikemestuslobstrikemestuschakraelectricaegisaftershockattracktbaitcunningstrikeexdatabreachdeltablastdiagonalstrikedirecthitexelectrocutionfieldsweepnonsensepoundexpowersharepressupseriouspunchshockexsitupsoulcannonspiritsurgeexstackingstrikestaticreleasewrathfulspite"
     },
     {
@@ -4677,10 +4464,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Arct-Rex.gif",
-      "spriteSize": [
-        336,
-        243
-      ],
+      "spriteSize": null,
       "search": "arctrexbaseformarctrexbaseformarctrexfuroricedataarcticmirrorblizzardchompexcoldheartcryospeardatabreachdeltablastdiamondspikedownloaderrorfatalcrushfieldsweepfocalpointfroststrikeexfrozenbladeglitchwaveiceballexnonsensenumbercrunchexoverclockpermafrostpiercingsquallpolarrayexshardsrainsnowploughthunderclawthunderballex"
     },
     {
@@ -4747,10 +4531,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Shakpak.gif",
-      "spriteSize": [
-        103,
-        112
-      ],
+      "spriteSize": null,
       "search": "shakpakbaseformshakpakbaseformshakpakhorrenselectricwateraftershockaquastrikeexaquaslidebaitboltrushdarkboltdatabreachdeltablastdosattackelectrocutionfatalcrushfieldsweepfocalpointfroststrikeexheadbutthydrojetexmisdirectionmudjetnonsensepiercingrainexpoundexragingtorrentriptideshockexthunderballexvoltaicslash"
     },
     {
@@ -4815,10 +4596,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Sphytter.gif",
-      "spriteSize": [
-        270,
-        232
-      ],
+      "spriteSize": null,
       "search": "sphytterbaseformsphytterbaseformsphytterhorrenselectricwateraftershockaquastrikeexaquaslidebaitboltrushdarkboltdatabreachdeltablastdosattackelectrocutionfatalcrushfieldsweepfocalpointfroststrikeexheadbutthydrojetexmisdirectionmudjetnonsensepiercingrainexpoundexragingtorrentriptideshockexthunderballexvoltaicslash"
     },
     {
@@ -4879,10 +4657,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Sapsy.gif",
-      "spriteSize": [
-        107,
-        145
-      ],
+      "spriteSize": null,
       "search": "sapsybaseformsapsybaseformsapsyfelicischakravirusabsorbexaegisbacterialsmashbrainrotchlorobeamdeltablastdiagonalstrikedigitdriverdirecthitexdropkickencouragefieldsweepheadbuttibuprofennatureaswrathnonsensepainkillerpoundexpowersharepressuprancidkickexseismicstepseriouspunchsitupsoulcannonsproutingblowexstackingstriketreatmentexvigourcureex"
     },
     {
@@ -4942,10 +4717,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Dionybble.gif",
-      "spriteSize": [
-        124,
-        181
-      ],
+      "spriteSize": null,
       "search": "dionybblebaseformdionybblebaseformdionybblefelicischakravirusanomalousabsorbexaegisbacterialsmashbrainrotchlorobeamdeltablastdiagonalstrikedigitdriverdirecthitexdropkickencouragefieldsweepheadbuttibuprofennatureaswrathnonsensepainkillerpoundexpowersharepressuprancidkickexseismicstepseriouspunchsitupsoulcannonsproutingblowexstackingstriketreatmentexvigourcureex"
     },
     {
@@ -5002,10 +4774,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Nanafin.gif",
-      "spriteSize": [
-        109,
-        102
-      ],
+      "spriteSize": null,
       "search": "nanafinbaseformnanafinbaseformnanafinfeliciswaterabsorbexaquastrikeexaquaslidebacterialsmashdeltablastencouragefieldsweephydrojetexhydrovortexhydrotherapymagnaparmamudjetnonsensepatpatchpoundexragingtorrentriptidesproutingblowextonicwatertreatmentexvaccinevigourcureexwaterbomb"
     },
     {
@@ -5066,10 +4835,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Pinchop.gif",
-      "spriteSize": [
-        85,
-        84
-      ],
+      "spriteSize": null,
       "search": "pinchopbaseformpinchopbaseformpinchopmestuswatervirusacidshotexaquastrikeexaquaslidebacterialsmashbetrayalcarriercongestioncorrosioncunningstrikeexdeltablastfatalcrushfieldsweepfrozenbladehydrojetexnonsensenumbercrunchexpiercingrainexpoundexpyreticsprayragingtorrentrancidkickexrecklessriptidesharpensnowploughsparklingwater"
     },
     {
@@ -5128,10 +4894,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Klawller.gif",
-      "spriteSize": [
-        216,
-        174
-      ],
+      "spriteSize": null,
       "search": "klawllerbaseformklawllerbaseformklawllerhorrenswatervirusacidshotexaquastrikeexaquaslidebacterialsmashbaitbetrayalcarriercongestioncorrosioncunningstrikeexdeltablastfatalcrushfieldsweepfrozenbladehydrojetexmisdirectionnonsensenumbercrunchexpiercingrainexpoundexpyreticsprayragingtorrentrancidkickexrecklessriptidesharpensnowploughsparklingwater"
     },
     {
@@ -5198,10 +4961,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Tamboad.gif",
-      "spriteSize": [
-        130,
-        95
-      ],
+      "spriteSize": null,
       "search": "tamboadbaseformtamboadbaseformtamboadfelicisfirevirusacidshotexaegisbacterialsmashblazeexcorrosiondeltablastdirecthitexencouragefatalcrushfieldsweepfireballexflamingbulletsibuprofenmeltingpointnonsensepainkillerpatpoisoncloakpoundexpowershareprovocatioanimapyreticspraypyrochargeexrancidkickexshockexsoothingheattreatmentexvenobeam"
     },
     {
@@ -5268,10 +5028,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Kerocrak.gif",
-      "spriteSize": [
-        169,
-        135
-      ],
+      "spriteSize": null,
       "search": "kerocrackbaseformkerocrackbaseformkerocrackfelicisfirevirusacidshotexaegisbacterialsmashblazeexcorrosiondeltablastdirecthitexencouragefatalcrushfieldsweepfireballexflamingbulletsibuprofenmeltingpointnonsensepainkillerpatpoisoncloakpoundexpowershareprovocatioanimapyreticspraypyrochargeexrancidkickexshockexsoothingheattreatmentexvenobeam"
     },
     {
@@ -5337,10 +5094,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Impetoad.gif",
-      "spriteSize": [
-        228,
-        186
-      ],
+      "spriteSize": null,
       "search": "impetoadbaseformimpetoadbaseformimpetoadfelicisfirevirusdemonacidshotexaegisbacterialsmashblazeexcorrosiondeltablastdirecthitexencouragefatalcrushfieldsweepfireballexflamingbulletsibuprofenmeltingpointnonsensepainkillerpatpoisoncloakpoundexpowershareprovocatioanimapyreticspraypyrochargeexrancidkickexshockexsoothingheattreatmentexvenobeam"
     },
     {
@@ -5399,10 +5153,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Strinpilla.gif",
-      "spriteSize": [
-        110,
-        116
-      ],
+      "spriteSize": null,
       "search": "strinpillabaseformstrinpillabaseformstrinpillasereumancientbravadobrilliantbeamcordraconisdazzlingflashdeltablastdeviantdimensiondirectordispersiodracoflatusexenlightenmentfieldsweepglisteningwindmagnaparmanonsensepoundexpowershareprovocatioanimaradiantblowexslicingwindexspiritsurgeextrickturbovortexupdraftvilewavevisbolidiswrathfulspitezephyrboost"
     },
     {
@@ -5461,10 +5212,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Harpilia.gif",
-      "spriteSize": [
-        264,
-        211
-      ],
+      "spriteSize": null,
       "search": "harpiliabaseformharpiliabaseformharpiliasereumancientaurabravadobrilliantbeamcordraconisdazzlingflashdeltablastdeviantdimensiondirectordispersiodracoflatusexenlightenmentfieldsweepglisteningwindmagnaparmanonsensepoundexpowershareprovocatioanimaradiantblowexslicingwindexspiritsurgeextrickturbovortexupdraftvilewavevisbolidiswrathfulspitezephyrboost"
     },
     {
@@ -5523,10 +5271,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Firtrich.gif",
-      "spriteSize": [
-        110,
-        186
-      ],
+      "spriteSize": null,
       "search": "firtrichbaseformfirtrichbaseformfirtrichfurorgrassabsorbexchlorobeamcordraconisdeltablastdiagonalstrikediamondspikedracoflatusexdropkickfatalcrushfieldsweepfocalpointgrassfanheadbuttlamareliquialeafscythelogtrainingnatureaswrathnonsensephotosynthesispiercingsquallpoundexrecklessshardsrainsharpensproutingblowexthunderclaw"
     },
     {
@@ -5585,10 +5330,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Pinuflage.gif",
-      "spriteSize": [
-        185,
-        240
-      ],
+      "spriteSize": null,
       "search": "pinouflagebaseformpinouflagebaseformpinouflagefurorgrassancientabsorbexchlorobeamcordraconisdeltablastdiagonalstrikediamondspikedracoflatusexdropkickfatalcrushfieldsweepfocalpointgrassfanheadbuttlamareliquialeafscythelogtrainingnatureaswrathnonsensephotosynthesispiercingsquallpoundexrecklessshardsrainsharpensproutingblowexthunderclaw"
     },
     {
@@ -5641,10 +5383,7 @@
         "GRASS": "NOEFF"
       },
       "sprite": "./public/assets/animon/Carrigante.gif",
-      "spriteSize": [
-        232,
-        210
-      ],
+      "spriteSize": null,
       "search": "carrigantebaseformcarrigantebaseformcarrigantehorrensanomalousgeobaitdeltablastdeviantdimensiondiamondspikeectoplasmesperbeamfatalcrushfieldsweepfocalpointgravikinesisheadbuttmentalstrikeexmudblastmudtrapnonsensepoundexpsychoslashruptureseismicstepspiritstrikeexstartlevilewave"
     },
     {
@@ -5710,10 +5449,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Chagma.gif",
-      "spriteSize": [
-        121,
-        120
-      ],
+      "spriteSize": null,
       "search": "chagmabaseformchagmabaseformchagmasereumchakradeltablastdiagonalstrikediamondspikedigitdriverdirecthitexdirectordropkickencourageenergyslashfieldsweepfocalpointheadbuttnonsensepoundexqichargerecklessseismicstepseriouspunchsharpensitupsoulcannonspiritsurgeexstackingstrike"
     },
     {
@@ -5772,10 +5508,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Gongbog.gif",
-      "spriteSize": [
-        171,
-        230
-      ],
+      "spriteSize": null,
       "search": "gongbogbaseformgongbogbaseformgongbogfelicischakraaurabravadodeltablastdiagonalstrikediamondspikedigitdriverdirecthitexdirectordropkickencourageenergyslashenlightenmentfieldsweepfocalpointheadbuttnonsensepiercingsquallpoundexpowershareqichargeradiantblowexrecklessseismicstepseriouspunchsharpensitupsoulcannonspiritsurgeexstackingstrike"
     },
     {
@@ -5834,10 +5567,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Natmiss.gif",
-      "spriteSize": [
-        200,
-        183
-      ],
+      "spriteSize": null,
       "search": "natmissbaseformnatmissbaseformnatmissmestuschakraanomalouscunningstrikeexcursedeltablastdiagonalstrikediamondspikedigitdriverdirecthitexdirectordropkickencourageenergyslashfatalcrushfieldsweepfocalpointheadbuttinfernalwaveexmalevolentorbnonsensepoundexqichargerecklessseismicstepseriouspunchsharpensitupsoulcannonspiritsurgeexstackingstrike"
     },
     {
@@ -5898,10 +5628,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Minube_Blue.gif",
-      "spriteSize": [
-        76,
-        127
-      ],
+      "spriteSize": null,
       "search": "minubebluenebulaminubebluenebulaminubesereumaurawateraquastrikeexblizzardbrilliantbeamchlorobeamdazzlingflashdeltablastdirectorfieldsweepgentlebreezeglisteningwindhydrojetexnonsensepatpiercingrainexpiercingsquallpoundexradiantblowexslicingwindexsolarflashsparklingwaterspiritsurgeexupdraftwaterbombzephyrboost"
     },
     {
@@ -5962,10 +5689,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Minube-Green.gif",
-      "spriteSize": [
-        76,
-        127
-      ],
+      "spriteSize": null,
       "search": "minubegreennebulaminubegreennebulaminubesereumaurawateraquastrikeexblizzardbrilliantbeamchlorobeamdazzlingflashdeltablastdirectorfieldsweepgentlebreezeglisteningwindhydrojetexnonsensepatpiercingrainexpiercingsquallpoundexradiantblowexslicingwindexsolarflashsparklingwaterspiritsurgeexupdraftwaterbombzephyrboost"
     },
     {
@@ -6026,10 +5750,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Minube_Orange.gif",
-      "spriteSize": [
-        76,
-        127
-      ],
+      "spriteSize": null,
       "search": "minubeorangenebulaminubeorangenebulaminubesereumaurawateraquastrikeexblizzardbrilliantbeamchlorobeamdazzlingflashdeltablastdirectorfieldsweepgentlebreezeglisteningwindhydrojetexnonsensepatpiercingrainexpiercingsquallpoundexradiantblowexslicingwindexsolarflashsparklingwaterspiritsurgeexupdraftwaterbombzephyrboost"
     },
     {
@@ -6090,10 +5811,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Minube_Red.gif",
-      "spriteSize": [
-        76,
-        127
-      ],
+      "spriteSize": null,
       "search": "minuberednebulaminuberednebulaminubesereumaurawateraquastrikeexblizzardbrilliantbeamchlorobeamdazzlingflashdeltablastdirectorfieldsweepgentlebreezeglisteningwindhydrojetexnonsensepatpiercingrainexpiercingsquallpoundexradiantblowexslicingwindexsolarflashsparklingwaterspiritsurgeexupdraftwaterbombzephyrboost"
     },
     {
@@ -6154,10 +5872,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Minube_Pink.gif",
-      "spriteSize": [
-        76,
-        127
-      ],
+      "spriteSize": null,
       "search": "minubevioletnebulaminubevioletnebulaminubesereumaurawateraquastrikeexblizzardbrilliantbeamchlorobeamdazzlingflashdeltablastdirectorfieldsweepgentlebreezeglisteningwindhydrojetexnonsensepatpiercingrainexpiercingsquallpoundexradiantblowexslicingwindexsolarflashsparklingwaterspiritsurgeexupdraftwaterbombzephyrboost"
     },
     {
@@ -6218,10 +5933,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Minube_Yellow.gif",
-      "spriteSize": [
-        76,
-        127
-      ],
+      "spriteSize": null,
       "search": "minubeyellownebulaminubeyellownebulaminubesereumaurawateraquastrikeexblizzardbrilliantbeamchlorobeamdazzlingflashdeltablastdirectorfieldsweepgentlebreezeglisteningwindhydrojetexnonsensepatpiercingrainexpiercingsquallpoundexradiantblowexslicingwindexsolarflashsparklingwaterspiritsurgeexupdraftwaterbombzephyrboost"
     },
     {
@@ -6280,10 +5992,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Chromaura.gif",
-      "spriteSize": [
-        243,
-        236
-      ],
+      "spriteSize": null,
       "search": "chromaurabaseformchromaurabaseformchromaurasereumaurawateraquastrikeexblizzardbrilliantbeamchlorobeamdazzlingflashdeltablastdirectorfieldsweepgentlebreezeglisteningwindhydrojetexnonsensepatpiercingrainexpiercingsquallpoundexradiantblowexslicingwindexsolarflashsparklingwaterspiritsurgeexupdraftwaterbombzephyrboost"
     },
     {
@@ -6344,10 +6053,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Toypette-Q.gif",
-      "spriteSize": [
-        105,
-        115
-      ],
+      "spriteSize": null,
       "search": "toypettequadshapetoypettequadshapetoypettesereumdatafirebaitblazeexcunningstrikeexcyberbeamdatabreachdefragmentationdeltablastdosattackdownloaderrorfieldsweepfireballexfirewallflamingbulletsformatglitchwavelagswitchnonsensenumbercrunchexoverclockpyrochargeexrecklessscorchingblastscratchexwarmup"
     },
     {
@@ -6408,10 +6114,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Toypette-C.gif",
-      "spriteSize": [
-        123,
-        120
-      ],
+      "spriteSize": null,
       "search": "toypetteroundshapetoypetteroundshapetoypettesereumdataelectricbaitboltrushcunningstrikeexcyberbeamdatabreachdefragmentationdeltablastdosattackdownloaderrorelectroboltexelectrocutionfieldsweepfirewallformatglitchwavelagswitchnonsensenumbercrunchexoverclockrecklessscratchexshockexstaticreleasethunderballex"
     },
     {
@@ -6472,10 +6175,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Toypette-T.gif",
-      "spriteSize": [
-        122,
-        118
-      ],
+      "spriteSize": null,
       "search": "toypettetrishapetoypettetrishapetoypettesereumdataicearcticmirrorbaitcunningstrikeexcyberbeamdatabreachdefragmentationdeltablastdosattackdownloaderrorfieldsweepfirewallformatfroststrikeexglitchwaveiceslideiceballexlagswitchnonsensenumbercrunchexoverclockpolarrayexrecklessscratchexsnowplough"
     },
     {
@@ -6536,10 +6236,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Anizord.gif",
-      "spriteSize": [
-        218,
-        218
-      ],
+      "spriteSize": null,
       "search": "anizordbaseformanizordbaseformanizordsereumdataelectricicefirearcticmirrorbaitblazeexboltrushcunningstrikeexcyberbeamdatabreachdefragmentationdeltablastdosattackdownloaderrorelectroboltexelectrocutionfieldsweepfireballexfirewallflamingbulletsformatfroststrikeexglitchwaveiceslideiceballexlagswitchnonsensenumbercrunchexoverclockpolarrayexpyrochargeexrecklessscorchingblastscratchexshockexsnowploughstaticreleasethunderballexwarmup"
     },
     {
@@ -6592,10 +6289,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Muribang.gif",
-      "spriteSize": [
-        135,
-        90
-      ],
+      "spriteSize": null,
       "search": "muribangbaseformmuribangbaseformmuribangfuroraurafireattracktbingoblazeexbravadoburningemberdazzlingflashdeltablastfieldsweepfireballexflamingbulletsgentlebreezeglisteningwindmeltingpointnonsensepiercingsquallpoundexpyrochargeexradiantblowexrecklessscorchingblastsolarflashspiritsurgeexupdraftwrathfulspite"
     },
     {
@@ -6660,10 +6354,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Rushog-N_Fix.gif",
-      "spriteSize": [
-        112,
-        104
-      ],
+      "spriteSize": null,
       "search": "rushogfelicisrushogfelicisrushogfelicisfiregeoaegisblazeexburningemberdeltablastdispersiofieldsweepfireballexhardenheadbuttmagnaparmameltingpointmudblastmudtrapnonsensepoundexprotectivewallpyrochargeexshadowflameshardsrainsolarflashsoothingheattrancetreatmentex"
     },
     {
@@ -6729,10 +6420,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Rushog-S.gif",
-      "spriteSize": [
-        115,
-        101
-      ],
+      "spriteSize": null,
       "search": "rushogfurorrushogfurorrushogfuroricegeoarcticmirrorblizzardcoldheartcryospeardatabreachdeltablastdiamondspikedosattackfieldsweepfocalpointfroststrikeexfrozenbladeheadbutticeslideiceballexmudtrapnonsensepolarrayexpoundexradiantblowexruptureseismicstepsharpensnowplough"
     },
     {
@@ -6797,10 +6485,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Volcabeko.gif",
-      "spriteSize": [
-        198,
-        162
-      ],
+      "spriteSize": null,
       "search": "volcabekobaseformvolcabekobaseformvolcabekofelicisfiregeoaegisblazeexburningemberdeltablastdispersiofieldsweepfireballexhardenheadbuttmagnaparmameltingpointmudblastmudtrapnonsensepoundexprotectivewallpyrochargeexshadowflameshardsrainsolarflashsoothingheattrancetreatmentex"
     },
     {
@@ -6865,10 +6550,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Blizzbull.gif",
-      "spriteSize": [
-        243,
-        207
-      ],
+      "spriteSize": null,
       "search": "blizzbullbaseformblizzbullbaseformblizzbullfuroricegeoarcticmirrorblizzardcoldheartcryospeardatabreachdeltablastdiamondspikedosattackfieldsweepfocalpointfroststrikeexfrozenbladeheadbutticeslideiceballexmudtrapnonsensepolarrayexpoundexradiantblowexruptureseismicstepsharpensnowplough"
     },
     {
@@ -6933,10 +6615,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Unidra.gif",
-      "spriteSize": [
-        102,
-        123
-      ],
+      "spriteSize": null,
       "search": "unidrabaseformunidrabaseformunidrasereumancientaegisaftershockaquastrikeexblazeexchompexcordraconisdeltablastdirectordispersiodracoflatusexelectroboltexencourageexcisiofieldsweepflamingarrowsflamingbulletsfocalpointhydrovortexlamareliquiamagnaparmamalevolentorbmeltingpointnonsensepiercingrainexprovocatioanimaragingtorrentscorchingblastshockexthunderballexturbovortexvisbolidis"
     },
     {
@@ -7001,10 +6680,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Keratrys.gif",
-      "spriteSize": [
-        172,
-        169
-      ],
+      "spriteSize": null,
       "search": "keratrysbaseformkeratrysbaseformkeratryssereumancientaegisaftershockaquastrikeexblazeexchompexcordraconisdeltablastdirectordispersiodracoflatusexelectroboltexencourageexcisiofieldsweepflamingarrowsflamingbulletsfocalpointhydrovortexlamareliquiamagnaparmamalevolentorbmeltingpointnonsensepiercingrainexprovocatioanimaragingtorrentscorchingblastshockexthunderballexturbovortexvisbolidis"
     },
     {
@@ -7067,10 +6743,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Emdraquin.gif",
-      "spriteSize": [
-        309,
-        243
-      ],
+      "spriteSize": null,
       "search": "emdraquinbaseformemdraquinbaseformemdraquinsereumancientaegisaftershockaquastrikeexblazeexchompexcordraconisdeltablastdirectordispersiodracoflatusexelectroboltexencourageexcisiofieldsweepflamingarrowsflamingbulletsfocalpointhydrovortexlamareliquiamagnaparmamalevolentorbmeltingpointnonsensepiercingrainexprovocatioanimaragingtorrentscorchingblastshockexthunderballexturbovortexvisbolidis"
     },
     {
@@ -7131,10 +6804,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Crocobit.gif",
-      "spriteSize": [
-        117,
-        117
-      ],
+      "spriteSize": null,
       "search": "crocobitbaseformcrocobitbaseformcrocobithorrensvirusdataacidshotexaftershockaquastrikeexaquaslidebacterialsmashbaitbrainrotcarrierchompexcongestioncorrosiondatabreachdeltablastdosattackdownloaderrorelectrocutionfieldsweepheadbuttlagswitchnonsensenumbercrunchexpoisoncloakpyreticsprayrancidkickexrecklessshockexvenobeamvilewave"
     },
     {
@@ -7193,10 +6863,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Trepagator.gif",
-      "spriteSize": [
-        204,
-        161
-      ],
+      "spriteSize": null,
       "search": "trepagatorbaseformtrepagatorbaseformtrepagatorhorrensvirusdataacidshotexaftershockaquastrikeexaquaslidebacterialsmashbaitbrainrotcarrierchompexcongestioncorrosiondatabreachdeltablastdosattackdownloaderrorelectrocutionfieldsweepheadbuttlagswitchnonsensenumbercrunchexpoisoncloakpyreticsprayrancidkickexrecklessshockexvenobeamvilewave"
     },
     {
@@ -7255,10 +6922,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Ogiemask.gif",
-      "spriteSize": [
-        125,
-        115
-      ],
+      "spriteSize": null,
       "search": "ogiemaskbaseformogiemaskbaseformogiemaskhorrensanomalousacidshotexbaitcursedeltablastdeviantdimensiondigitdriverectoplasmelectroboltexesperbeamfieldsweepfocalpointmalevolentorbmaliciousgazemasterplanmasterplanmentalstrikeexnonsensepolarrayexpoundexpsychoslashshadowflamesoultransferspiritstrikeexstartlevenobeamvilewavewrathfulspite"
     },
     {
@@ -7315,10 +6979,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Babalure.gif",
-      "spriteSize": [
-        251,
-        239
-      ],
+      "spriteSize": null,
       "search": "babalurebaseformbabalurebaseformbabalurehorrensanomalousacidshotexbaitcursedeltablastdeviantdimensiondigitdriverectoplasmelectroboltexesperbeamfieldsweepfocalpointmalevolentorbmaliciousgazemasterplanmasterplanmentalstrikeexnonsensepolarrayexpoundexpsychoslashshadowflamesoultransferspiritstrikeexstartlevenobeamvilewavewrathfulspite"
     },
     {
@@ -7385,10 +7046,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Kinedge.gif",
-      "spriteSize": [
-        113,
-        108
-      ],
+      "spriteSize": null,
       "search": "kinedgebaseformkinedgebaseformkinedgemestuselectricgeoaegisaftershockboltrushdeltablastelectroboltexelectrocutionfieldsweephardenheadbuttmagneticwavemudblastmudjetmudtrapnonsensepatpoundexprotectivewallruptureshardsrainshockexstaticreleasethunderballex"
     },
     {
@@ -7453,10 +7111,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Ferroll.gif",
-      "spriteSize": [
-        218,
-        206
-      ],
+      "spriteSize": null,
       "search": "ferrollbaseformferrollbaseformferrollmestuselectricgeoaegisaftershockboltrushdeltablastelectroboltexelectrocutionfieldsweephardenheadbuttmagneticwavemudblastmudjetmudtrapnonsensepatpoundexprotectivewallruptureshardsrainshockexstaticreleasethunderballex"
     },
     {
@@ -7515,10 +7170,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Lanpit.gif",
-      "spriteSize": [
-        88,
-        118
-      ],
+      "spriteSize": null,
       "search": "lanpitbaseformlanpitbaseformlanpitfurorwateraquastrikeexbrilliantbeamcongestioncyberbeamdeltablastfieldsweepfocalpointglitchwavehydrojetexhydrovortexiceballexmalevolentorbmudjetnonsensepiercingrainexpolarrayexpoundexpyreticsprayragingtorrentriptidesparklingwaterspiritsurgeexvenobeamwaterbomb"
     },
     {
@@ -7575,10 +7227,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Alpaguet.gif",
-      "spriteSize": [
-        124,
-        233
-      ],
+      "spriteSize": null,
       "search": "alpaguetbaseformalpaguetbaseformalpaguetfurorwateraquastrikeexbrilliantbeamcongestioncyberbeamdeltablastfieldsweepfocalpointglitchwavehydrojetexhydrovortexiceballexmalevolentorbmudjetnonsensepiercingrainexpolarrayexpoundexpyreticsprayragingtorrentriptidesparklingwaterspiritsurgeexvenobeamwaterbomb"
     },
     {
@@ -7639,10 +7288,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Quidvil.gif",
-      "spriteSize": [
-        156,
-        110
-      ],
+      "spriteSize": null,
       "search": "quidvilbaseformquidvilbaseformquidvilhorrensdemonwateracidshotexaquastrikeexaquaslidebacterialsmashbaitbetrayalcarriercunningstrikeexcursedeltablastdemonslashdemonicroarfieldsweephydrojetexhydrovortexinfernalwaveexmalevolentorbmaliciousgazemisdirectionnonsensepoundexpyreticsprayragingtorrentriptidesparklingwaterspiritsurgeex"
     },
     {
@@ -7701,10 +7347,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Dracumar.gif",
-      "spriteSize": [
-        190,
-        198
-      ],
+      "spriteSize": null,
       "search": "dracumarbaseformdracumarbaseformdracumarhorrensdemonwateracidshotexaquastrikeexaquaslidebacterialsmashbaitbetrayalcarriercunningstrikeexcursedeltablastdemonslashdemonicroarfieldsweephydrojetexhydrovortexinfernalwaveexmalevolentorbmaliciousgazemisdirectionnonsensepoundexpyreticsprayragingtorrentriptidesparklingwaterspiritsurgeex"
     },
     {
@@ -7763,10 +7406,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Chimitrik-S.gif",
-      "spriteSize": [
-        134,
-        171
-      ],
+      "spriteSize": null,
       "search": "cimitrickhorrenscimitrickhorrenscimitrickhorrensvirusacidshotexbacterialsmashbaitbrainrotcarriercorrosiondeltablastdigitdriverelectrocutionfieldsweepfocalpointinfernalwaveexmeltdownmentalstrikeexnonsensepoisoncloakpyreticsprayrancidkickexscratchexspiritstrikeexthunderclawthunderballextrancetrickvilewavewrathfulspite"
     },
     {
@@ -7825,10 +7465,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Chimitrik-N.gif",
-      "spriteSize": [
-        92,
-        126
-      ],
+      "spriteSize": null,
       "search": "cimitricksereumcimitricksereumcimitricksereumdatabrilliantbeamcyberbeamdatabreachdazzlingflashdefragmentationdeltablastdirectordosattackdownloaderrorelectroboltexenlightenmentesperbeamfieldsweepflamingbulletsglisteningwindglitchwavelagswitchmalevolentorbmudjetnonsensenostalgianumbercrunchexpolarrayexpoundexthunderballexzettavoltbeam"
     },
     {
@@ -7893,10 +7530,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Venomera.gif",
-      "spriteSize": [
-        223,
-        213
-      ],
+      "spriteSize": null,
       "search": "venomerabaseformvenomerabaseformvenomerahorrensvirusanomalousacidshotexaquastrikeexbacterialsmashbaitblazeexbrainrotcarriercorrosiondeltablastdigitdriverelectrocutionfieldsweepfocalpointinfernalwaveexmeltdownmentalstrikeexnonsensepoisoncloakpyreticsprayrancidkickexscratchexspiritstrikeexthunderclawthunderballextrancetrickvilewavewrathfulspite"
     },
     {
@@ -7961,10 +7595,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Scaraburst.gif",
-      "spriteSize": [
-        258,
-        223
-      ],
+      "spriteSize": null,
       "search": "scaraburstbaseformscaraburstbaseformscaraburstsereumdatageobrilliantbeamcyberbeamdatabreachdazzlingflashdefragmentationdeltablastdirectordosattackdownloaderrorelectroboltexenlightenmentesperbeamfieldsweepflamingbulletsglisteningwindglitchwavelagswitchmalevolentorbmudjetnonsensenostalgianumbercrunchexpolarrayexpoundexthunderballexzettavoltbeam"
     },
     {
@@ -8031,10 +7662,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Mediglee.gif",
-      "spriteSize": [
-        115,
-        121
-      ],
+      "spriteSize": null,
       "search": "medigleebaseformmedigleebaseformmedigleefeliciselectricdataaftershockarcticmirroravshielddeltablastdownloaderrorelectroboltexelectrocutionenergisefieldsweepfirewallformatglisteningwindibuprofennonsensepainkillerpatpatchpolarrayexpoundexpowershareqichargeshockexsoothingheatstaticreleasethunderballextreatmentexvaccine"
     },
     {
@@ -8099,10 +7727,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Therapix.gif",
-      "spriteSize": [
-        152,
-        190
-      ],
+      "spriteSize": null,
       "search": "therapixbaseformtherapixbaseformtherapixfeliciselectricdataaftershockarcticmirroravshielddeltablastdownloaderrorelectroboltexelectrocutionenergisefieldsweepfirewallformatglisteningwindibuprofennonsensepainkillerpatpatchpolarrayexpoundexpowershareqichargeshockexsoothingheatstaticreleasethunderballextreatmentexvaccine"
     },
     {
@@ -8167,10 +7792,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Canabble-S.gif",
-      "spriteSize": [
-        99,
-        117
-      ],
+      "spriteSize": null,
       "search": "canabblefurorcanabblefurorcanabblefurorwateraquastrikeexaquaslidebacterialsmashcorleonisdeltablastdiagonalstrikedropkickfatalcrushfieldsweepfocalpointfroststrikeexheadbutthydrojetexhydrovortexiceslidemudjetnonsensepiercingrainexplusultrapoundexragingtorrentrecklessrupturesharpensparklingwaterwaterbomb"
     },
     {
@@ -8235,10 +7857,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Canabble-N.gif",
-      "spriteSize": [
-        109,
-        118
-      ],
+      "spriteSize": null,
       "search": "canabblesereumcanabblesereumcanabblesereumaurabrilliantbeamcorrosiondazzlingflashdeltablastdigitdriverdirectorencouragefieldsweepfirewallgentlebreezegrassfaniceballexlagswitchmentalstrikeexnonsensenostalgiapiercingsquallpolarrayexpoundexradiantblowexslicingwindexspiritsurgeexupdraftvenobeamzephyrboost"
     },
     {
@@ -8301,10 +7920,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Foiequack.gif",
-      "spriteSize": [
-        214,
-        170
-      ],
+      "spriteSize": null,
       "search": "foiequackbaseformfoiequackbaseformfoiequackfurorwateraquastrikeexaquaslidebacterialsmashcorleonisdeltablastdiagonalstrikedropkickfatalcrushfieldsweepfocalpointfroststrikeexheadbutthydrojetexhydrovortexiceslidemudjetnonsensepiercingrainexplusultrapoundexragingtorrentrecklessrupturesharpensparklingwaterwaterbomb"
     },
     {
@@ -8367,10 +7983,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Birchette.gif",
-      "spriteSize": [
-        174,
-        179
-      ],
+      "spriteSize": null,
       "search": "birchettebaseformbirchettebaseformbirchettesereumaurabrilliantbeamcorrosiondazzlingflashdeltablastdigitdriverdirectorencouragefieldsweepfirewallgentlebreezegrassfaniceballexlagswitchmentalstrikeexnonsensenostalgiapiercingsquallpolarrayexpoundexradiantblowexslicingwindexspiritsurgeexupdraftvenobeamzephyrboost"
     },
     {
@@ -8425,10 +8038,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Soblin.gif",
-      "spriteSize": [
-        113,
-        132
-      ],
+      "spriteSize": null,
       "search": "soblinbaseformsoblinbaseformsoblinmestusicedemonarcticmirrorbaitblizzardcryospearcunningstrikeexdeltablastdemonicroarenlightenmentfatalcrushfieldsweepfroststrikeexiceslideiceballexmalevolentorbmaliciousgazemisdirectionnonsensenostalgiapermafrostpolarrayexpoundexragingtorrentsnowploughsparklingwatertrickwrathfulspite"
     },
     {
@@ -8483,10 +8093,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Griblin.gif",
-      "spriteSize": [
-        142,
-        191
-      ],
+      "spriteSize": null,
       "search": "griblinbaseformgriblinbaseformgriblinmestusicedemonarcticmirrorbaitblizzardcryospearcunningstrikeexdeltablastdemonicroarenlightenmentfatalcrushfieldsweepfroststrikeexiceslideiceballexmalevolentorbmaliciousgazemisdirectionnonsensenostalgiapermafrostpolarrayexpoundexragingtorrentsnowploughsparklingwatertrickwrathfulspite"
     },
     {
@@ -8539,10 +8146,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Despablin.gif",
-      "spriteSize": [
-        266,
-        254
-      ],
+      "spriteSize": null,
       "search": "despablinbaseformdespablinbaseformdespablinmestusicedemonarcticmirrorbaitblizzardcryospearcunningstrikeexdeltablastdemonicroarenlightenmentfatalcrushfieldsweepfroststrikeexiceslideiceballexmalevolentorbmaliciousgazemisdirectionnonsensenostalgiapermafrostpolarrayexpoundexragingtorrentsnowploughsparklingwatertrickwrathfulspite"
     },
     {
@@ -8609,10 +8213,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Mollupom.gif",
-      "spriteSize": [
-        92,
-        126
-      ],
+      "spriteSize": null,
       "search": "mollupombaseformmollupombaseformmollupomfurorgeowateraquastrikeexbacterialsmashdeltablastdemonslashdiagonalstrikediamondspikedigitdriverexcisiofatalcrushfieldsweepfocalpointfroststrikeexhardenheadbutthydrojetexlamareliquiamudblastmudtrapnonsensepoundexragingtorrentrecklessruptureseismicstepshardsrainsharpenwaterbomb"
     },
     {
@@ -8677,10 +8278,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Obsidedge.gif",
-      "spriteSize": [
-        257,
-        210
-      ],
+      "spriteSize": null,
       "search": "obsidedgebaseformobsidedgebaseformobsidedgefurorgeowateraquastrikeexbacterialsmashdeltablastdemonslashdiagonalstrikediamondspikedigitdriverexcisiofatalcrushfieldsweepfocalpointfroststrikeexhardenheadbutthydrojetexlamareliquiamudblastmudtrapnonsensepoundexragingtorrentrecklessruptureseismicstepshardsrainsharpenwaterbomb"
     },
     {
@@ -8739,10 +8337,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Yakora.gif",
-      "spriteSize": [
-        147,
-        182
-      ],
+      "spriteSize": null,
       "search": "yakorabaseformyakorabaseformyakorafelicisgrassauraabsorbexaromasynthesisbrilliantbeamchlorobeamdazzlingflashdeltablastdiagonalstrikedigitdriverenlightenmentfieldsweepgrassfanleafscythenatureaswrathnonsensepatphotosynthesispowershareqichargeradiantblowexscratchexsoulcannonsproutingblowextrancetreatmentexvigourcureex"
     },
     {
@@ -8801,10 +8396,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Phumowl.gif",
-      "spriteSize": [
-        223,
-        186
-      ],
+      "spriteSize": null,
       "search": "phumowlbaseformphumowlbaseformphumowlmestusanomalousdemonblazeexcunningstrikeexdeltablastdemonicroardeviantdimensionectoplasmesperbeamfieldsweepfireballexgrassfangravikinesisinfernalwaveexmalevolentorbmaliciousgazementalstrikeexnonsensenostalgiapoundexshadowflamesoultransferspiritstrikeextrancevilewavewrathfulspite"
     },
     {
@@ -8863,10 +8455,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Inkrow.gif",
-      "spriteSize": [
-        262,
-        187
-      ],
+      "spriteSize": null,
       "search": "inkrowbaseforminkrowbaseforminkrowhorrensanomalousvirusacidshotexbaitbetrayalbrainrotdeltablastenlightenmentesperbeamfieldsweepfocalpointgravikinesismentalstrikeexmisdirectionnonsensepiercingsquallpoisoncloakpyreticsprayrancidkickexrecklessscratchexslicingflurryslicingwindexspiritstrikeexstartletrickupdraftvenobeamvilewave"
     },
     {
@@ -8925,10 +8514,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Lordrake.gif",
-      "spriteSize": [
-        197,
-        176
-      ],
+      "spriteSize": null,
       "search": "lordrakebaseformlordrakebaseformlordrakefurordemonancientbaitblazingslashboltrushbravadoburningembercorchelyscordraconiscorleoniscunningstrikeexdeltablastdemonslashdracoflatusexexcisiofatalcrushfieldsweeplamareliquiamalevolentorbmaliciousgazenonsenseplusultrapyrochargeexscratchexthunderclawthunderballexturbovortexwarmup"
     },
     {
@@ -8987,10 +8573,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Elymile.gif",
-      "spriteSize": [
-        124,
-        150
-      ],
+      "spriteSize": null,
       "search": "elymilebaseformelymilebaseformelymilehorrensancientanomalousbaitblazeexcorchelyscordraconisdeltablastdispersiodracoflatusexectoplasmesperbeamfieldsweepfireballexflamingbulletsmagnaparmamentalstrikeexnonsenseplusultrapoundexprovocatioanimascorchingblastshadowflamesolarflashspiritstrikeextrickturbovortexvilewavevisbolidis"
     },
     {
@@ -9049,10 +8632,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Devoblet.gif",
-      "spriteSize": [
-        141,
-        139
-      ],
+      "spriteSize": null,
       "search": "devobletbaseformdevobletbaseformdevoblethorrensdataanomalousacidshotexbaitbrainrotcarrierchompexcyberbeamdatabreachdeltablastdownloaderroresperbeamfieldsweepformatfroststrikeexglitchwavegravikinesisiceballexlagswitchmentalstrikeexmisdirectionnonsensenumbercrunchexoverclockpolarrayexsoultransferstartletrickvilewave"
     },
     {
@@ -9106,10 +8686,7 @@
         "GRASS": "NOEFF"
       },
       "sprite": "./public/assets/animon/Lotamor.gif",
-      "spriteSize": [
-        179,
-        189
-      ],
+      "spriteSize": null,
       "search": "iotamorbaseformiotamorbaseformiotamormestusdemonanomalousicearcticmirrorbetrayalblizzardcoldheartcursedeltablastesperbeamfieldsweepgravikinesisiceballexinfernalwaveexmalevolentorbmaliciousgazementalstrikeexmisdirectionnonsensenostalgiapiercingrainexpolarrayexpoundexsoultransfersparklingwaterspiritsurgeexstartletearfulvilewavewrathfulspite"
     },
     {
@@ -9163,10 +8740,7 @@
         "GRASS": "NOEFF"
       },
       "sprite": "./public/assets/animon/Pymant.gif",
-      "spriteSize": [
-        299,
-        221
-      ],
+      "spriteSize": null,
       "search": "pymantbaseformpymantbaseformpymantfurorchakraaurafireblazeexblazingslashbrilliantbeamburningemberdeltablastdiagonalstrikedigitdriverenergyslashfieldsweepfireballexflamingarrowsflamingbulletsfocalpointmeltingpointnonsensepiercingsquallpoundexpyrochargeexradiantblowexscorchingblastslicingflurryslicingwindexsolarflashsoulcannonspiritsurgeexstackingstrikewarmup"
     },
     {
@@ -9212,10 +8786,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Dualine-Embodied.gif",
-      "spriteSize": [
-        198,
-        198
-      ],
+      "spriteSize": null,
       "search": "dualineembodiedformdualineembodiedformdualinehorrensgrassgeoabsorbexaromasynthesisbacterialsmashchlorobeamdeltablastdiamondspikefieldsweepgrassfanhardenheadbuttibuprofenleafscythelogtrainingmudblastmudjetmudtrapnatureaswrathnonsensepainkillerphotosynthesispoundexpyreticsprayseismicstepshardsrainvigourcureex"
     },
     {
@@ -9268,10 +8839,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Dualine-FF.gif",
-      "spriteSize": [
-        169,
-        151
-      ],
+      "spriteSize": null,
       "search": "dualinefreeformdualinefreeformdualinefelicisgrassgeoabsorbexaromasynthesisbacterialsmashchlorobeamdeltablastdiamondspikefieldsweepgrassfanhardenheadbuttibuprofenleafscythelogtrainingmudblastmudjetmudtrapnatureaswrathnonsensepainkillerphotosynthesispoundexpyreticsprayseismicstepshardsrainvigourcureex"
     },
     {
@@ -9324,10 +8892,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Knequital.gif",
-      "spriteSize": [
-        206,
-        224
-      ],
+      "spriteSize": null,
       "search": "knequitaldrawnknequitaldrawnknequitalsereumaurachakrablazingslashbravadocryospeardeltablastdiagonalstrikedigitdriverdosattackelectrocutionenergyslashenlightenmentfieldsweepfocalpointfrozenbladegrassfannonsensepiercingsquallpressupradiantblowexscratchexseriouspunchsitupslicingflurryslicingwindexsoulcannonstackingstrikevoltaicslash"
     },
     {
@@ -9380,10 +8945,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Knequital_Normal.gif",
-      "spriteSize": [
-        162,
-        224
-      ],
+      "spriteSize": null,
       "search": "knequitalsealedknequitalsealedknequitalsereumaurachakrablazingslashbravadocryospeardeltablastdiagonalstrikedigitdriverdosattackelectrocutionenergyslashenlightenmentfieldsweepfocalpointfrozenbladegrassfannonsensepiercingsquallpressupradiantblowexscratchexseriouspunchsitupslicingflurryslicingwindexsoulcannonstackingstrikevoltaicslash"
     },
     {
@@ -9436,10 +8998,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Morsiver_Phase2.gif",
-      "spriteSize": [
-        220,
-        250
-      ],
+      "spriteSize": null,
       "search": "morsiverburnoutmorsiverburnoutmorsiverhorrensfiredemonbaitblazeexblazingslashburningembercursedeltablastdemonslashdemonicroarfatalcrushfieldsweepfireballexflamingarrowsflamingbulletsfocalpointinfernalwaveexmalevolentorbmaliciousgazemeltingpointmentalstrikeexmisdirectionnonsensepyrochargeexscorchingblastscratchexshadowflamethunderclaw"
     },
     {
@@ -9492,10 +9051,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Morsiver_Phase1.gif",
-      "spriteSize": [
-        220,
-        219
-      ],
+      "spriteSize": null,
       "search": "morsiverwornoutmorsiverwornoutmorsiverhorrensfiredemonbaitblazeexblazingslashburningembercursedeltablastdemonslashdemonicroarfatalcrushfieldsweepfireballexflamingarrowsflamingbulletsfocalpointinfernalwaveexmalevolentorbmaliciousgazemeltingpointmentalstrikeexmisdirectionnonsensepyrochargeexscorchingblastscratchexshadowflamethunderclaw"
     },
     {
@@ -9548,10 +9104,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Nuclheart.gif",
-      "spriteSize": [
-        205,
-        253
-      ],
+      "spriteSize": null,
       "search": "nuclheartbaseformnuclheartbaseformnuclheartmestusvirusgeoabsorbexacidshotexbrainrotcarrierchlorobeamcorrosioncursedeltablastfatalcrushfieldsweepglitchwavehardenheadbuttmalevolentorbmeltdownmudblastmudjetmudtrapnonsenseoverclockpoisoncloakpoundexpyreticsprayrupturescorchingblastshardsrainthunderballexvenobeam"
     },
     {
@@ -9602,10 +9155,7 @@
         "GRASS": "RESISTANCE"
       },
       "sprite": "./public/assets/animon/Primalong.gif",
-      "spriteSize": [
-        261,
-        267
-      ],
+      "spriteSize": null,
       "search": "primalongbaseformprimalongbaseformprimalongsereumancientaegisaquaslideblazeexcorchelyscordraconiscorleonisdeltablastdiamondspikedispersiodracoflatusexexcisiofieldsweepflamingarrowshydrovortexlamareliquialogtrainingmagnaparmameltingpointnonsenseplusultrapoundexprotectivewallragingtorrentrecklessseismicstepsproutingblowextrickturbovortexvisbolidis"
     },
     {
@@ -9656,10 +9206,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Kentaress.gif",
-      "spriteSize": [
-        269,
-        217
-      ],
+      "spriteSize": null,
       "search": "kentaressbaseformkentaressbaseformkentaresssereumdataavshieldbacterialsmashboltrushcarriercoldheartcryospearcyberbeamdatabreachdefragmentationdeltablastdiamondspikedosattackelectrocutionfieldsweepformatfroststrikeexiceslideiceballexlagswitchnonsensenumbercrunchexoverclockpatchrancidkickexscratchexsnowploughstaticreleasevaccinevoltaicslash"
     },
     {
@@ -9712,10 +9259,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/W-Icedom.gif",
-      "spriteSize": [
-        160,
-        209
-      ],
+      "spriteSize": null,
       "search": "wicedombaseformwicedombaseformwicedomsereumicedataarcticmirroravshieldblizzardbrilliantbeamcoldheartcyberbeamdazzlingflashdeltablastdirectorenlightenmentesperbeamfieldsweepfirewallfocalpointglitchwavehydrojetexhydrovortexiceballexlagswitchmentalstrikeexnonsenseoverclockpermafrostpolarrayexpoundexsparklingwatertrancevilewavewrathfulspite"
     },
     {
@@ -9768,10 +9312,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Kokepole.gif",
-      "spriteSize": [
-        206,
-        198
-      ],
+      "spriteSize": null,
       "search": "kokepolebaseformkokepolebaseformkokepolefelicisgeoancientabsorbexbingocorchelysdeltablastdiamondspikedispersiodracoflatusexesperbeamfieldsweephardenlogtrainingmagnaparmamudblastmudjetmudtrapnonsenseplusultrapoundexprovocatioanimaruptureseismicstepshardsrainsproutingblowexsweethoneytreatmentexturbovortexvilewave"
     },
     {
@@ -9824,10 +9365,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Bluemester-N.gif",
-      "spriteSize": [
-        299,
-        265
-      ],
+      "spriteSize": null,
       "search": "blumesterhorrensblumesterhorrensblumesterhorrenselectricfireaftershockblazingslashboltrushburningemberdarkboltdeltablastdiamondspikeelectrocutionfieldsweepfireballexheadbuttmeltingpointmudtrapnonsensepoundexpyrochargeexscorchingblastsharpenshockexsolarflashstaticreleasethunderclawthunderballexvoltaicslashwarmupzettavoltbeam"
     },
     {
@@ -9873,10 +9411,7 @@
         "GRASS": "NORMAL"
       },
       "sprite": "./public/assets/animon/Bluemester-N_Fire.gif",
-      "spriteSize": [
-        299,
-        256
-      ],
+      "spriteSize": null,
       "search": "blumesterhorrensfireblumesterhorrensfireblumesterhorrensfireelectricaftershockblazingslashboltrushburningemberdarkboltdeltablastdiamondspikeelectrocutionfieldsweepfireballexheadbuttmeltingpointmudtrapnonsensepoundexpyrochargeexscorchingblastsharpenshockexsolarflashstaticreleasethunderclawthunderballexvoltaicslashwarmupzettavoltbeam"
     },
     {
@@ -9929,10 +9464,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Bluemester-S.gif",
-      "spriteSize": [
-        286,
-        251
-      ],
+      "spriteSize": null,
       "search": "blumestermestusblumestermestusblumestermestuswateranomalousaquastrikeexaquaslidebaitcongestiondeltablastdeviantdimensionesperbeamfieldsweepgravikinesishydrojetexhydrovortexmentalstrikeexmudjetmudtrapnonsensepiercingrainexpoundexragingtorrentriptidesolarflashsoultransfersparklingwaterstartletearfulvilewavewaterbombwrathfulspite"
     },
     {
@@ -9985,10 +9517,7 @@
         "GRASS": "WEAKNESS"
       },
       "sprite": "./public/assets/animon/Bluemester-S_Phase1.gif",
-      "spriteSize": [
-        276,
-        251
-      ],
+      "spriteSize": null,
       "search": "blumestermestusclosedblumestermestusclosedblumestermestuswateranomalousaquastrikeexaquaslidebaitcongestiondeltablastdeviantdimensionesperbeamfieldsweepgravikinesishydrojetexhydrovortexmentalstrikeexmudjetmudtrapnonsensepiercingrainexpoundexragingtorrentriptidesolarflashsoultransfersparklingwaterstartletearfulvilewavewaterbombwrathfulspite"
     }
   ],
@@ -10010,7 +9539,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 70 power NONE physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move.",
-      "description": "The user lunges at the target and strikes with a strong blow."
+      "description": "No extra effect."
     },
     {
       "id": "9b0d1257-9e5a-4a4d-b1a8-5147aa5c039b:2",
@@ -10029,7 +9558,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 70 power NONE physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move.",
-      "description": "The user lunges at the target and bites with its fangs."
+      "description": "No extra effect."
     },
     {
       "id": "05644754-43f9-46cf-87d0-46c9b511db20:2",
@@ -10048,7 +9577,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 70 power NONE physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move.",
-      "description": "The user lunges at the target and slashes with its claws."
+      "description": "No extra effect."
     },
     {
       "id": "169f14aa-1ea0-4d4b-9015-b76eb7b2ec65:0",
@@ -10067,7 +9596,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Cooldown: 1. Special: applies an additional effect listed in the Effects column. Effect duration: 3 cycles.",
-      "description": "The user goes wild to encourage its allies, gaining 2 additional SP for the next three turn cycles."
+      "description": "Grants the User's Allies +2 SP for each of the next 3 turn cycles."
     },
     {
       "id": "5c84ecf1-10cc-40c2-aabd-b38240436022:0",
@@ -10086,7 +9615,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 65 power ELECTRIC physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move.",
-      "description": "The user electrifies its claws and attacks the enemy with them, inflicting massive damage."
+      "description": "No extra effect."
     },
     {
       "id": "d4bd977b-ab64-44fd-9dc6-a2b16a2303f3:0",
@@ -10105,7 +9634,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 2 SP. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The user startles the target, reducing its Agility."
+      "description": "Lowers the Target's Agility by 1."
     },
     {
       "id": "f992fe49-f9ce-4219-848c-b3a8dc75fc3f:0",
@@ -10124,7 +9653,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Cooldown: 1. Special: applies an additional effect listed in the Effects column. Effect duration: 2 cycles.",
-      "description": "The user warms up, preparing to attack at full force."
+      "description": "For 2 cycles, increases the User's outgoing damage by 1.1x."
     },
     {
       "id": "c3afecea-fd3d-471e-8de3-e80fc880bb98:0",
@@ -10143,7 +9672,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 1 SP. Cooldown: 1. Special: For 3 cycles, redirects or influences targeting toward the baited target.",
-      "description": "The user baits the target, sneaking up on and striking it every time it attacks an ally."
+      "description": "Marks the Target for 3 cycles. Whenever it attacks an Ally, the User counters with a 20 power typeless Special attack."
     },
     {
       "id": "dd82e6c7-862b-42d1-affa-e938c0ecc616:0",
@@ -10162,7 +9691,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting the user side. 100% accuracy; costs 3 SP. Cooldown: 1. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user generates a breeze that helps the team move, increasing Agility."
+      "description": "Raises Agility by 1 for the User's side."
     },
     {
       "id": "ee99e3a1-548d-415a-94d3-acd80a01939b:0",
@@ -10181,7 +9710,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 1 SP. Cooldown: 1. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user pats the target to make it more confident, increasing its Defence."
+      "description": "Raises the Target's Defence by 1."
     },
     {
       "id": "5b077104-513d-47ef-9ca1-542c294d1516:0",
@@ -10200,7 +9729,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 1 SP. Cooldown: 1. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The target bursts into tears, which blurs its vision, decreasing its Agility."
+      "description": "Lowers the Target's Agility by 1."
     },
     {
       "id": "c2c50f5b-3f37-4948-8f8a-6c33b9fe51bf:0",
@@ -10219,7 +9748,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 2 SP. Cooldown: 1. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The target becomes lost in memories of times past, causing its Defence and Special Defence to decrease."
+      "description": "Lowers the Target's Defence and Sp. Defence by 1."
     },
     {
       "id": "41eec8db-486d-4192-b373-536a6834c1ed:2",
@@ -10238,7 +9767,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power ELECTRIC physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user charges itself with electricity before lunging at the target, releasing all the energy in one blow."
+      "description": "No extra effect."
     },
     {
       "id": "28db9573-3936-44c2-a040-0652f60a5367:0",
@@ -10257,7 +9786,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 50 power GEO physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move.",
-      "description": "The user hardens its forehead before unleashing a terrifying headbutt on the target."
+      "description": "No extra effect."
     },
     {
       "id": "b9921e51-c089-489a-9327-70e81923ef51:2",
@@ -10276,7 +9805,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power AURA special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user generates sharp winds that damage the target."
+      "description": "No extra effect."
     },
     {
       "id": "3249e385-6414-4ea7-96e8-5695f2b77d43:2",
@@ -10295,7 +9824,7 @@
       "aoeType": "AdjacentAOE",
       "contact": false,
       "effects": "Deals 80 power ANOMALOUS special damage to the target and adjacent enemies. 100% accuracy; costs 4 SP. Special: Self-hit/recoil flag is TRUE; targets the selected enemy plus adjacent enemies.",
-      "description": "The user focuses its psychic powers, triggering a splitting headache in the target and those around it."
+      "description": "Recoil: User loses 30% of final damage dealt, capped at 20% of User max HP."
     },
     {
       "id": "11155dbd-e438-4b4e-8ed1-e2c105835abf:2",
@@ -10314,7 +9843,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power DEMON physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user stealthily sneaks up on the target and strikes when it is at its most vulnerable."
+      "description": "No extra effect."
     },
     {
       "id": "b1d533ba-e58a-437b-a34d-483744ebf804:2",
@@ -10333,7 +9862,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power VIRUS special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user produces an acid and sprays it on the target, inflicting massive damage."
+      "description": "No extra effect."
     },
     {
       "id": "7c4cf016-8a32-49d4-be6e-b1539d16b930:2",
@@ -10352,7 +9881,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power FIRE special damage to one enemy. 100% accuracy; costs 2 SP. Special: Applies a Fire/heat-style secondary effect.",
-      "description": "The user creates a column of fire that damages the target."
+      "description": "No extra effect."
     },
     {
       "id": "dd4b645d-a358-44cc-aeab-332255464da3:0",
@@ -10371,7 +9900,7 @@
       "aoeType": "AdjacentAOE",
       "contact": false,
       "effects": "Deals 55 power GEO physical damage to the target and adjacent enemies. 100% accuracy; costs 3 SP.",
-      "description": "The user takes a mighty step forward, sending rock spikes out of the ground that damage the target."
+      "description": "No extra effect."
     },
     {
       "id": "e2d3ea32-9b41-4e65-aa40-43edc323aa53:2",
@@ -10390,7 +9919,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power VIRUS physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user strikes the target with a kick that leaves a foul smell."
+      "description": "No extra effect."
     },
     {
       "id": "b19630ab-1b13-4d5e-a7b6-f7e46669fdc8:0",
@@ -10409,7 +9938,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 70 power ICE physical damage to one enemy. 100% accuracy; costs 3 SP. Contact move. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The user creates an icy spear, piercing the target and reducing its SP by 1."
+      "description": "Lowers the Target's SP by 1."
     },
     {
       "id": "0de8b1e3-e0bb-47f1-9e93-0f2739a04405:2",
@@ -10428,7 +9957,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power ELECTRIC special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user charges itself before delivering a strong electric shock to the target."
+      "description": "No extra effect."
     },
     {
       "id": "b076203f-6432-4fd5-8c21-6f0918597740:0",
@@ -10447,7 +9976,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Cooldown: 1. Heal: restores HP to the target equal to 25% of the user's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user produces a sweet, honey-like substance that slightly heals the target."
+      "description": "Heals one Ally by 25% of the User's Max HP."
     },
     {
       "id": "668674d5-12b6-4cf5-8d17-8dfbf0420d1d:1",
@@ -10466,7 +9995,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 1 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user hardens every part of its body, increasing its Defence."
+      "description": "Raises the User's Defence by 2."
     },
     {
       "id": "f613585c-5a9f-42a8-86a2-5866a6c4dbef:0",
@@ -10485,7 +10014,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 35 power NONE special damage to one chosen battler. 100% accuracy; costs 2 SP. Special: Damage increases each time this move is used.",
-      "description": "The user shouts randomly, damaging the target. The skill's power increases with each use."
+      "description": "Before damage, adds +0.1 StackMultiplier per User's previous Nonsense uses."
     },
     {
       "id": "4ead9181-160b-435d-ac0e-ae64b930d3b7:2",
@@ -10504,7 +10033,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Heal: restores 50% of the target's Max HP immediately, then 15% of the target's Max HP per turn cycle for 3 cycles.",
-      "description": "The user gathers natural energy to heal an ally. The effect lasts for three turn cycles after use, diminishing over time."
+      "description": "Heals one Ally for 50% of its Max HP immediately, then 15% per cycle for 3 cycles."
     },
     {
       "id": "cf0f1d76-dc37-4531-a6a1-26f75a1d79a7:0",
@@ -10523,7 +10052,7 @@
       "aoeType": "EveryoneAOE",
       "contact": false,
       "effects": "Status move affecting all battlers. 100% accuracy; costs 3 SP. Special: Affects all battlers; converts 2 weaknesses into resistances and also deals damage. Includes recoil/self-hit damage.",
-      "description": "The user fires a bacterial and viral substance to forcibly vaccinate Animon in battle, causing damage and turning two weaknesses into resistances."
+      "description": "Converts 2 of the User's Type weaknesses into resistances."
     },
     {
       "id": "874da3dd-c944-4fec-b215-7d5ce464c229:0",
@@ -10599,7 +10128,7 @@
       "aoeType": "AdjacentAOE",
       "contact": false,
       "effects": "Status move affecting the user and adjacent allies. 100% accuracy; costs 3 SP. Heal: restores HP to each target equal to 40% of the user's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user generates a heat that can heal its own injuries and those of adjacent Animon."
+      "description": "Heals the User and adjacent Allies by 40% of the User's Max HP."
     },
     {
       "id": "6e1c4ba7-0870-47c6-bddc-48052e16df15:0",
@@ -10637,7 +10166,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 60 power GRASS physical damage to one enemy. 100% accuracy; costs 1 SP.",
-      "description": "The user strikes the enemy with a large, fan-shaped leaf."
+      "description": "No extra effect."
     },
     {
       "id": "84edbd24-5419-44c4-9f24-11f3ed64b1fe:2",
@@ -10656,7 +10185,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power GRASS physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user borrows the energy of nature, striking the enemy with force."
+      "description": "No extra effect."
     },
     {
       "id": "f11da85d-b684-4f66-9cd2-88cef9ec9083:0",
@@ -10675,7 +10204,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 75 power GRASS physical damage to one enemy. 100% accuracy; costs 3 SP. Contact move. Special: Deals damage and raises the user Agility.",
-      "description": "The user creates a sharp leaf, mowing down the target and increasing its own Agility."
+      "description": "Raises the User's Agility by 1."
     },
     {
       "id": "e5f59a63-8189-4833-a779-26b2ed9f7a9e:0",
@@ -10694,7 +10223,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 5 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user utilises a log to train hard, increasing Attack, Defence, Agility and Crit Power."
+      "description": "Raises the User's Attack, Defence, Agility, and Crit Power by 1."
     },
     {
       "id": "a02450ec-48ab-4607-89ef-41896af9e506:0",
@@ -10732,7 +10261,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 80 power FIRE special damage to one enemy. 100% accuracy; costs 2 SP. Special: Makes the target take increased damage. Effect duration: 3 cycles.",
-      "description": "The user creates a glowing ball of fire to launch at the target, causing it to take increased damage for several turns."
+      "description": "Applies x1.25 incoming damage to Target for 3 cycles. This hit is not boosted."
     },
     {
       "id": "275f0d2a-0986-4a20-b15e-0b8a4cf79cc5:0",
@@ -10751,7 +10280,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 45 power FIRE physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: Applies a Fire/heat-style secondary effect.",
-      "description": "The user heats one of its limbs until it becomes as hot as an ember, using it to strike the enemy and decrease its Defence."
+      "description": "Lowers the Target's Defence by 1."
     },
     {
       "id": "a92a2c58-82de-4c25-8609-adcba006e577:2",
@@ -10770,7 +10299,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power FIRE physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: Applies a Fire/heat-style secondary effect.",
-      "description": "The user covers itself in flames and strikes the enemy with force."
+      "description": "No extra effect."
     },
     {
       "id": "99d6c97e-07ce-4925-948d-af021e433502:0",
@@ -10789,7 +10318,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 3 SP. Special: Applies damage over time to the enemy side for 5 cycles.",
-      "description": "The user creates fire arrows and shoots them at enemies, harassing and damaging them for five turn cycles."
+      "description": "Applies 10% Max HP damage over time to all enemies for 5 cycles."
     },
     {
       "id": "ed0f93da-7559-4d97-80d8-62589a085431:0",
@@ -10808,7 +10337,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 110 power FIRE special damage to one enemy. 100% accuracy; costs 2 SP. Special: Consumes the user energy as a self-cost while dealing damage.",
-      "description": "The user consumes its energy, releasing a dark flame of unparalleled heat."
+      "description": "After hit, User loses 33% of User max HP."
     },
     {
       "id": "cc100def-f742-4938-84e1-72f4260c7781:0",
@@ -10827,7 +10356,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 120 power FIRE physical damage to one enemy. 100% accuracy; costs 3 SP. Contact move. Special: Applies a Fire/heat-style secondary effect.",
-      "description": "The user charges itself with energy, then launches itself at the target, hitting it with enough pressure and heat to melt it."
+      "description": "No extra effect."
     },
     {
       "id": "536fefb3-02be-4db0-9c85-074d172a1b0b:2",
@@ -10846,7 +10375,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power WATER physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user harnesses water currents to strike the enemy with force."
+      "description": "No extra effect."
     },
     {
       "id": "647d1ea4-8d23-49fb-bed3-1bd111092aba:2",
@@ -10865,7 +10394,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power WATER special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user sprays the target with a jet of water at very high pressure, causing damage."
+      "description": "No extra effect."
     },
     {
       "id": "2b007e1a-6b12-4959-af0e-7bdae8453be1:0",
@@ -10884,7 +10413,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 60 power WATER physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: Deals damage and raises the user Agility.",
-      "description": "The user slides on a trail of water, striking the enemy and increasing its own Agility."
+      "description": "Raises the User's Agility by 1."
     },
     {
       "id": "45507a04-ade7-4156-ae79-b73f35f19e8e:0",
@@ -10903,7 +10432,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 10 power WATER special damage to all enemies on the target side. 100% accuracy; costs 3 SP. Special: Applies tide damage over time to the enemy side for 5 cycles.",
-      "description": "The user unleashes the fury of the tides, which continues damaging all enemies for five turn cycles after the first use."
+      "description": "Applies 10% Max HP damage over time to all enemies hit for 5 cycles."
     },
     {
       "id": "e912cc68-4229-4843-a08f-6b5a19609ec6:0",
@@ -10941,7 +10470,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column. Effect duration: 3 cycles.",
-      "description": "Changes to Agility are ignored for three turns, due to a psychic field that controls gravity."
+      "description": "For 3 cycles, Agility changes are ignored."
     },
     {
       "id": "5ae2180f-034d-437b-8643-696ea2798644:0",
@@ -10960,7 +10489,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally other than the user. 100% accuracy; costs 3 SP. Special: Redirects damage from the chosen ally to the user for 4 cycles.",
-      "description": "The user creates a shield over one of its allies, allowing the user to take damage in its place."
+      "description": "For 4 cycles, damage aimed at the chosen Ally is redirected to the User with 50% mitigation."
     },
     {
       "id": "be30715f-4c07-4b41-be53-b905256c174d:0",
@@ -10979,7 +10508,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user creates a sea of mud at its enemies' feet, diminishing their Agility."
+      "description": "Lowers Agility by 1 for all enemies."
     },
     {
       "id": "64c4cdd6-4ddf-4e29-bbcc-38292b6b27dc:0",
@@ -10998,7 +10527,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 110 power GEO special damage to one enemy. 100% accuracy; costs 3 SP.",
-      "description": "The user channels an enormous amount of energy at the enemy's feet, which then explodes, causing intense damage."
+      "description": "No extra effect."
     },
     {
       "id": "f0f72042-f616-4dfd-9cc0-47c38bce6197:0",
@@ -11036,7 +10565,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user enters a state of meditation, achieving Enlightenment and increasing its Agility and Crit Power."
+      "description": "Raises the User's Agility and Crit Power by 1."
     },
     {
       "id": "32d39d7f-e7d8-4b78-9232-028d4d4b1f28:0",
@@ -11055,7 +10584,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 1 SP. Special: applies an additional effect listed in the Effects column. Effect duration: 3 cycles.",
-      "description": "The user studies a plan of action, taking into account each attack endured and returning the favour after preparing for three actions."
+      "description": "Stores damage from hits received by User for 3 cycles. Once it ends, uses a hidden 115-power attack scaled by `1 + stored damage / (User max HP x 0.7)`."
     },
     {
       "id": "73908203-eda3-4be0-8834-68e8b2c6e870:0",
@@ -11093,7 +10622,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 115 power DEMON physical damage to one enemy. 100% accuracy; costs 3 SP. End-of-turn flag is TRUE.",
-      "description": ""
+      "description": "Acts at end of turn."
     },
     {
       "id": "97c06f1c-d002-439e-888e-dbc435d74d65:0",
@@ -11112,7 +10641,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one chosen battler. 100% accuracy; costs 2 SP. Heal: restores HP to the target equal to 50% of the user's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user injects a healing solution that considerably reduces its Attack."
+      "description": "Heals the Target by 50% of the User's Max HP, then lowers the Target's Attack by 2."
     },
     {
       "id": "4318a36a-aa10-4500-9e1f-373cd6249e70:0",
@@ -11131,7 +10660,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one chosen battler. 100% accuracy; costs 2 SP. Heal: restores HP to the target equal to 50% of the user's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user injects a healing solution that considerably reduces its Special Attack."
+      "description": "Heals the Target by 50% of the User's Max HP, then lowers the Target's Sp. Attack by 2."
     },
     {
       "id": "12fb526c-fbc5-4dde-825f-2dabb71cef7f:0",
@@ -11150,7 +10679,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 1 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user concentrates hard, increasing its Crit Power."
+      "description": "Raises the User's Crit Power by 1."
     },
     {
       "id": "e6ffa512-1d02-4b43-abf1-93e17309cc26:0",
@@ -11169,7 +10698,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 100 power ICE physical damage to one enemy. 90% accuracy; costs 2 SP. Contact move.",
-      "description": "The user creates an icy blade that sweeps across the target, causing intense damage."
+      "description": "No extra effect."
     },
     {
       "id": "68568fa0-ac2b-4880-bbbb-1fa4fae81968:0",
@@ -11188,7 +10717,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies the listed self-buff and drawback effects.",
-      "description": "The user unleashes all its pent-up power, enhancing its attacking ability, but reducing its defences."
+      "description": "Raises the User's Attack and Sp. Attack by 1, then lowers its Defence and Sp. Defence by 1."
     },
     {
       "id": "ac671781-faa9-4702-a740-65166037da99:0",
@@ -11207,7 +10736,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column. Effect duration: 3 cycles.",
-      "description": "The user surrenders its heart to feelings of fear, gaining the Horrens Attribute for three turn cycles. Once the effect ends, the user repents and is wounded."
+      "description": "Changes the User to Horrens for 3 cycles. When the effect is removed or ends, it reverts the type and deals 15 flat HP self-damage."
     },
     {
       "id": "957f2414-2ae7-43d6-9bf6-f5b37f260f8a:0",
@@ -11226,7 +10755,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user harnesses its psychic powers to play a trick, swapping the HP of two random Animon."
+      "description": "Swaps the HP values of two random Animon."
     },
     {
       "id": "e82db8d5-0cb0-4547-b715-9662319cdcbc:0",
@@ -11245,7 +10774,7 @@
       "aoeType": "AdjacentAOE",
       "contact": false,
       "effects": "Deals 85 power ANOMALOUS physical damage to the target and adjacent enemies. 100% accuracy; costs 3 SP.",
-      "description": "The user creates an energy blade that activates a chain effect once it hits the target, inflicting damage on adjacent enemies as well."
+      "description": "No extra effect."
     },
     {
       "id": "7d4d442e-3a15-4d6f-a8a5-f00f8fdc6f39:0",
@@ -11264,7 +10793,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 3 SP. Contact move. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user unleashes rage accumulated during the battle, inflicting damage on the enemy proportional to the damage the user has received."
+      "description": "Deals contact damage to one enemy equal to how much damage the User has taken during the battle."
     },
     {
       "id": "01d51561-3c9a-491e-9ee8-f48fe5f24f11:0",
@@ -11283,7 +10812,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 100 power ELECTRIC physical damage to one enemy. 90% accuracy; costs 2 SP. Contact move.",
-      "description": "The user accumulates a large amount of electric energy to move at lightning speed and pierce the target."
+      "description": "No extra effect."
     },
     {
       "id": "1dd1cd39-dee5-4487-a0f2-f8a86c9d4372:0",
@@ -11321,7 +10850,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally other than the user. 100% accuracy; costs 1 SP. Special: Transfers power: lowers the user Attack and raises the ally Attack.",
-      "description": "The user gathers its energy and sends it to an ally, decreasing its own Attack, but increasing that of the target."
+      "description": "Lowers the User's Attack by 1 and raises the chosen Ally's Attack by 1."
     },
     {
       "id": "d8b89f38-8cbf-4611-b1e4-c29f5682dd13:2",
@@ -11359,7 +10888,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 125 power ELECTRIC special damage to one enemy. 100% accuracy; costs 3 SP.",
-      "description": "The user concentrates an infinite amount of energy in one spot, firing it in a devastating ray at the target."
+      "description": "No extra effect."
     },
     {
       "id": "ea3eee81-ef36-47c2-bee3-6e73a5282a18:0",
@@ -11397,7 +10926,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power AURA physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user harnesses sparkling winds to hit the target with force."
+      "description": "No extra effect."
     },
     {
       "id": "06dedf6e-191c-4bab-8167-f68cb49e36cd:0",
@@ -11416,7 +10945,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 45 power DEMON special damage to all enemies on the target side. 100% accuracy; costs 4 SP. Special: Hits all enemies and reduces each target SP by 2.",
-      "description": "The user lets out deafening shrieks, inflicting damage on all enemies and reducing their SP by two."
+      "description": "Lowers each target's SP by 2."
     },
     {
       "id": "6da57f84-3b3a-4346-b35d-bbc35899f021:2",
@@ -11435,7 +10964,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Contact move. Heal: restores 60% of the target's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user carefully massages the ally, infusing it with energy and healing its wounds at the same time."
+      "description": "Contact heal: restores 60% of the Target Ally's Max HP."
     },
     {
       "id": "f43c207a-3462-4050-b6aa-90bba22a656c:0",
@@ -11454,7 +10983,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 55 power CHAKRA physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: Damage increases on repeated use via its stacking effect.",
-      "description": "The user coordinates with its allies to attack the target in sequence."
+      "description": "After the User's hit, each living ally queues a follow-up attack, with each follow-up attack striking with half the BP of the previous (55/27/13/6)."
     },
     {
       "id": "eab6e900-1bfc-4ca2-80e0-53678ea6d05e:0",
@@ -11473,7 +11002,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies Overclock to self. Starts at 1 stack and temperature 50. Non-HP battle stats use multiplier max(0.67, (1 + 0.1 x stacks) x max(0.01, 2 - ((temperature + 273.15) / 363.15))); initial multiplier is about x1.22. Fire/Ice/Water hits adjust temperature using base +50/-40/-20 scaled by 0.3 per stack.",
-      "description": "The user overclocks, boosting itself enormously, but becoming more vulnerable to temperature."
+      "description": "Applies Overclock to User, granting a x1.22 all-stat buff. Fire/Ice/Water hits change this boost by -0.05/+0.04/+0.02."
     },
     {
       "id": "4c652c23-7c0a-4340-a698-6f28f71f08cc:2",
@@ -11492,7 +11021,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power DATA physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user inflicts massive damage on the enemy with digital teeth."
+      "description": "No extra effect."
     },
     {
       "id": "bf2537af-3497-493f-94f1-016c54ec1660:2",
@@ -11511,7 +11040,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 80 power ICE special damage to one enemy. 100% accuracy; costs 2 SP. Special: Makes the target take increased damage. Effect duration: 3 cycles.",
-      "description": "The user creates a sphere of ice to launch at the target, causing it to take increased damage for several turns."
+      "description": "Applies x1.25 incoming damage to Target for 3 cycles. This hit is not boosted."
     },
     {
       "id": "4cc9bc14-b4c5-43d1-8a74-410fe995be11:2",
@@ -11530,7 +11059,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 100 power ANCIENT special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user summons the power of Anivis, attacking the enemy with a beam of pure energy."
+      "description": "No extra effect."
     },
     {
       "id": "5ee1591e-8b82-4917-b537-bab9161c13c3:2",
@@ -11549,7 +11078,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 70 power DEMON special damage to all enemies on the target side. 100% accuracy; costs 4 SP. Special: Applies a Fire/heat-style secondary effect.",
-      "description": "The user unleashes infernal flames that damage all enemies."
+      "description": "No extra effect."
     },
     {
       "id": "fcade399-3e46-4878-8191-e1f4b9911bce:0",
@@ -11568,7 +11097,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 120 power DATA special damage to one enemy. 100% accuracy; costs 3 SP.",
-      "description": "The user concentrates a stream of data and shoots it at the enemy like a laser."
+      "description": "No extra effect."
     },
     {
       "id": "c614a0d5-e9f9-45d4-914a-828a12771885:0",
@@ -11587,7 +11116,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 120 power CHAKRA special damage to one enemy. 100% accuracy; costs 2 SP. Special: Consumes the user life energy as a self-cost while dealing damage.",
-      "description": "The user concentrates its life energy to attack the enemy, inflicting enormous damage."
+      "description": "After hit, User loses 50% of User max HP."
     },
     {
       "id": "5dc98328-049e-4ce5-87fd-f3b5b9abc3c5:0",
@@ -11606,7 +11135,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user reinvigorates allies, adding 2 extra SP and enabling them to attack first on the next turn."
+      "description": "Makes the User's Allies act first next turn and grants them +2 SP."
     },
     {
       "id": "9716a74b-8cb6-4fbc-b56d-6a4980714588:0",
@@ -11625,7 +11154,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. For 3 cycles, healing done by the user is multiplied by x1.4 (+40%). No direct HP restoration.",
-      "description": "The user concentrates natural energy, enhancing the healing it provides."
+      "description": "For 3 cycles, healing done by the User is multiplied by 1.4."
     },
     {
       "id": "286c3bbb-d766-453c-afe2-7da9fea50ac9:0",
@@ -11644,7 +11173,7 @@
       "aoeType": "AdjacentAOE",
       "contact": true,
       "effects": "Deals 100 power AURA physical damage to the target and adjacent enemies. 100% accuracy; costs 3 SP. Contact move.",
-      "description": "The user slashes the target and surrounding enemies with blades of wind, inflicting massive damage."
+      "description": "No extra effect."
     },
     {
       "id": "eabb399f-5f72-448a-8517-b1c4c167490b:0",
@@ -11663,7 +11192,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 100 power CHAKRA physical damage to one enemy. 90% accuracy; costs 2 SP. Contact move.",
-      "description": "The user creates a blade of energy and launches it at the enemy."
+      "description": "No extra effect."
     },
     {
       "id": "712693b9-5274-492a-b155-f9422b4290f9:0",
@@ -11682,7 +11211,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user charges itself with Anivis, increasing its Attack and Defence considerably."
+      "description": "Raises the User's Attack and Defence by 2."
     },
     {
       "id": "aaf81fba-736d-47bf-9333-1b9989b11479:0",
@@ -11701,7 +11230,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power ANCIENT physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user summons the power of Anivis, attacking the enemy with a blade of pure energy."
+      "description": "No extra effect."
     },
     {
       "id": "36a9545b-0566-4171-9139-e8c34da3ac13:2",
@@ -11720,7 +11249,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 80 power GRASS special damage to one enemy. 100% accuracy; costs 2 SP. Heal: restores HP to the user equal to 50% of damage dealt.",
-      "description": "The user absorbs nutrients from the target, regaining part of the damage inflicted as HP."
+      "description": "Heals User for 50% of final damage dealt."
     },
     {
       "id": "00564b08-5275-403d-a417-0c22848d2c19:0",
@@ -11739,7 +11268,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 120 power GRASS special damage to one enemy. 100% accuracy; costs 3 SP.",
-      "description": "The user harnesses the power of the sun, firing it in a ray at the target."
+      "description": "No extra effect."
     },
     {
       "id": "49f384ed-2d84-439b-a3f9-feabc0f203f7:0",
@@ -11758,7 +11287,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 2 SP. Special: Applies a stat or resource reduction described in the text. Effect duration: 3 cycles.",
-      "description": "The user scatters spores around the field that reduce the target's Agility, if it does not attack the user."
+      "description": "For 3 cycles, lowers the Target's Agility by 1 if it does not attack the User."
     },
     {
       "id": "dce452c8-e3b2-4624-8c96-d0bb8bd5e2ec:0",
@@ -11777,7 +11306,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 3 SP. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The user glows intensely, reducing the Agility of all enemies."
+      "description": "Lowers Agility by 1 for all enemies."
     },
     {
       "id": "1780017e-23b6-44c5-875f-48d077305be4:0",
@@ -11815,7 +11344,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user charges itself with Anivis, increasing its Special Attack and Special Defence considerably."
+      "description": "Raises the User's Sp. Attack and Sp. Defence by 2."
     },
     {
       "id": "2345c168-a1d8-4eab-b675-fd5fa9f625f5:0",
@@ -11834,7 +11363,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user charges itself with Anivis, increasing its Attack, Special Attack and Agility."
+      "description": "Raises the User's Attack, Sp. Attack, and Agility by 1."
     },
     {
       "id": "b4307d8a-6361-4e42-b75b-f2d5125630cf:0",
@@ -11853,7 +11382,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a protective/reflective effect. Effect duration: 2 cycles.",
-      "description": "The user creates a barrier of Anivis that evenly distributes damage received."
+      "description": "For 2 cycles, splits non-status damage received by the User evenly across all Allies."
     },
     {
       "id": "94d6a8b0-c706-46ba-b1b9-c08a5f99931d:0",
@@ -11872,7 +11401,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 1 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user creates a slide of ice, using it to consume 3 SP less during its next action."
+      "description": "Makes the User's next action cost 3 less SP."
     },
     {
       "id": "8700cbfe-c53e-4d56-b9cf-a3dc367bcf67:0",
@@ -11891,7 +11420,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 3 SP. Special: Applies its listed carrier effect for 1 cycle.",
-      "description": "The user infects the target, forcing it to attack one of its allies during its next turn."
+      "description": "For 1 cycle, forces the infected Target to attack one of its Allies on its next turn."
     },
     {
       "id": "bf3d19bd-6eb5-48a9-924b-00d3be29c31e:0",
@@ -11910,7 +11439,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 2 SP. Special: For 3 cycles, draws enemy attacks while the affected targets take reduced damage.",
-      "description": "The user generates a huge magnetic wave, using it to attract all enemy attacks onto itself. However, targets also receive less damage for three turn cycles."
+      "description": "For 3 cycles, draws enemy attacks to the User while affected enemies take 0.75x damage."
     },
     {
       "id": "d1181eae-114a-43b0-8275-6de538db6eeb:0",
@@ -11929,7 +11458,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 2 SP. Special: Applies taunt/target-control for 1 cycle.",
-      "description": "The user channels Anivis energy to provoke the target's soul, forcing it to attack the user again with the last skill it used."
+      "description": "For 1 cycle, forces the Target to attack the User again with the last skill it used."
     },
     {
       "id": "5be57f96-3c44-46ef-ada6-7f77acb7fdb4:0",
@@ -11948,7 +11477,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 3 SP. Special: Redirects or manipulates the target next attack.",
-      "description": "The user confuses the target so it strikes both an enemy and an ally with its next attack."
+      "description": "Makes the Target's next attack hit both an enemy and an Ally."
     },
     {
       "id": "cdca1ef8-b154-45ac-a8c5-40330d5250ef:0",
@@ -11967,7 +11496,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Heal: restores 20% of the user's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user photosynthesises, healing itself and increasing its Special Attack and Agility."
+      "description": "Heals the User by 20% of its Max HP and raises its Sp. Attack and Agility by 1."
     },
     {
       "id": "6a8ad41f-300b-4842-8ecd-5e89f7cc2e65:0",
@@ -11986,7 +11515,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 100 power FIRE physical damage to one enemy. 90% accuracy; costs 2 SP. Contact move. Special: Applies a Fire/heat-style secondary effect.",
-      "description": "The user utilises fire to pierce the target with a scorching attack."
+      "description": "No extra effect."
     },
     {
       "id": "d7a7b691-5e18-42c7-b219-6cebba5e63c4:0",
@@ -12005,7 +11534,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 75 power FIRE special damage to all enemies on the target side. 100% accuracy; costs 4 SP.",
-      "description": "The user generates a very hot explosion that damages all enemies."
+      "description": "No extra effect."
     },
     {
       "id": "b61ca3f9-d879-425f-b168-a367b7db8e41:0",
@@ -12024,7 +11553,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 85 power WATER special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user controls water currents, creating a whirlpool that inflicts massive damage."
+      "description": "No extra effect."
     },
     {
       "id": "7f7ed4a8-00ea-4947-9900-ec99a25485de:0",
@@ -12043,7 +11572,7 @@
       "aoeType": "AdjacentAOE",
       "contact": false,
       "effects": "Deals 65 power WATER special damage to the target and adjacent enemies. 100% accuracy; costs 3 SP.",
-      "description": "The user creates a water bomb that explodes on contact with the target, and also damages adjacent enemies."
+      "description": "No extra effect."
     },
     {
       "id": "f0fd7d95-1af0-4ec7-b210-e60e62f2d216:0",
@@ -12062,7 +11591,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 100 power WATER physical damage to one enemy. 90% accuracy; costs 2 SP. Contact move.",
-      "description": "The user harnesses surging torrential currents, striking the enemy with enormous force."
+      "description": "No extra effect."
     },
     {
       "id": "2181794b-1e48-4949-be54-b723e58be721:0",
@@ -12081,7 +11610,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Heal: selected ally restores HP equal to 40% of the user's Max HP; user restores 20% of the user's Max HP.",
-      "description": "The user channels water energy, healing itself and the target."
+      "description": "Heals the chosen Ally by 40% of the User's Max HP and heals the User by 20% of the User's Max HP."
     },
     {
       "id": "fea8f88b-01ca-4cca-8ff0-245d2dd22763:2",
@@ -12100,7 +11629,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 70 power WATER special damage to all enemies on the target side. 100% accuracy; costs 4 SP.",
-      "description": "The user unleashes torrential rain. The sharp raindrops inflict damage on all enemies."
+      "description": "No extra effect."
     },
     {
       "id": "3d962e75-7b94-4beb-9ee6-8f9ed4bb333b:0",
@@ -12119,7 +11648,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 2 SP. Special: Lowers target Attack and Agility.",
-      "description": "The target suffers from congestion, decreasing its Attack and Agility."
+      "description": "Lowers the Target's Attack and Agility by 1."
     },
     {
       "id": "9b87d799-2adf-42bd-bf38-b967981cc8ac:0",
@@ -12138,7 +11667,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Special: Applies a stat, damage, or resource increase described in the text. Effect duration: 2 cycles.",
-      "description": "The user utilises sweet water to remove negative effects and boost the target's damage."
+      "description": "Removes negative effects from the Target Ally, then for 2 cycles boosts that Ally's damage by `1 + 0.15 * removed-effect count`."
     },
     {
       "id": "b641cadc-56fe-436b-9a5a-8f032d5db429:0",
@@ -12157,7 +11686,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 50 power WATER special damage to one enemy. 75% accuracy; costs 1 SP. Contact move. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user unleashes a spring of effervescent water, which always lands a critical hit."
+      "description": "Always crits."
     },
     {
       "id": "de488ce6-7320-4929-8633-f81d84cf7c7b:2",
@@ -12176,7 +11705,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power ANOMALOUS physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user summons the power of the spirits, striking the enemy with force."
+      "description": "No extra effect."
     },
     {
       "id": "6f552b67-89a1-40ec-b4b9-eceaa1d9fda4:0",
@@ -12195,7 +11724,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 120 power ANOMALOUS special damage to one enemy. 100% accuracy; costs 3 SP.",
-      "description": "The user concentrates its psychic powers, launching them at the enemy in a powerful beam."
+      "description": "No extra effect."
     },
     {
       "id": "a3037b30-91b5-41dd-b4b2-df3dd70ecab2:0",
@@ -12214,7 +11743,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 40 power ANOMALOUS special damage to one enemy. 100% accuracy; costs 3 SP. Special: Increases the target next action cost. Effect duration: 1 cycle.",
-      "description": "The user unleashes a psychic wave that attacks the target, temporarily confusing it and increasing the cost of its next action."
+      "description": "Applies Vile Wave for 1 cycle; Target's next skill cost gets +1 SP."
     },
     {
       "id": "9c39e289-e958-4355-b775-c2d5eb67bb41:0",
@@ -12233,7 +11762,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 15% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user attacks the target with an ectoplasmic substance that can knock it out in a single blow if it hits."
+      "description": "15% accuracy. If it hits, it defeats the Target."
     },
     {
       "id": "17525ffb-92b6-45b8-b761-eee0eca6ee6c:0",
@@ -12252,7 +11781,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies Trance to the user for 3 cycles.",
-      "description": "The user enters a state of deep meditation for three turn cycles, after which all of its stats are greatly increased."
+      "description": "Puts the User into a 3-cycle Trance state. While charging, the User skips their turn. When it completes, raises all stats by 3."
     },
     {
       "id": "36a7b716-a042-4755-a1c2-97ef62c1753e:0",
@@ -12271,7 +11800,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user harnesses its psychic powers to steal stat changes from the target."
+      "description": "Steals stat changes from the Target and gives them to the User."
     },
     {
       "id": "2d10940a-3deb-411c-a986-35f632f50781:2",
@@ -12290,7 +11819,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 80 power ELECTRIC special damage to one enemy. 100% accuracy; costs 2 SP. Special: Makes the target take increased damage. Effect duration: 3 cycles.",
-      "description": "The user creates a ball of ultra-high-voltage energy to launch at the target, causing it to take increased damage for several turns."
+      "description": "Applies x1.25 incoming damage to Target for 3 cycles. This hit is not boosted."
     },
     {
       "id": "f3c1b9e9-348e-4cce-8e88-5139f40449c9:0",
@@ -12309,7 +11838,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 75 power ICE special damage to all enemies on the target side. 100% accuracy; costs 4 SP.",
-      "description": "The user unleashes a blizzard that strikes all enemies."
+      "description": "No extra effect."
     },
     {
       "id": "8e00c515-4af2-4b57-b487-b37c6053a8e2:0",
@@ -12328,7 +11857,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 60 power ICE physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user attacks by moving snow. The power is doubled if an Ice-type skill was used immediately beforehand."
+      "description": "Damage x2 if the User used an Ice-type move in a previous turn that wasn't Snowplough."
     },
     {
       "id": "feb9a4d3-2331-4260-b3dc-20c9107b6d88:2",
@@ -12347,7 +11876,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power ICE physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user creates a huge icy boulder, using it to powerfully strike the enemy."
+      "description": "No extra effect."
     },
     {
       "id": "15062d10-2e00-4040-bef7-9b3934708db1:0",
@@ -12366,7 +11895,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 10% accuracy; costs 2 SP. Special: Applies a freezing HP-change effect to the target.",
-      "description": "The user unleashes a terrible cold that can knock out the enemy in a single blow if it hits."
+      "description": "10% accuracy. If it hits, it defeats the Target."
     },
     {
       "id": "764e3f59-8bb9-43ee-8066-c187b2b6f447:2",
@@ -12385,7 +11914,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power ICE special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user concentrates icy energy in one spot, then controls and launches it at the target, causing damage."
+      "description": "No extra effect."
     },
     {
       "id": "d010600c-5129-4c51-8038-f4adca214774:0",
@@ -12404,7 +11933,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a protective/reflective effect.",
-      "description": "The user creates an icy mirror that reflects damage received until it breaks."
+      "description": "Gives the User a shield equal to 50% of the User's Max HP with 100% mitigation and 100% reflection of blocked damage. Breaks when the shield HP is depleted."
     },
     {
       "id": "16640444-f505-4190-8424-edff8ca8013e:0",
@@ -12423,7 +11952,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: For 3 cycles, coats the user in acid and applies its listed contact/poison effect.",
-      "description": "The user covers itself in acid, becoming immune to negative effects for three turn cycles."
+      "description": "For 3 cycles, makes the User immune to negative effects."
     },
     {
       "id": "c476e38a-eba1-4f9d-802f-822254d335a0:0",
@@ -12442,7 +11971,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 60 power VIRUS physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: Applies a Virus/poison-style secondary effect.",
-      "description": "The user attacks the enemy with a bacterial substance that increases in power if the enemy has negative statuses."
+      "description": "If the Target has at least 1 negative BattleEffect debuff, damage is multiplied by 1.5."
     },
     {
       "id": "f0fb1acc-42c8-4d25-b35a-1644bddb7372:0",
@@ -12461,7 +11990,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one chosen battler. 100% accuracy; costs 3 SP. Special: Applies its listed mental/status effect to the target.",
-      "description": "The user infects the target with a passive mindset, replacing one of the Animon's skills with Brain Rot. Can only be used once on an Animon."
+      "description": "Replaces one of the Target's Moves with Brain Rot. Can only be used once on each Animon."
     },
     {
       "id": "adb60ac4-2d23-42f1-8b99-250718519efb:0",
@@ -12480,7 +12009,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 150 power VIRUS special damage to one enemy. 70% accuracy; costs 4 SP. Special: Applies a Virus/poison-style secondary effect.",
-      "description": "The user produces toxic radioactive waste and launches it at the target, generating an explosion."
+      "description": "No extra effect."
     },
     {
       "id": "83219b61-a964-4f7d-9a52-d5906b39879a:0",
@@ -12499,7 +12028,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 15 power VIRUS special damage to one enemy. 100% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column. Effect duration: 1 cycle.",
-      "description": "The user sprays a viral substance on the target, which then infects its allies. An Animon cannot be affected by this more than once per battle."
+      "description": "Applies PS infection for 5 cycles. Each proc makes the infected target lose 10% HP. When duration reaches 0, it spreads PS to adjacent targets."
     },
     {
       "id": "7ed39117-8266-4174-b068-57b2e1221fd9:0",
@@ -12518,7 +12047,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 120 power VIRUS special damage to one enemy. 100% accuracy; costs 3 SP.",
-      "description": "The user concentrates venomous energy in a single point, then launches it in a ray at the target."
+      "description": "No extra effect."
     },
     {
       "id": "b9de31bd-37ca-4b35-a45a-98e9681c3aa8:0",
@@ -12537,7 +12066,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 70 power GEO physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user hits the ground hard, causing a chained rupture that damages the target. The power changes depending on where the skill is used."
+      "description": "No extra effect."
     },
     {
       "id": "5d25092d-7183-45e1-a2dc-c093699836e4:0",
@@ -12556,7 +12085,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 85 power GEO physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "The user creates a spear of pure diamond and strikes the target, inflicting massive damage."
+      "description": "No extra effect."
     },
     {
       "id": "a9456dd0-f3ee-4f6d-ad55-a66bf4f7c895:0",
@@ -12575,7 +12104,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 2 SP. Special: Applies damage over time to the enemy side for 3 cycles.",
-      "description": "The user hits the ground and sends fragments into the air that rain down on enemies, inflicting damage for three turn cycles."
+      "description": "Applies 10% Max HP damage over time to all enemies for 5 cycles."
     },
     {
       "id": "467603ba-c4e3-4411-bef0-5f3374fe324d:0",
@@ -12594,7 +12123,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 75 power GEO special damage to one enemy. 100% accuracy; costs 2 SP. Special: Applies a Fire/heat-style secondary effect.",
-      "description": "The user fires a jet of mud at the enemy, causing damage."
+      "description": "No extra effect."
     },
     {
       "id": "d74c5163-ebcc-4b74-adc2-535b308b4c6a:0",
@@ -12613,7 +12142,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user sharpens its exterior, increasing its Attack considerably."
+      "description": "Raises the User's Attack by 2."
     },
     {
       "id": "7c6452ef-1106-4608-ab80-45afbde51409:0",
@@ -12632,7 +12161,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: For 5 cycles, user takes reduced physical damage and increased special damage.",
-      "description": "The user generates a breeze, lifting itself into the air for five turn cycles. During this time, physical skills inflict less damage on the user, while special skills inflict more."
+      "description": "For 5 cycles, the User takes 0.5x Physical damage and 1.25x Special damage."
     },
     {
       "id": "ffc7fc9f-7b76-4e6d-a199-e3e981f068ff:0",
@@ -12651,7 +12180,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user harnesses sparkling winds to fill the field with energy particles, increasing the power of special skills for the rest of the battle."
+      "description": "Creates a battle effect for the rest of battle that makes Special Moves deal 1.25x damage."
     },
     {
       "id": "71bf5f70-298f-466f-9be1-b4d5ef5dd575:0",
@@ -12670,7 +12199,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 120 power AURA special damage to one enemy. 100% accuracy; costs 3 SP.",
-      "description": "The user channels a bright beam of light and strikes the enemy with it, causing powerful damage."
+      "description": "No extra effect."
     },
     {
       "id": "f7b75677-077b-4e40-b0f7-93e0f1c937c6:0",
@@ -12689,7 +12218,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 55 power AURA physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: Applies a protective/reflective effect.",
-      "description": "The user hits the target with a sharp wind, breaking its shields."
+      "description": "Breaks/removes the Target's Shield before striking and adds 10% of that Shield's HP as additional damage."
     },
     {
       "id": "5ba9e306-33d1-4211-8df7-891108af9d94:0",
@@ -12708,7 +12237,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 45 power AURA special damage to one enemy. 100% accuracy; costs 2 SP. Special: Deals damage and lowers target Agility.",
-      "description": "The user covers the target with a strong glow, causing damage and reducing its Agility."
+      "description": "Lowers Target Agility by 1."
     },
     {
       "id": "2a4de9a6-3221-4e01-930a-c6e6ac5318a6:0",
@@ -12727,7 +12256,7 @@
       "aoeType": "AdjacentAOE",
       "contact": false,
       "effects": "Deals 100 power ELECTRIC special damage to the target and adjacent enemies. 100% accuracy; costs 3 SP. Special: Targets the selected enemy plus adjacent enemies and causes recoil to the user.",
-      "description": "The user combines its energy with electric energy, striking the target and adjacent enemies. The user suffers recoil from the attack."
+      "description": "Recoil: User loses 18% of final damage dealt, capped at 50% of User max HP."
     },
     {
       "id": "472b905f-ec76-499c-ae44-9ecb3aaeb700:0",
@@ -12746,7 +12275,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Heal: restores 50% of the target's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user heals the target considerably with a powerful energy charge."
+      "description": "Heals one Ally by 50% of the Target's Max HP."
     },
     {
       "id": "49839eec-f632-46a6-9a45-d46c17b66090:0",
@@ -12765,7 +12294,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: For 4 cycles, damages enemies that hit the user.",
-      "description": "The user charges itself with electricity and creates a cloak of sparks, damaging any enemies that touch it."
+      "description": "For 4 cycles, contact attackers take 10 flat HP electric counter-damage."
     },
     {
       "id": "92d37fe8-dee1-452b-b0c3-30471eb56a0a:0",
@@ -12784,7 +12313,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 30 power ELECTRIC physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The user strikes the enemy with a short but intense electric shock, reducing its SP by 1."
+      "description": "Lowers the Target's SP by 1."
     },
     {
       "id": "ef95ed94-8920-47d3-a31d-7f08768ec121:0",
@@ -12803,7 +12332,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user does 100 press ups in a very short time, increasing its Attack considerably."
+      "description": "Raises the User's Attack by 2."
     },
     {
       "id": "14a29511-4df3-49d6-bab2-8fb08b640443:0",
@@ -12822,7 +12351,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user does 100 sit ups in a very short time, increasing its Agility considerably."
+      "description": "Raises the User's Agility by 2."
     },
     {
       "id": "24488d64-9fcc-4355-a6a3-9c7acdebaa8e:0",
@@ -12841,7 +12370,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 3 SP. Contact move. Special: Damage scales from the user punch/charge state, then applies its listed HP-change effect.",
-      "description": "The user attacks the enemy with a grave punch. If both Press Up and Sit Up have previously been used, the blow will defeat the enemy."
+      "description": "Power is 0. OHKOs if the User previously used both Press Up and Sit Up."
     },
     {
       "id": "9ef420b9-0d7b-4e1c-af93-7f409b238f5c:0",
@@ -12860,7 +12389,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally other than the user. 100% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user lends some of its energy to the target, adding the user's power to its next attack."
+      "description": "Adds the User's power (defenses + level / some other shit) to the Target Ally's next attack."
     },
     {
       "id": "3876450d-7157-4a59-a184-da19db66d855:0",
@@ -12879,7 +12408,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 65 power CHAKRA physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move.",
-      "description": "Strikes the enemy with precision and speed, causing damage."
+      "description": "No extra effect."
     },
     {
       "id": "88d77ae4-d878-449e-bc40-fdd13e169e2d:0",
@@ -12898,7 +12427,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 50 power CHAKRA physical damage to one enemy. 100% accuracy; costs 1 SP. Contact move. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "Jump attack that damages the target. The skill's power increases if used on an enemy under the effect of Updraft."
+      "description": "If the Target has Updraft, this move's BP is set to 160 instead of 50."
     },
     {
       "id": "12459b7a-ffff-4fc2-b518-702ea47174a7:2",
@@ -12917,7 +12446,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 90 power CHAKRA physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move.",
-      "description": "Strikes the enemy with a precise punch, inflicting a precision blow."
+      "description": "No extra effect."
     },
     {
       "id": "1132e0da-f699-4d06-b445-70c3cc8e0c74:2",
@@ -12936,7 +12465,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power CHAKRA special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "Gathers energy from its body and then launches it at the enemy with force, causing it to explode."
+      "description": "No extra effect."
     },
     {
       "id": "58fbb433-b4ec-4645-b127-4ee964db2ebf:0",
@@ -12955,7 +12484,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one chosen battler. 100% accuracy; costs 3 SP. Special: Removes active information/effects from the target.",
-      "description": "Deletes all information on the target, removing all stat changes."
+      "description": "Removes active effects and all stat changes from the Target."
     },
     {
       "id": "7d0cdc5e-3c8b-4d60-b531-395ed392b732:0",
@@ -12974,7 +12503,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 70 power DATA physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Heal: if the hit removes the target's Shield effect, the user restores HP equal to the removed shield's stored value.",
-      "description": "The user breaks the opponent's shields using a special protocol. If successful, the user is moderately healed."
+      "description": "Breaks/removes the Target's Shield before striking and heals the User by the Shield's remaining HP."
     },
     {
       "id": "300067cb-99a1-4b9c-a6a9-1859a0df1a38:0",
@@ -12993,7 +12522,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies a heavy DATA shield to the user; allied skills cost +1 SP while active.",
-      "description": "The user creates a heavy data shield that protects it against most damage, but also increases allies' skill costs by 1 SP."
+      "description": "Gives the User a shield equal to 80% of the User's Max HP with 90% mitigation. While active, same-side allied Moves cost +1 SP."
     },
     {
       "id": "9330a53a-8459-4128-965a-b9a90fdb543d:0",
@@ -13012,7 +12541,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting the user side. 100% accuracy; costs 2 SP. Special: Applies a protective/reflective effect. Effect duration: 2 cycles.",
-      "description": "The user creates a barrier that protects against attacks of the same type as its allies for three turn cycles."
+      "description": "Creates a 2-cycle User-Type barrier with no shield HP pool. Matching-type attacks have their damage set to 0, and the duration decreases by 1 each time it blocks."
     },
     {
       "id": "e6a7cf15-7d36-42bd-904c-78f5b5d19880:0",
@@ -13031,7 +12560,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user frees up excess memory, increasing its Agility relative to the time since it last used the move."
+      "description": "Raises the User's Agility by 1, or by 2 if the turn gap since the previous Defragmentation is greater than 3."
     },
     {
       "id": "beed988a-72ae-438b-872d-28eeec6a9937:0",
@@ -13050,7 +12579,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 30 power DATA special damage to one enemy. 100% accuracy; costs 2 SP. Special: Deals damage and strongly lowers target Agility.",
-      "description": "The target suffers significant slowdown, decreasing its Agility considerably."
+      "description": "Lowers Target Agility by 2."
     },
     {
       "id": "6099edb8-96c5-4628-b7ef-49f596d23d62:0",
@@ -13069,7 +12598,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 120 power DATA physical damage to one enemy. 100% accuracy; costs 3 SP. Contact move.",
-      "description": "The user pesters the target with attacks, preventing it from reacting."
+      "description": "No extra effect."
     },
     {
       "id": "88007a49-fd47-4edf-a002-c47abf0742a0:0",
@@ -13088,7 +12617,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 3 SP. Heal: restores 100% of the target's Max HP, then applies normal heal modifiers and clamping.",
-      "description": "The user generates a corrective patch that completely cures the target."
+      "description": "Fully heals one Ally, restoring 100% of the Target's Max HP."
     },
     {
       "id": "7abb3518-e3be-43d9-a599-6407073c65d5:0",
@@ -13107,7 +12636,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 71 power DATA special damage to all enemies on the target side. 100% accuracy; costs 4 SP.",
-      "description": "The user emits a wave of glitching data that strikes all enemies."
+      "description": "No extra effect."
     },
     {
       "id": "c38272ad-dc39-4a30-9271-3eb6d547d299:0",
@@ -13126,7 +12655,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 80 power DEMON physical damage to one enemy. 100% accuracy; costs 3 SP. Contact move. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user charges up with negative energy, delivering a deadly blow with a high chance of landing a critical hit."
+      "description": "Critical chance multiplier x5."
     },
     {
       "id": "c8883b17-f65c-4635-a496-02b9c11308a7:0",
@@ -13145,7 +12674,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 3 SP. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The user locks onto the targets with a terrifying glare, lowering their attack."
+      "description": "Lowers Attack by 1 for all enemies."
     },
     {
       "id": "95277bb6-c7f2-4b6a-bf17-20edfbaf7c70:0",
@@ -13164,7 +12693,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user corrupts the target, causing it to attack its allies. The higher the target's affection for its ally, the greater the damage."
+      "description": "Corrupts the Target so it attacks its Allies."
     },
     {
       "id": "d81d653a-adc1-43e4-9f42-153ce321e904:0",
@@ -13183,7 +12712,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 100 power DEMON physical damage to one enemy. 90% accuracy; costs 2 SP. Contact move.",
-      "description": "The user generates a blade of negative energy, striking the target in a frenzy."
+      "description": "No extra effect."
     },
     {
       "id": "7af76249-ae0d-481e-b514-9988a201247c:0",
@@ -13202,7 +12731,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 90 power DEMON special damage to one enemy. 100% accuracy; costs 2 SP.",
-      "description": "The user generates a sphere of negative energy and launches it at the target, inflicting massive damage."
+      "description": "No extra effect."
     },
     {
       "id": "8546faf8-7515-4089-af18-8a85da179736:0",
@@ -13221,7 +12750,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 5 SP. Special: Applies recurring damage to the target for the rest of battle.",
-      "description": "The user unleashes a curse on its enemies, inflicting damage every turn cycle for the rest of the battle."
+      "description": "Curses the Target for the rest of battle, dealing 15% of Max HP as damage each turn cycle."
     },
     {
       "id": "acad2ca1-b55b-4fc5-b578-f307ee25c107:0",
@@ -13240,7 +12769,7 @@
       "aoeType": "AdjacentAOE",
       "contact": true,
       "effects": "Deals 140 power ANCIENT physical damage to the target and adjacent enemies. 100% accuracy; costs 4 SP. Contact move.",
-      "description": "The user harnesses Anivis, unleashing untold destructive power."
+      "description": "No extra effect."
     },
     {
       "id": "606bc730-3bc6-4643-b2aa-596b11a565d1:0",
@@ -13259,7 +12788,7 @@
       "aoeType": "AdjacentAOE",
       "contact": false,
       "effects": "Deals 140 power ANCIENT special damage to the target and adjacent enemies. 100% accuracy; costs 4 SP.",
-      "description": "The user harnesses Anivis, summoning meteors to destroy the target."
+      "description": "No extra effect."
     },
     {
       "id": "c3b87a62-0597-42e3-a0ad-c949e4345bda:0",
@@ -13278,7 +12807,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: If the user is in trouble, applies a self stat increase.",
-      "description": "If the user is in trouble, it gains the ability to concentrate and absorb Anivis around it, boosting all stats considerably."
+      "description": "If the User is below 30% Max HP, raises all stats by 4."
     },
     {
       "id": "203e24bd-be40-418d-b223-993fa9b27681:0",
@@ -13297,7 +12826,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 80 power ANCIENT special damage to one enemy. 100% accuracy; costs 3 SP. Special: Deals damage and raises the user Agility.",
-      "description": "The user launches a vortex of Anivis at the target, increasing its own Agility as well."
+      "description": "Raises User Agility by 1."
     },
     {
       "id": "e340b1e7-adb6-4ee9-a2da-c86ab051efc3:0",
@@ -13316,7 +12845,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies Director to the user for 3 cycles.",
-      "description": "The user prepares the scene of the battle, increasing allies' SP by 1 for the next three turn cycles."
+      "description": "Gives the User +1 SP for each of the next 3 turn cycles."
     },
     {
       "id": "112fbaf3-e0d1-4f9b-866d-4c15c4c7a60e:0",
@@ -13335,7 +12864,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 85 power NONE special damage to all enemies on the target side. 100% accuracy; costs 4 SP.",
-      "description": "The user concentrates energy, generating an explosion that damages all enemies."
+      "description": "No extra effect."
     },
     {
       "id": "6329e59a-e24e-4de4-814d-c38b60043e95:0",
@@ -13354,7 +12883,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 25% accuracy; costs 2 SP. Special: Attempts to roll/apply one of several random outcomes.",
-      "description": "The user tries to concentrate to get an idea. If it succeeds, all stats are increased."
+      "description": "25% accuracy. If it hits, raises all stats by 1."
     },
     {
       "id": "3eb95d24-141e-4e0a-a00b-511fba161754:0",
@@ -13468,7 +12997,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one ally. 100% accuracy; costs 2 SP. Special: Applies a protective/reflective effect.",
-      "description": "The user puts a shield over the target, protecting it from damage."
+      "description": "Gives one Ally a shield equal to 50% of the Target's Max HP with 100% mitigation. Breaks when the shield HP is depleted."
     },
     {
       "id": "8be08b95-5d0d-4444-994c-1bf905f2971f:0",
@@ -13487,7 +13016,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user removes active effects from the battlefield."
+      "description": "Removes active field effects from the battlefield."
     },
     {
       "id": "5a69fcc7-482b-40a2-b470-9fb42d53ea87:0",
@@ -13506,7 +13035,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 2 SP. Special: For 1 cycle, redirects the target next attack.",
-      "description": "The user attracts the target's next attack onto itself."
+      "description": "For 1 cycle, redirects the Target's next attack to the User."
     },
     {
       "id": "d7e06b3b-e51c-43fe-8a56-8382f9ce4ba9:0",
@@ -13525,7 +13054,7 @@
       "aoeType": "SingleTarget",
       "contact": true,
       "effects": "Deals 60 power WATER physical damage to one enemy. 100% accuracy; costs 2 SP. Contact move. Special: Deals damage and raises the user Agility.",
-      "description": ""
+      "description": "Raises the User's Agility by 1."
     },
     {
       "id": "a6317b6b-f022-4dc5-8071-1c879f147047:0",
@@ -13582,7 +13111,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: Applies a field/domain-style effect for the user side.",
-      "description": "The user harnesses its psychic powers to create a dimension where Anomalous-type skills are boosted, and Chakra-type skills are weakened."
+      "description": "Creates a field for the User's side where Anomalous Moves deal 1.25x damage and Chakra Moves deal 0.8x damage."
     },
     {
       "id": "287d4cf4-18d2-4812-8e62-83af1e873222:0",
@@ -13601,7 +13130,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 30 power FIRE special damage to one enemy. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user creates fiery missiles that shoot at all its opponents."
+      "description": "Extra effect makes it hit all valid foes."
     },
     {
       "id": "c0265b5b-e63b-4785-bb74-723c1a83152e:0",
@@ -13620,7 +13149,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Deals 75 power CHAKRA physical damage to one enemy. 100% accuracy; costs 2 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user concentrates all its energy into one finger and attacks, using it like a spear."
+      "description": "Bypasses accuracy checks. Breaks/removes the Target's Shield before striking and adds 10% of that Shield's HP as additional damage."
     },
     {
       "id": "cd9821c9-b84a-4e78-99b8-fb71e898ac42:0",
@@ -13639,7 +13168,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 2 SP. Special: Applies an Anivis field effect and its listed secondary effect.",
-      "description": "The user concentrates Anivis from its surroundings to create an incredibly powerful shield."
+      "description": "Gives the User a shield equal to 50% of the User's Max HP with 50% mitigation, and raises Defense by 1."
     },
     {
       "id": "bd78a6c6-1e04-449d-a8ec-20de4cea9f79:0",
@@ -13658,7 +13187,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 40 power ELECTRIC physical damage to all enemies on the target side. 100% accuracy; costs 3 SP. Special: Applies a stat or resource reduction described in the text.",
-      "description": "The user charges itself up with electric energy to attack all its opponents. If the skill hits, the user's Agility increases. If it fails, changes to the user's Agility are reversed and this stat is reduced by one."
+      "description": "Before damage, each positive User Agility Stage gives x1.25 damage and x0.85 accuracy. If the first target is hit, raises Agility by 1. Otherwise, lowers Agility by -1."
     },
     {
       "id": "a83c1e2d-b93b-45ea-96a4-2374ea1086a3:0",
@@ -13677,7 +13206,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Status move affecting all enemies on the target side. 100% accuracy; costs 3 SP. Special: applies an additional effect listed in the Effects column.",
-      "description": "The user accumulates corrosive acid, which it throws at its enemies, removing all their buffs."
+      "description": "Removes all stat changes from all enemies."
     },
     {
       "id": "310008c2-71a9-4fde-9429-9b8997f16697:0",
@@ -13696,7 +13225,7 @@
       "aoeType": "TargetAOE",
       "contact": false,
       "effects": "Deals 70 power DATA special damage to all enemies on the target side. 100% accuracy; costs 4 SP. Special: Hits the target side and raises the user Defence.",
-      "description": "The user analyses its opponents' cognitive processes and corrupts them, inflicting damage and increasing its own defence."
+      "description": "Raises User Def and SpDef by 1."
     },
     {
       "id": "b5d29817-4a4c-44bf-bed6-cb0dec27619d:0",
@@ -13715,7 +13244,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting the user. 100% accuracy; costs 3 SP. Special: For 4 cycles, creates an electric field that damages battlers present or entering battle and boosts Electric moves.",
-      "description": "The user harnesses friction to generate a field of static electricity, which inflicts damage on all the Animon in battle and any that enter the field. It also boosts Electric-type skills."
+      "description": "Creates a static field that deals 5 flat HP damage to Animon that enter and makes Electric Moves deal 1.3x damage for 4 cycles."
     },
     {
       "id": "a99c7388-1735-426a-8bc5-337687e6648a:0",
@@ -13734,7 +13263,7 @@
       "aoeType": "SingleTarget",
       "contact": false,
       "effects": "Status move affecting one enemy. 100% accuracy; costs 3 SP. Special: Applies a stat, damage, or resource increase described in the text.",
-      "description": "The user utilises its appearance and boosts its own aura to intimidate the opponent, weakening it."
+      "description": "On the User's next attack, each positive Agility stage gives +25% damage and -15% accuracy. If the attack hits, raises the User's Agility by 1. If the attack misses, lowers the User's Agility by 1."
     },
     {
       "id": "c36ca92f-6813-4719-9a5e-05ff402ff2be:0",
@@ -14325,7 +13854,7 @@
       "internalName": "Legacy",
       "displayName": "Legacy",
       "description": "The damage inflicted by Primalong increases after every attack.",
-      "effectDetails": "Damage increases by +8% per attack, up to +200%.",
+      "effectDetails": "Damage increases by +8% per attack target, up to +200%.",
       "statModifiers": []
     },
     {
@@ -14349,7 +13878,7 @@
       "internalName": "MagmaHeart",
       "displayName": "Magmaheart",
       "description": "During the battle, Morsiver accumulates energy until it ignites and grows stronger.",
-      "effectDetails": "Ignited/stronger form attacks deal x1.35 damage (+35%). Becomes Ignited after landing 3 hits.",
+      "effectDetails": "Becomes Ignited after landing 3 hits. Ignited form attacks deal x1.35 damage (+35%).",
       "statModifiers": []
     },
     {
@@ -14365,7 +13894,7 @@
       "internalName": "Explosion",
       "displayName": "Outburst",
       "description": "Muribang inflates, then explodes as soon as it is hit by a contact skill.",
-      "effectDetails": "After being hit by a contact attack, triggers an explosion effect.",
+      "effectDetails": "After being hit by a contact attack, triggers an explosion effect (Fire, 140 BP, hits all Animon, scales with Special Attack, user faints after).",
       "statModifiers": []
     },
     {
@@ -14373,7 +13902,7 @@
       "internalName": "PartingGift",
       "displayName": "Parting Gift",
       "description": "The Animon cures itself and its allies when it leaves the battlefield.",
-      "effectDetails": "When leaving battle, heals itself and allies for 20% of each target's Max HP, then applies normal heal modifiers and clamping.",
+      "effectDetails": "When leaving battle, heals itself and allies for 20% of each target's Max HP, scaling with normal heal modifiers and clamping.",
       "statModifiers": []
     },
     {
@@ -14389,7 +13918,7 @@
       "internalName": "PhaseSwitch",
       "displayName": "Phase Switch",
       "description": "When Blumester is in trouble, it changes direction and grows stronger.",
-      "effectDetails": "When HP falls below 50%, switches form/direction and becomes stronger.",
+      "effectDetails": "When HP falls below 50%, changes form and increases Attack and Special Attack by 2 and Agility by 1.",
       "statModifiers": []
     },
     {
@@ -14397,7 +13926,7 @@
       "internalName": "ShieldSpirit",
       "displayName": "Protective Instinct",
       "description": "Reduces damage received and improves healing for the whole team.",
-      "effectDetails": "Team incoming damage x0.9 (-10%); team healing received x1.1 (+10%).",
+      "effectDetails": "Team incoming damage x0.9 (-10%), team healing received x1.1 (+10%).",
       "statModifiers": []
     },
     {
@@ -14413,7 +13942,7 @@
       "internalName": "SoreLoser",
       "displayName": "Sore Loser",
       "description": "Maximises the Animon's Attack when it takes a critical hit, but severely reduces defences.",
-      "effectDetails": "After receiving a critical hit, Attack is maximized while Defence and Sp. Defence are sharply reduced.",
+      "effectDetails": "After receiving a critical hit, Attack becomes +6 while Defence and Special Defence get -2.",
       "statModifiers": []
     },
     {
@@ -14437,7 +13966,7 @@
       "internalName": "SeaSun",
       "displayName": "Sunbathe",
       "description": "When Blumester is in trouble, it reveals itself, reducing the opponent's Agility.",
-      "effectDetails": "When HP falls below 50%, changes form and lowers opposing Agility.",
+      "effectDetails": "When HP falls below 50%, changes form and lowers enemy Agility by 2.",
       "statModifiers": []
     },
     {
@@ -14486,7 +14015,7 @@
       "internalName": "Waste",
       "displayName": "Toxic Waste",
       "description": "Nuclheart fills any empty places in battle with puppets of toxic waste.",
-      "effectDetails": "Empty ally slots are filled with toxic waste puppets.",
+      "effectDetails": "Empty ally slots are filled with Nuclheart puppets. Dog -> Bird -> Taurus.",
       "statModifiers": []
     },
     {
@@ -14494,7 +14023,7 @@
       "internalName": "Typical",
       "displayName": "Typical",
       "description": "Increases the damage of skills of the same type as the Animon.",
-      "effectDetails": "Moves matching the user main or hidden type deal x1.5 damage (+50%).",
+      "effectDetails": "Moves matching the User's main or hidden type deal x1.5 damage (+50%).",
       "statModifiers": []
     },
     {

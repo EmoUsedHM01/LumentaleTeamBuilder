@@ -1373,6 +1373,14 @@ button {
   gap: 4px;
 }
 
+.move-description {
+  padding-top: 5px;
+  border-top: 1px solid var(--row-line);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .move-break {
   color: var(--line-strong);
 }

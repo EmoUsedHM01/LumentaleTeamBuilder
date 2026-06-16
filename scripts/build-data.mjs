@@ -103,7 +103,42 @@ async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
 
-function compactMove(move) {
+function moveDescriptionKey(value) {
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\+/g, " plus ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+async function readMoveDescriptions(path, descriptionColumnIndex) {
+  const markdown = await readFile(path, "utf8");
+  const descriptions = new Map();
+
+  for (const line of markdown.split(/\r?\n/)) {
+    if (!line.trim().startsWith("|")) continue;
+
+    const cells = line
+      .split("|")
+      .slice(1, -1)
+      .map((cell) => cell.trim());
+    const moveName = cells[0] || "";
+    const description = cells[descriptionColumnIndex] || "";
+    if (!moveName || moveName === "Move" || /^-+$/.test(moveName)) continue;
+
+    descriptions.set(moveDescriptionKey(moveName), description);
+  }
+
+  return descriptions;
+}
+
+function compactMove(move, moveDescriptionsByCategory = new Map()) {
+  const exactDescription = moveDescriptionsByCategory
+    .get(move.category)
+    ?.get(moveDescriptionKey(move.displayName || move.internalName));
   return {
     id: move.id,
     guid: move.guid,
@@ -121,7 +156,7 @@ function compactMove(move) {
     aoeType: move.aoeType || "",
     contact: Boolean(move.contact),
     effects: move.effectDetails || move.effects || "",
-    description: move.description || move.descriptionRaw || ""
+    description: exactDescription || move.description || move.descriptionRaw || ""
   };
 }
 
@@ -244,6 +279,25 @@ function makeSearchText(form, moves) {
   return normalizeName(parts.join(" "));
 }
 
+async function readSpriteManifest(directory) {
+  const manifestPath = join(directory, "manifest.json");
+  try {
+    return await readJson(manifestPath);
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+
+    const files = await readdir(directory, { withFileTypes: true });
+    return {
+      exported: files
+        .filter((entry) => entry.isFile() && extname(entry.name).toLowerCase() === ".gif")
+        .map((entry) => ({
+          name: basename(entry.name, ".gif"),
+          gif: join(directory, entry.name)
+        }))
+    };
+  }
+}
+
 function findSprite(form, spriteByKey, spriteByOriginal) {
   const aliasKey = `${normalizeName(form.name)}:${normalizeName(form.form)}`;
   const alias = spriteAliases.get(aliasKey) || spriteAliases.get(normalizeName(form.name));
@@ -276,7 +330,12 @@ const quirksSource = await readJson(join(workspaceRoot, "DamageCalculatorResearc
 const heldItemsSource = await readJson(join(workspaceRoot, "DamageCalculatorResearch", "data", "held_items.json"));
 const statFormula = await readJson(join(workspaceRoot, "DamageCalculatorResearch", "data", "stat_formula.json"));
 const typeChart = await readJson(join(workspaceRoot, "DamageCalculatorResearch", "data", "type_chart.json"));
-const spriteManifest = await readJson(join(workspaceRoot, "AnimonInventoryGifs_Scale1_12fps", "manifest.json"));
+const spriteManifest = await readSpriteManifest(join(workspaceRoot, "AnimonInventoryGifs_Scale1_12fps"));
+const moveDescriptionsByCategory = new Map([
+  ["STATUS", await readMoveDescriptions(join(workspaceRoot, "StatusMoves.md"), 1)],
+  ["PHYSICAL", await readMoveDescriptions(join(workspaceRoot, "PhysicalMoves.md"), 6)],
+  ["SPECIAL", await readMoveDescriptions(join(workspaceRoot, "SpecialMoves.md"), 6)]
+]);
 const excludedForms = formsSource.forms
   .map((form) => ({ display: form.display, reason: exclusionReason(form) }))
   .filter((entry) => entry.reason);
@@ -299,7 +358,7 @@ const moveAliases = Object.fromEntries(movesSource.moves.map((move) => {
   const latest = latestRawMoveByGuid.get(move.guid || move.id);
   return [move.id, latest?.id || move.id];
 }));
-const moves = [...latestRawMoveByGuid.values()].map(compactMove);
+const moves = [...latestRawMoveByGuid.values()].map((move) => compactMove(move, moveDescriptionsByCategory));
 const moveById = new Map(moves.map((move) => [move.id, move]));
 const quirks = (quirksSource.quirks || [])
   .map(compactQuirk)
