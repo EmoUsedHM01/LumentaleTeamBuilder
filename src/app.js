@@ -94,9 +94,22 @@ const DAMAGE_CONSTANTS = {
   furorSynchronizedTraitMultiplier: 1.6,
   mestusTraitHpFraction: 0.05,
   synchroStatShareMultiplier: 1.5,
+  boltRushDamagePerAgilityStage: 0.25,
+  boltRushAccuracyPerAgilityStage: 0.15,
+  nonsenseStackPerPreviousUse: 0.1,
   superEffectiveThreshold: 1.5,
   criticalBaseMultiplier: 1.7999999523162842
 };
+const MOVE_EFFECT_GUIDS = Object.freeze({
+  BACTERIAL_SMASH: "c476e38a-eba1-4f9d-802f-822254d335a0",
+  BOLT_RUSH: "bd78a6c6-1e04-449d-a8ec-20de4cea9f79",
+  DIGIT_DRIVER: "c0265b5b-e63b-4785-bb74-723c1a83152e",
+  DROPKICK: "88d77ae4-d878-449e-bc40-fdd13e169e2d",
+  FATAL_CRUSH: "c38272ad-dc39-4a30-9271-3eb6d547d299",
+  NONSENSE: "f613585c-5a9f-42a8-86a2-5866a6c4dbef",
+  SNOWPLOUGH: "8e00c515-4af2-4b57-b487-b37c6053a8e2",
+  SPARKLING_WATER: "b641cadc-56fe-436b-9a5a-8f032d5db429"
+});
 const ATTRIBUTE_TRAIT_TYPES = new Set(["SEREUM", "FELICIS", "HORRENS", "FUROR", "MESTUS"]);
 const CROMACARTA_TRAIT_FLAT_BUFFS = {
   SEREUM: 16.66667,
@@ -113,7 +126,12 @@ const DAMAGE_STATE_DEFAULTS = Object.freeze({
   forceElementalWeakness: false,
   attackerSynchronized: false,
   defenderSynchronized: false,
+  defenderUpdraft: false,
   attackerAttributeActive: false,
+  moveBravadoPrimed: false,
+  movePreviousIceUsed: false,
+  moveTargetDebuffed: false,
+  movePreviousNonsenseUses: 0,
   attackerAttackStage: 0,
   attackerSpecialAttackStage: 0,
   attackerAgilityStage: 0,
@@ -130,7 +148,8 @@ const DAMAGE_NUMERIC_FIELDS = new Set([
   "attackerAgilityStage",
   "targetDefenseStage",
   "targetSpecialDefenseStage",
-  "targetAgilityStage"
+  "targetAgilityStage",
+  "movePreviousNonsenseUses"
 ]);
 const DAMAGE_SELECT_FIELDS = new Set([
   "weatherEffect",
@@ -142,6 +161,10 @@ const DAMAGE_TOGGLE_FIELDS = new Set([
   "forceElementalWeakness",
   "attackerSynchronized",
   "defenderSynchronized",
+  "defenderUpdraft",
+  "moveBravadoPrimed",
+  "movePreviousIceUsed",
+  "moveTargetDebuffed",
   "attackerAttributeActive"
 ]);
 const UNDO_HISTORY_LIMIT = 3;
@@ -611,7 +634,12 @@ function sanitizeDamageState(damage) {
     forceElementalWeakness: Boolean(next.forceElementalWeakness),
     attackerSynchronized: Boolean(next.attackerSynchronized),
     defenderSynchronized: Boolean(next.defenderSynchronized),
+    defenderUpdraft: Boolean(next.defenderUpdraft),
     attackerAttributeActive: Boolean(next.attackerAttributeActive),
+    moveBravadoPrimed: Boolean(next.moveBravadoPrimed),
+    movePreviousIceUsed: Boolean(next.movePreviousIceUsed),
+    moveTargetDebuffed: Boolean(next.moveTargetDebuffed),
+    movePreviousNonsenseUses: clamp(Math.trunc(finiteNumber(next.movePreviousNonsenseUses, 0)), 0, 10),
     attackerAttackStage: clamp(Math.trunc(finiteNumber(next.attackerAttackStage, 0)), -6, 6),
     attackerSpecialAttackStage: clamp(Math.trunc(finiteNumber(next.attackerSpecialAttackStage, 0)), -6, 6),
     attackerAgilityStage: clamp(Math.trunc(finiteNumber(next.attackerAgilityStage, 0)), -6, 6),
@@ -1054,6 +1082,10 @@ function isDamageMove(move) {
   return Number(move?.power || 0) > 0;
 }
 
+function moveGuid(move) {
+  return move?.guid || String(move?.id || "").split(":")[0] || "";
+}
+
 function heldItemForMember(member) {
   return member?.heldItemId ? indexes.heldItemsById.get(member.heldItemId) : null;
 }
@@ -1273,6 +1305,98 @@ function knownDamageModifiers({ attacker, target, attackerTeam, targetTeam, move
   return result;
 }
 
+function pushMoveDamageModifier(result, label, multiplier) {
+  const numeric = Number(multiplier);
+  if (!Number.isFinite(numeric) || numeric === 1) return;
+  result.stackMultiplier = f32(result.stackMultiplier * f32(numeric));
+  result.notes.push({ label, multiplier: numeric });
+}
+
+function applyAgilityChargeMoveEffect(result, label) {
+  const agilityStage = Math.max(0, Math.trunc(finiteNumber(state.damage.attackerAgilityStage, 0)));
+  const damageMultiplier = f32(1 + agilityStage * DAMAGE_CONSTANTS.boltRushDamagePerAgilityStage);
+  const accuracyMultiplier = f32(1 - agilityStage * DAMAGE_CONSTANTS.boltRushAccuracyPerAgilityStage);
+
+  if (agilityStage > 0) {
+    pushMoveDamageModifier(result, `${label} Agi +${agilityStage}`, damageMultiplier);
+    result.accuracyMultiplier = f32(result.accuracyMultiplier * accuracyMultiplier);
+    result.accuracyNotes.push({ label: `${label} Agi +${agilityStage}`, multiplier: accuracyMultiplier });
+  }
+  result.afterMoveNotes.push(`${label}: hit raises Agility by 1; miss resets Agility to -1`);
+}
+
+function selectedMoveEffects({ move }) {
+  const result = {
+    effectivePower: Number(move?.power || 0),
+    stackMultiplier: 1,
+    accuracyMultiplier: 1,
+    bypassAccuracy: false,
+    bypassAccuracyLabel: null,
+    forceCritical: false,
+    forceCriticalLabel: null,
+    critChanceMultiplier: 1,
+    notes: [],
+    accuracyNotes: [],
+    critChanceNotes: [],
+    powerNotes: [],
+    afterMoveNotes: [],
+    warnings: []
+  };
+  if (!move) return result;
+
+  const guid = moveGuid(move);
+  if (guid === MOVE_EFFECT_GUIDS.BOLT_RUSH) {
+    applyAgilityChargeMoveEffect(result, "Bolt Rush");
+  }
+  if (state.damage.moveBravadoPrimed && DAMAGING_CATEGORIES.has(move.category)) {
+    applyAgilityChargeMoveEffect(result, "Bravado");
+  }
+
+  if (guid === MOVE_EFFECT_GUIDS.NONSENSE) {
+    const count = clamp(Math.trunc(finiteNumber(state.damage.movePreviousNonsenseUses, 0)), 0, 10);
+    if (count > 0) {
+      pushMoveDamageModifier(result, `Nonsense previous uses x${count}`, 1 + count * DAMAGE_CONSTANTS.nonsenseStackPerPreviousUse);
+    }
+  }
+
+  if (guid === MOVE_EFFECT_GUIDS.SNOWPLOUGH && state.damage.movePreviousIceUsed) {
+    pushMoveDamageModifier(result, "Previous Ice move", 2);
+  }
+
+  if (guid === MOVE_EFFECT_GUIDS.BACTERIAL_SMASH && state.damage.moveTargetDebuffed) {
+    pushMoveDamageModifier(result, "Target has negative BattleEffect", 1.5);
+  }
+
+  if (state.damage.defenderUpdraft) {
+    if (guid === MOVE_EFFECT_GUIDS.DROPKICK) {
+      result.effectivePower = 160;
+      result.powerNotes.push("Dropkick target has Updraft: BP set to 160");
+    }
+    if (move.category === "PHYSICAL") {
+      pushMoveDamageModifier(result, "Defender Updraft Physical", 0.5);
+    } else if (move.category === "SPECIAL") {
+      pushMoveDamageModifier(result, "Defender Updraft Special", 1.25);
+    }
+  }
+
+  if (guid === MOVE_EFFECT_GUIDS.DIGIT_DRIVER) {
+    result.bypassAccuracy = true;
+    result.bypassAccuracyLabel = "Digit Driver";
+  }
+
+  if (guid === MOVE_EFFECT_GUIDS.SPARKLING_WATER) {
+    result.forceCritical = true;
+    result.forceCriticalLabel = "Sparkling Water";
+  }
+
+  if (guid === MOVE_EFFECT_GUIDS.FATAL_CRUSH) {
+    result.critChanceMultiplier = f32(result.critChanceMultiplier * 5);
+    result.critChanceNotes.push({ label: "Fatal Crush", multiplier: 5 });
+  }
+
+  return result;
+}
+
 function formatChance(value) {
   const rounded = roundForDisplay(value, Number.isInteger(Number(value)) ? 0 : 1);
   return `${rounded}%`;
@@ -1366,7 +1490,7 @@ function attributeDamageEffects(attacker, target, damageFloat, options = {}) {
   return result;
 }
 
-function calculateHitChance({ attacker, target, move }) {
+function calculateHitChance({ attacker, target, move, moveEffects }) {
   const baseAccuracy = Number(move?.accuracy || 0);
   if (baseAccuracy <= 0) {
     return {
@@ -1401,6 +1525,15 @@ function calculateHitChance({ attacker, target, move }) {
     };
   }
 
+  if (moveEffects?.bypassAccuracy) {
+    return {
+      chance: 100,
+      display: "100%",
+      detail: `${moveEffects.bypassAccuracyLabel || move.displayName}: bypasses accuracy`,
+      modifiers: [{ label: moveEffects.bypassAccuracyLabel || move.displayName, multiplier: "guaranteed" }]
+    };
+  }
+
   let chance = baseAccuracy;
   if (attackerAbilityId === "SniperSense") {
     chance *= 1.2;
@@ -1421,6 +1554,11 @@ function calculateHitChance({ attacker, target, move }) {
     });
   }
 
+  if (Number.isFinite(moveEffects?.accuracyMultiplier) && moveEffects.accuracyMultiplier !== 1) {
+    chance *= moveEffects.accuracyMultiplier;
+    modifiers.push(...moveEffects.accuracyNotes);
+  }
+
   chance = clamp(chance, 0, 100);
   return {
     chance,
@@ -1432,7 +1570,7 @@ function calculateHitChance({ attacker, target, move }) {
   };
 }
 
-function calculateCritChance({ attacker, target, move }) {
+function calculateCritChance({ attacker, target, move, moveEffects }) {
   const attackerAbilityId = abilityIdForMember(attacker.member);
   const attackerAbilityName = attacker.ability?.displayName || attackerAbilityId;
   const targetAbilityId = abilityIdForMember(target.member);
@@ -1454,6 +1592,16 @@ function calculateCritChance({ attacker, target, move }) {
       display: "0%",
       detail: `${targetAbilityName} blocks crits`,
       modifiers: [],
+      warnings: []
+    };
+  }
+
+  if (moveEffects?.forceCritical) {
+    return {
+      chance: 100,
+      display: "100%",
+      detail: `${moveEffects.forceCriticalLabel || move.displayName}: always crits`,
+      modifiers: [{ label: moveEffects.forceCriticalLabel || move.displayName, flat: 100 }],
       warnings: []
     };
   }
@@ -1483,6 +1631,10 @@ function calculateCritChance({ attacker, target, move }) {
     const multiplier = DAMAGE_CONSTANTS.luckyBreakCritChanceMultiplier;
     chance = f32(chance * multiplier);
     modifiers.push({ label: attackerAbilityName, multiplier });
+  }
+  if (Number.isFinite(moveEffects?.critChanceMultiplier) && moveEffects.critChanceMultiplier !== 1) {
+    chance = f32(chance * moveEffects.critChanceMultiplier);
+    modifiers.push(...moveEffects.critChanceNotes);
   }
 
   chance = clamp(chance, 0, 100);
@@ -1613,8 +1765,11 @@ function calculateDamagePreview() {
   const defense = liveStatValue(target.stats[defenseKey], defenseStage, defenseKey);
   const attackerSynchroMultiplier = synchroStatMultiplier(attacker.form, attackKey);
   const defenderSynchroMultiplier = synchroStatMultiplier(target.form, defenseKey);
+  const moveEffects = selectedMoveEffects({ move });
+  warnings.push(...moveEffects.warnings);
   const targetAbilityId = abilityIdForMember(target.member);
-  const critical = Boolean(state.damage.critical && move.category !== "STATUS" && targetAbilityId !== "HardBoiled");
+  const critical = Boolean((state.damage.critical || moveEffects.forceCritical) && move.category !== "STATUS" && targetAbilityId !== "HardBoiled");
+  const criticalReason = moveEffects.forceCritical ? moveEffects.forceCriticalLabel : "forced";
   const known = knownDamageModifiers({
     attacker,
     target,
@@ -1624,15 +1779,15 @@ function calculateDamagePreview() {
     critical
   });
   warnings.push(...known.warnings);
-  const hitChance = calculateHitChance({ attacker, target, move });
-  const critChance = calculateCritChance({ attacker, target, move });
+  const hitChance = calculateHitChance({ attacker, target, move, moveEffects });
+  const critChance = calculateCritChance({ attacker, target, move, moveEffects });
   warnings.push(...critChance.warnings);
   const isSuperEffective = effectivenessMultiplier >= DAMAGE_CONSTANTS.superEffectiveThreshold;
   const fieldEffects = fieldDamageEffects(effectiveType.type, { isSuperEffective });
   warnings.push(...fieldEffects.warnings);
 
   const base = damageFormula({
-    skillPower: Number(move.power),
+    skillPower: moveEffects.effectivePower,
     attackerLevel: Number(attacker.member.battleLevel || data.rules.battleLevel),
     attack,
     defense,
@@ -1643,7 +1798,7 @@ function calculateDamagePreview() {
   const effectivenessTimesStab = f32(effectivenessAfterSuper * f32(stab));
   const criticalStageMultiplier = critical ? DAMAGE_CONSTANTS.criticalBaseMultiplier : 1;
   const criticalCombined = f32(criticalStageMultiplier * f32(critical ? known.criticalMultiplier : 1));
-  const stackMultiplier = f32(f32(known.stackMultiplier) * f32(fieldEffects.multiplier));
+  const stackMultiplier = f32(f32(f32(known.stackMultiplier) * f32(moveEffects.stackMultiplier)) * f32(fieldEffects.multiplier));
   const afterCrit = f32(effectivenessTimesStab * criticalCombined);
   const afterStack = f32(afterCrit * stackMultiplier);
   const afterBaseDamage = f32(afterStack * base.nativeFloat);
@@ -1676,14 +1831,17 @@ function calculateDamagePreview() {
     defense,
     attackStage,
     defenseStage,
+    skillPower: moveEffects.effectivePower,
     attackerSynchronized: Boolean(attacker.synchronized),
     defenderSynchronized: Boolean(target.synchronized),
     attackerSynchroMultiplier,
     defenderSynchroMultiplier,
     categorySource: source,
     critical,
+    criticalReason,
     criticalStageMultiplier,
     known,
+    moveEffects,
     hitChance,
     critChance,
     fieldEffects,
@@ -2064,6 +2222,7 @@ function renderDamageTargetDefences(target) {
 }
 
 function renderDamageBattleControls() {
+  const selection = damageSelection();
   return `
     <section class="subpanel damage-section">
       <div class="subpanel-title">
@@ -2099,6 +2258,10 @@ function renderDamageBattleControls() {
               <input type="checkbox" data-damage-toggle="defenderSynchronized" ${state.damage.defenderSynchronized ? "checked" : ""}>
               <span>Synchronisation</span>
             </label>
+            <label class="calc-check">
+              <input type="checkbox" data-damage-toggle="defenderUpdraft" ${state.damage.defenderUpdraft ? "checked" : ""}>
+              <span>Updraft</span>
+            </label>
           </div>
         </div>
         <div class="modifier-group">
@@ -2124,8 +2287,50 @@ function renderDamageBattleControls() {
             ${renderDamageSelectField("terrainEffect", "Terrain", DAMAGE_TERRAIN_EFFECTS)}
           </div>
         </div>
+        ${renderMoveEffectControls(selection.move)}
       </div>
     </section>
+  `;
+}
+
+function renderMoveEffectControls(move) {
+  const guid = moveGuid(move);
+  const controls = [];
+  if (move && DAMAGING_CATEGORIES.has(move.category) && Number(move.power || 0) > 0) {
+    controls.push(`
+      <label class="calc-check">
+        <input type="checkbox" data-damage-toggle="moveBravadoPrimed" ${state.damage.moveBravadoPrimed ? "checked" : ""}>
+        <span>Bravado primed</span>
+      </label>
+    `);
+  }
+  if (guid === MOVE_EFFECT_GUIDS.SNOWPLOUGH) {
+    controls.push(`
+      <label class="calc-check">
+        <input type="checkbox" data-damage-toggle="movePreviousIceUsed" ${state.damage.movePreviousIceUsed ? "checked" : ""}>
+        <span>Prior Ice move</span>
+      </label>
+    `);
+  }
+  if (guid === MOVE_EFFECT_GUIDS.BACTERIAL_SMASH) {
+    controls.push(`
+      <label class="calc-check">
+        <input type="checkbox" data-damage-toggle="moveTargetDebuffed" ${state.damage.moveTargetDebuffed ? "checked" : ""}>
+        <span>Target debuffed</span>
+      </label>
+    `);
+  }
+  if (guid === MOVE_EFFECT_GUIDS.NONSENSE) {
+    controls.push(renderDamageNumberField("movePreviousNonsenseUses", "Nonsense uses", 0, 10, 1));
+  }
+  if (!controls.length) return "";
+  return `
+    <div class="modifier-group">
+      <h4>Move Effects</h4>
+      <div class="calc-control-grid field-effect-grid">
+        ${controls.join("")}
+      </div>
+    </div>
   `;
 }
 
@@ -2176,6 +2381,22 @@ function synchroStatTraceDetail(entry, key) {
   const baseStat = Number(entry?.form?.baseStats?.[key] || 0);
   const bst = formBaseStatTotal(entry?.form);
   return `${formatStatKey(key)} base ${baseStat}/${bst}`;
+}
+
+function renderMovePowerTrace(preview) {
+  const originalPower = Number(preview.selection.move.power || 0);
+  if (preview.skillPower === originalPower && !preview.moveEffects.powerNotes.length) return "";
+  return renderTraceRow("Move Power", preview.skillPower, preview.moveEffects.powerNotes.join("; ") || `base ${originalPower}`);
+}
+
+function renderMoveEffectTrace(moveEffects) {
+  if (!moveEffects?.notes?.length && moveEffects?.stackMultiplier === 1) return "";
+  return renderTraceRow("Move Effect", formatMultiplier(moveEffects.stackMultiplier), renderKnownModifierText(moveEffects.notes));
+}
+
+function renderAfterMoveTrace(moveEffects) {
+  if (!moveEffects?.afterMoveNotes?.length) return "";
+  return renderTraceRow("After Move", "-", moveEffects.afterMoveNotes.join("; "));
 }
 
 function renderDamageResult(preview) {
@@ -2239,16 +2460,19 @@ function renderDamageResult(preview) {
         ${preview.attackerSynchronized ? renderTraceRow("Attacker Sync", formatMultiplier(preview.attackerSynchroMultiplier), synchroStatTraceDetail(preview.selection.attacker, preview.attackKey)) : ""}
         ${preview.defenderSynchronized ? renderTraceRow("Defender Sync", formatMultiplier(preview.defenderSynchroMultiplier), synchroStatTraceDetail(preview.selection.target, preview.defenseKey)) : ""}
         ${renderTraceRow("Recipient", preview.damageRecipientRole, preview.damageRecipientName)}
+        ${renderMovePowerTrace(preview)}
         ${renderTraceRow("Base", roundForDisplay(preview.base.baseDamageFloat, 4), "before multipliers")}
         ${renderTraceRow("Type", formatMultiplier(preview.effectivenessMultiplier), damageTypeTraceDetail(preview))}
         ${renderTraceRow("STAB", formatMultiplier(preview.stab), memberHasMoveType(preview.selection.attacker.form, preview.selection.attacker.member, preview.moveType) ? "matched" : "none")}
-        ${renderTraceRow("Critical", preview.critical ? formatMultiplier(preview.criticalStageMultiplier * preview.known.criticalMultiplier) : "x1", preview.critical ? "forced" : "off")}
+        ${renderTraceRow("Critical", preview.critical ? formatMultiplier(preview.criticalStageMultiplier * preview.known.criticalMultiplier) : "x1", preview.critical ? preview.criticalReason : "off")}
         ${renderTraceRow("Crit Chance", preview.critChance.display, preview.critChance.detail)}
+        ${renderMoveEffectTrace(preview.moveEffects)}
         ${renderTraceRow("Known", formatMultiplier(preview.known.stackMultiplier), renderKnownModifierText(preview.known.notes))}
         ${renderTraceRow("Weather", formatMultiplier(preview.fieldEffects.weatherMultiplier), preview.fieldEffects.weatherDetail)}
         ${renderTraceRow("Terrain", formatMultiplier(preview.fieldEffects.terrainMultiplier), preview.fieldEffects.terrainDetail)}
         ${preview.fieldReflectedDamage ? renderTraceRow("Field Extra", preview.fieldReflectedDamage, "Malevolent Shriek reflected damage to attacker after HP loss") : ""}
         ${renderTraceRow("Attribute", preview.attributeEffects.label, preview.attributeEffects.detail)}
+        ${renderAfterMoveTrace(preview.moveEffects)}
         ${renderTraceRow("Rounding", preview.truncatedBeforeFlat, "trunc after attribute effects")}
       </div>
       ${renderDamageWarnings(preview)}
